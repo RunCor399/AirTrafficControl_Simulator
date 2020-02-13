@@ -1,39 +1,41 @@
 package model;
 
-/** 
+/**
  * An implementation of {@link Position2D}
+ * 
  */
 
 public class Position2DImpl implements Position2D {
 
-    private double x;
-    private double y;
-    
+    private Double x;
+    private Double y;
+
     /**
-     * Constructor of the bidimensional position of an object
+     * 
+     * Constructor of the bidimensional position of an object.
      * 
      * @param x Coordinate X
      * 
      * @param y Coordinate Y
      */
-    public Position2DImpl(double x, double y) {
+    public Position2DImpl(final Double x, final Double y) {
         this.x = x;
         this.y = y;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public double getX() {
+    public Double getX() {
         return this.x;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public double getY() {
+    public Double getY() {
         return this.y;
     }
 
