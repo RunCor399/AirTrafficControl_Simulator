@@ -35,7 +35,7 @@ public interface DynamicElement /* implements RadarElememt */ {
      * 
      * @return the target altitude.
      */
-    Optional<Double> getTargetAltitute();
+    double getTargetAltitute();
 
     /**
      * Method that returns the target speed.
@@ -49,7 +49,7 @@ public interface DynamicElement /* implements RadarElememt */ {
      * 
      * @return the target direction.
      */
-    Optional<Double> getTargetDirection();
+    double getTargetDirection();
 
     /**
      * This method computes the new position, speed, altitude and direction of the
