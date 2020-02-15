@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Optional;
+
 /**
  * 
  * An interface that models a radar element which is able to move.
@@ -27,6 +29,27 @@ public interface DynamicElement /* implements RadarElememt */ {
      * @return the actual direction.
      */
     double getDirection();
+
+    /**
+     * Method that returns the target altitude.
+     * 
+     * @return the target altitude.
+     */
+    Optional<Double> getTargetAltitute();
+
+    /**
+     * Method that returns the target speed.
+     * 
+     * @return the target speed.
+     */
+    Optional<Speed> getTargetSpeed();
+
+    /**
+     * Method that returns the target direction.
+     * 
+     * @return the target direction.
+     */
+    Optional<Double> getTargetDirection();
 
     /**
      * This method computes the new position, speed, altitude and direction of the
