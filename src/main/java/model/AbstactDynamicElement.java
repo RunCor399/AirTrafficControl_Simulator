@@ -3,29 +3,41 @@ package model;
 import java.util.Objects;
 import java.util.Optional;
 
-public class AbstactDynamicElement implements DynamicElement/* extends AbstractRadarElement */ {
+public abstract class AbstactDynamicElement implements DynamicElement/* extends AbstractRadarElement */ {
 
     private static final double NO_VALUE = -1;
 
     private Speed speed;
     private double altitude;
-    private double direction;
+    private Direction direction;
+
     private Speed targetSpeed;
     private double targetAltitude;
-    private double targetDirection;
+    private Direction targetDirection;
 
-    public AbstactDynamicElement(final Speed speed, final double altitude, final double direction) {
+    private boolean goUp;
+    private boolean goLeft;
+    private boolean accelerate;
+
+    public AbstactDynamicElement(final Speed speed, final double altitude, final Direction direction) {
         Objects.requireNonNull(speed);
         Objects.requireNonNull(altitude);
         Objects.requireNonNull(direction);
-        this.isDirectionValid(direction);
         this.isAltitudeValid(altitude);
+
         this.speed = speed;
         this.altitude = altitude;
         this.direction = direction;
+
         this.targetSpeed = null;
         this.targetAltitude = NO_VALUE;
-        this.targetDirection = NO_VALUE;
+        this.targetDirection = null;
+
+        // flags useful to avoid checking where to go every time new position is
+        // computed
+        this.goUp = false;
+        this.goLeft = false;
+        this.accelerate = false;
     }
 
     private void checkArgumentAndThrow(final boolean condition) {
@@ -34,10 +46,11 @@ public class AbstactDynamicElement implements DynamicElement/* extends AbstractR
         }
     }
 
-    private void isDirectionValid(final double direction) {
-        this.checkArgumentAndThrow(direction < 0);
-        this.checkArgumentAndThrow(direction > 360);
-    }
+    /*
+     * private void isDirectionValid(final double direction) {
+     * this.checkArgumentAndThrow(direction < 0);
+     * this.checkArgumentAndThrow(direction > 360); }
+     */
 
     private void isAltitudeValid(final double altitude) {
         this.checkArgumentAndThrow(altitude < 0);
@@ -63,7 +76,7 @@ public class AbstactDynamicElement implements DynamicElement/* extends AbstractR
      * {@inheritDoc}
      */
     @Override
-    public double getDirection() {
+    public Direction getDirection() {
         return this.direction;
     }
 
@@ -87,8 +100,38 @@ public class AbstactDynamicElement implements DynamicElement/* extends AbstractR
      * {@inheritDoc}
      */
     @Override
-    public double getTargetDirection() {
-        return this.targetDirection;
+    public Optional<Direction> getTargetDirection() {
+        return Optional.ofNullable(this.targetDirection);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setTargetAltitude(final double targetAltitude) {
+        Objects.requireNonNull(altitude);
+        this.targetAltitude = targetAltitude;
+        this.goUp = (this.targetAltitude - this.altitude > 0) ? true : false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setTargetSpeed(final Speed targetSpeed) {
+        Objects.requireNonNull(targetSpeed);
+        this.targetSpeed = targetSpeed;
+        this.accelerate = (this.targetSpeed.getAsKnots() - this.speed.getAsKnots() > 0) ? true : false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setTargetDirection(final Direction targetDirection) {
+        Objects.requireNonNull(targetDirection);
+        this.targetDirection = targetDirection;
+        // TODO
     }
 
     /**
@@ -96,8 +139,69 @@ public class AbstactDynamicElement implements DynamicElement/* extends AbstractR
      */
     @Override
     public void computeNewPosition() {
-        // TODO Auto-generated method stub
-
+        this.computeActualSpeed();
+        this.computeActualDirection();
+        this.computeActualAltitude();
+        System.out.println("Speed :" + this.speed.getAsKnots());
+        System.out.println("Altitude :" + this.altitude);
+        // TODO
     }
+
+    private void computeActualSpeed() {
+        if (this.targetSpeed != null) {
+            double speedDelta = this.getSpeedDelta().getAsKnots();
+            if (this.accelerate) {
+                if (this.speed.getAsKnots() + speedDelta >= this.targetSpeed.getAsKnots()) {
+                    this.speed = this.targetSpeed;
+                    this.targetSpeed = null;
+                } else {
+                    this.speed = new SpeedImpl(this.speed.getAsKnots() + speedDelta);
+                }
+            } else {
+                if (this.speed.getAsKnots() - speedDelta <= this.targetSpeed.getAsKnots()) {
+                    this.speed = this.targetSpeed;
+                    this.targetSpeed = null;
+                } else {
+                    this.speed = new SpeedImpl(this.speed.getAsKnots() - speedDelta);
+                }
+            }
+        }
+    }
+
+    private void computeActualAltitude() {
+        if (this.targetAltitude != NO_VALUE) {
+            double altitudeDelta = this.getAltitudeDelta();
+            if (this.goUp) {
+                if (this.altitude + altitudeDelta >= this.targetAltitude) {
+                    this.altitude = this.targetAltitude;
+                    this.targetAltitude = NO_VALUE;
+                } else {
+                    this.altitude = this.altitude + altitudeDelta;
+                }
+            } else {
+                if (this.altitude - altitudeDelta <= this.targetAltitude) {
+                    this.altitude = targetAltitude;
+                    this.targetAltitude = NO_VALUE;
+                } else {
+                    this.altitude = this.altitude - altitudeDelta;
+                }
+            }
+        }
+    }
+
+    private void computeActualDirection() {
+        if (this.targetDirection != null) {
+            Direction directionDelta = this.getDirectionDelta();
+            if (this.goLeft) {
+                //TODO
+            }
+        }
+    }
+
+    protected abstract Direction getDirectionDelta();
+
+    protected abstract Speed getSpeedDelta();
+
+    protected abstract double getAltitudeDelta();
 
 }
