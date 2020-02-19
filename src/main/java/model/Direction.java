@@ -34,13 +34,12 @@ public interface Direction {
 
     /**
      * 
-     * This method returns the direction in degrees.
+     * This method computes the distance between the actual direction and the given one.
      * 
      * @param direction the direction to compare.
      * 
-     * @return > 0 if the actual direction is greater, 0 they are equal, < 0 if the
-     *         given direction is greater.
+     * @return the distance between the directions
      */
-    int compareTo(Direction direction);
+    double compareTo(Direction direction);
 
 }
