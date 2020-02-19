@@ -6,6 +6,7 @@ import java.util.Optional;
 public abstract class AbstactDynamicElement implements DynamicElement/* extends AbstractRadarElement */ {
 
     private static final double NO_VALUE = -1;
+    private static final double TIME_QUANTUM = 0.5;
 
     private Speed speed;
     private double altitude;
@@ -18,6 +19,8 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
     private boolean goUp;
     private boolean goLeft;
     private boolean accelerate;
+
+    private double directionDifference;
 
     public AbstactDynamicElement(final Speed speed, final double altitude, final Direction direction) {
         Objects.requireNonNull(speed);
@@ -38,6 +41,8 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
         this.goUp = false;
         this.goLeft = false;
         this.accelerate = false;
+
+        this.directionDifference = NO_VALUE;
     }
 
     private void checkArgumentAndThrow(final boolean condition) {
@@ -131,7 +136,9 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
     public void setTargetDirection(final Direction targetDirection) {
         Objects.requireNonNull(targetDirection);
         this.targetDirection = targetDirection;
-        // TODO
+        this.goLeft = false;
+        this.directionDifference = this.direction.compareTo(this.targetDirection);
+        // TODO (decidere se aumentare o diminuire l'angolo)
     }
 
     /**
@@ -144,6 +151,8 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
         this.computeActualAltitude();
         System.out.println("Speed :" + this.speed.getAsKnots());
         System.out.println("Altitude :" + this.altitude);
+        System.out.println("Direction :" + this.direction.getAsDegrees());
+        this.getPositionDelta();
         // TODO
     }
 
@@ -193,7 +202,15 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
         if (this.targetDirection != null) {
             Direction directionDelta = this.getDirectionDelta();
             if (this.goLeft) {
-                //TODO
+                this.direction.sum(directionDelta);
+            } else {
+                this.direction.subtract(directionDelta);
+            }
+            this.directionDifference = this.directionDifference - directionDelta.getAsDegrees();
+            if (this.directionDifference <= 0) {
+                this.directionDifference = NO_VALUE;
+                this.direction = this.targetDirection;
+                this.targetDirection = null;
             }
         }
     }
@@ -203,5 +220,10 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
     protected abstract Speed getSpeedDelta();
 
     protected abstract double getAltitudeDelta();
+
+    private void getPositionDelta() {
+        double xMovement = TIME_QUANTUM * this.speed.getAsKMH() * Math.cos(this.direction.getAsRadians());
+        double yMovement = TIME_QUANTUM * this.speed.getAsKMH() * Math.sin(this.direction.getAsRadians());
+    }
 
 }
