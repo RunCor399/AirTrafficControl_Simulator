@@ -28,7 +28,7 @@ public class DirectionImpl implements Serializable, Direction {
     @Override
     public void sum(final Direction direction) {
         Objects.requireNonNull(direction);
-        this.direction = (this.direction + direction.getDirectionAsDegrees()) % MAX_ANGLE;
+        this.direction = (this.direction + direction.getAsDegrees()) % MAX_ANGLE;
     }
 
     /**
@@ -37,16 +37,16 @@ public class DirectionImpl implements Serializable, Direction {
     @Override
     public void subtract(final Direction direction) {
         Objects.requireNonNull(direction);
-        this.direction = (this.direction - direction.getDirectionAsDegrees() < 0)
-                ? MAX_ANGLE + this.direction - direction.getDirectionAsDegrees()
-                : this.direction - direction.getDirectionAsDegrees();
+        this.direction = (this.direction - direction.getAsDegrees() < 0)
+                ? MAX_ANGLE + this.direction - direction.getAsDegrees()
+                : this.direction - direction.getAsDegrees();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public double getDirectionAsDegrees() {
+    public double getAsDegrees() {
         return this.direction;
     }
 
@@ -54,10 +54,17 @@ public class DirectionImpl implements Serializable, Direction {
      * {@inheritDoc}
      */
     @Override
+    public double getAsRadians() {
+        return Math.toRadians(this.direction);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public double compareTo(final Direction direction) {
-        double rawDiff = (this.direction - direction.getDirectionAsDegrees() + CONVERSION_VALUE) % MAX_ANGLE
-                - CONVERSION_VALUE;
-        return rawDiff < -CONVERSION_VALUE ? rawDiff + MAX_ANGLE : rawDiff;
+        double rawDiff = (this.direction - direction.getAsDegrees() + CONVERSION_VALUE) % MAX_ANGLE - CONVERSION_VALUE;
+        return Math.abs(rawDiff < -CONVERSION_VALUE ? rawDiff + MAX_ANGLE : rawDiff);
     }
 
 }

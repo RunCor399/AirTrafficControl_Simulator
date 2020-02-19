@@ -30,11 +30,20 @@ public interface Direction {
      * 
      * @return the direction in degrees.
      */
-    double getDirectionAsDegrees();
+    double getAsDegrees();
 
     /**
      * 
-     * This method computes the distance between the actual direction and the given one.
+     * This method returns the direction in radians.
+     * 
+     * @return the direction in radians.
+     */
+    double getAsRadians();
+
+    /**
+     * 
+     * This method computes the distance between the actual direction and the given
+     * one.
      * 
      * @param direction the direction to compare.
      * 
