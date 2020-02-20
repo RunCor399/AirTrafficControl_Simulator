@@ -1,7 +1,7 @@
 package model;
 
 /**
- * An implementation of {@link Position2D}
+ * An implementation of {@link Position2D}.
  * 
  */
 
