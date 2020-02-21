@@ -2,7 +2,7 @@ package model;
 
 /**
  * 
- * An interface that define the direction of use of a runway.
+ * An interface that define the direction of use of a Runway.
  *
  */
 public interface RunwayEnd {
@@ -15,14 +15,14 @@ public interface RunwayEnd {
     void changeStatus(boolean isActive);
 
     /**
-     * this method return the status of the runwayEnd.
+     * This method returns the status of the runwayEnd.
      * 
      * @return boolean Status of runwayEnd
      */
     boolean getStatus();
 
     /**
-     * this method return the number of the runwayEnd.
+     * This method returns the number of the runwayEnd.
      * 
      * @return String Number of runwayEnd
      */
