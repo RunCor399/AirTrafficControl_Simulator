@@ -1,7 +1,7 @@
 package model;
 
 /**
- * An implementation of {@link Position2D}
+ * An implementation of {@link Position2D}.
  * 
  */
 
@@ -37,6 +37,22 @@ public class Position2DImpl implements Position2D {
     @Override
     public Double getY() {
         return this.y;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addX(final Double xOffset) {
+        this.x = this.x + xOffset;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addY(final Double yOffset) {
+        this.y = this.y + yOffset;
     }
 
 }
