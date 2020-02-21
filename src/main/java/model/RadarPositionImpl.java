@@ -3,10 +3,8 @@ package model;
 import java.util.Objects;
 
 public class RadarPositionImpl implements RadarPosition {
-    private static final Double X_POSITIVE_BOUND = 30000.0;
-    private static final Double Y_POSITIVE_BOUND = 20000.0;
-    private static final Double X_NEGATIVE_BOUND = 30000.0;
-    private static final Double Y_NEGATIVE_BOUND = 20000.0;
+    private static final Double X_BOUND = 30000.0;
+    private static final Double Y_BOUND = 20000.0;
     private Position2D elementPosition;
 
     /**
@@ -35,7 +33,7 @@ public class RadarPositionImpl implements RadarPosition {
     public void setPosition(final Position2D position) {
         Objects.requireNonNull(position);
         if (!isWithinRadar(position)) {
-            // TODO plane is out of bound, needs to be removed
+            /* TODO modify exception */
             throw new IllegalStateException();
         }
 
@@ -47,14 +45,18 @@ public class RadarPositionImpl implements RadarPosition {
      * {@inheritDoc}
      */
     @Override
-    public void updatePosition() {
-        // TODO Auto-generated method stub
-
+    public void sumPosition(final Position2D offsetPosition) {
+        Objects.requireNonNull(offsetPosition);
+        this.elementPosition.addX(offsetPosition.getX());
+        this.elementPosition.addY(offsetPosition.getY());
     }
 
-    private boolean isWithinRadar(final Position2D position) {
-        return (((position.getX() <= X_POSITIVE_BOUND) && (position.getX() >= X_NEGATIVE_BOUND))
-                && ((position.getY() <= Y_POSITIVE_BOUND) && (position.getY() >= Y_NEGATIVE_BOUND)));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isWithinRadar(final Position2D position) {
+        return ((Math.abs(position.getX()) <= X_BOUND) && (Math.abs(position.getY())) <= Y_BOUND);
     }
 
 }
