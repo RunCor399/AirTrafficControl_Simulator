@@ -6,13 +6,13 @@ package model;
  */
 public interface RadarElement {
     /**
-     * Get the position of a radar element.
+     * Gets the position of a radar elements.
      * 
-     * @return RadarPosition.
+     * @return RadarPosition of an object.
      */
     RadarPosition getPosition();
     /**
-     * Set a new position of a radar element.
+     * Sets a new position of a radar elements.
      * 
      * @param position where the radar element has moved.
      */

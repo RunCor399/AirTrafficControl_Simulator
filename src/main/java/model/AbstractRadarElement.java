@@ -1,6 +1,6 @@
 package model;
 
-public abstract class RadarElementImpl implements RadarElement {
+public abstract class AbstractRadarElement implements RadarElement {
 
     private RadarPosition position;
 
@@ -11,8 +11,8 @@ public abstract class RadarElementImpl implements RadarElement {
      * @param position where the element is in the radar.
      */
 
-    public RadarElementImpl(final RadarPosition position) {
-        this.position = position;
+    public AbstarctRadarElement(final RadarPosition position) {
+        this.position = Object.requireNonNull(position);
 
     }
 
