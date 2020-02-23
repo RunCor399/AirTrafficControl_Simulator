@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * An interface that models an airport.
@@ -33,7 +34,7 @@ public interface Airport {
      * 
      * @return list of all VOR's
      */
-    List<Vor> getVorList();
+    Optional<List<Vor>> getVorList();
 
     /**
      * this method returns a VOR with id vorId if present.
@@ -41,5 +42,5 @@ public interface Airport {
      * @param vorId
      * @return VOR with id vorId
      */
-    Vor getVorById(String vorId);
+    Optional<Vor> getVorById(String vorId);
 }

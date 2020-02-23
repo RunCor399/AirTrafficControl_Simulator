@@ -66,21 +66,21 @@ public class AirportImpl implements Airport {
      * {@inheritDoc}
      */
     @Override
-    public List<Vor> getVorList() {
-        return this.vorList;
+    public Optional<List<Vor>> getVorList() {
+        return this.vorList.isEmpty() ? Optional.empty() : Optional.of(this.vorList);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Vor getVorById(final String vorId) {
+    public Optional<Vor> getVorById(final String vorId) {
         Optional<Vor> vor = this.isVorPresent(vorId);
         if (vor.isPresent()) {
-            return vor.get();
+            return vor;
         }
 
-        throw new IllegalStateException();
+        return Optional.empty();
     }
 
     private boolean isVorAlreadyInList(final Vor newVor) {
