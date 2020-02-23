@@ -51,4 +51,14 @@ public interface Direction {
      */
     double compareTo(Direction direction);
 
+    /**
+     * 
+     * This method is useful to decide if the target direction is easier to reach going counterclockwise or clockwise 
+     * (considering the actual direction).
+     * 
+     * @param targetDirection the target direction to reach.
+     * @return true if going counterclockwise is better than clockwise.
+     */
+    boolean isTurnCounterCW(Direction targetDirection);
+
 }

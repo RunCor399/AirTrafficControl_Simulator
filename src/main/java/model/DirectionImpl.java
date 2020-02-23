@@ -7,7 +7,7 @@ public class DirectionImpl implements Serializable, Direction {
 
     private static final long serialVersionUID = 344363981707757298L;
     private static final double MAX_ANGLE = 360;
-    private static final double CONVERSION_VALUE = 180;
+    private static final double MAX_DIFF = 180;
 
     private double direction;
 
@@ -63,8 +63,17 @@ public class DirectionImpl implements Serializable, Direction {
      */
     @Override
     public double compareTo(final Direction direction) {
-        double rawDiff = (this.direction - direction.getAsDegrees() + CONVERSION_VALUE) % MAX_ANGLE - CONVERSION_VALUE;
-        return Math.abs(rawDiff < -CONVERSION_VALUE ? rawDiff + MAX_ANGLE : rawDiff);
+        double rawDiff = (this.direction - direction.getAsDegrees() + MAX_DIFF) % MAX_ANGLE - MAX_DIFF;
+        return Math.abs(rawDiff < -MAX_DIFF ? rawDiff + MAX_ANGLE : rawDiff);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isTurnCounterCW(final Direction targetDirection) {
+        double diff = targetDirection.getAsDegrees() - this.direction;
+        return diff > 0 ? diff <= MAX_DIFF : diff < -MAX_DIFF;
     }
 
 }

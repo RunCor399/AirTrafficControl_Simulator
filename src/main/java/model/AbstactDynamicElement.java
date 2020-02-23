@@ -3,10 +3,11 @@ package model;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class AbstactDynamicElement implements DynamicElement/* extends AbstractRadarElement */ {
+public abstract class AbstactDynamicElement extends AbstractRadarElement implements DynamicElement/*, Serializable*/ {
 
     private static final double NO_VALUE = -1;
     private static final double TIME_QUANTUM = 0.5;
+    private static final int SEC_TO_HOURS = 3600;
 
     private Speed speed;
     private double altitude;
@@ -15,6 +16,7 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
     private Speed targetSpeed;
     private double targetAltitude;
     private Direction targetDirection;
+    private RadarPosition targetPosition;
 
     private boolean goUp;
     private boolean goLeft;
@@ -22,9 +24,10 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
 
     private double directionDifference;
 
-    public AbstactDynamicElement(final Speed speed, final double altitude, final Direction direction) {
+    public AbstactDynamicElement(final RadarPosition position, final Speed speed, final double altitude,
+            final Direction direction) {
+        super(position);
         Objects.requireNonNull(speed);
-        Objects.requireNonNull(altitude);
         Objects.requireNonNull(direction);
         this.isAltitudeValid(altitude);
 
@@ -35,6 +38,7 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
         this.targetSpeed = null;
         this.targetAltitude = NO_VALUE;
         this.targetDirection = null;
+        this.targetPosition = null;
 
         // flags useful to avoid checking where to go every time new position is
         // computed
@@ -50,12 +54,6 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
             throw new IllegalArgumentException();
         }
     }
-
-    /*
-     * private void isDirectionValid(final double direction) {
-     * this.checkArgumentAndThrow(direction < 0);
-     * this.checkArgumentAndThrow(direction > 360); }
-     */
 
     private void isAltitudeValid(final double altitude) {
         this.checkArgumentAndThrow(altitude < 0);
@@ -113,6 +111,14 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
      * {@inheritDoc}
      */
     @Override
+    public Optional<RadarPosition> getTargetPosition() {
+        return Optional.ofNullable(this.targetPosition);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setTargetAltitude(final double targetAltitude) {
         Objects.requireNonNull(altitude);
         this.targetAltitude = targetAltitude;
@@ -136,9 +142,18 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
     public void setTargetDirection(final Direction targetDirection) {
         Objects.requireNonNull(targetDirection);
         this.targetDirection = targetDirection;
-        this.goLeft = false;
+        this.goLeft = this.direction.isTurnCounterCW(this.targetDirection);
         this.directionDifference = this.direction.compareTo(this.targetDirection);
-        // TODO (decidere se aumentare o diminuire l'angolo)
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setTargetPosition(final RadarPosition targetPosition) {
+        Objects.requireNonNull(targetPosition);
+        this.targetPosition = targetPosition;
+        //TODO
     }
 
     /**
@@ -152,10 +167,13 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
         System.out.println("Speed :" + this.speed.getAsKnots());
         System.out.println("Altitude :" + this.altitude);
         System.out.println("Direction :" + this.direction.getAsDegrees());
-        this.getPositionDelta();
-        // TODO
+        this.getPosition().sumPosition(this.getPositionDelta());
+        System.out.println("Position->  X: " + this.getPosition().getPosition().getX() + " Y: " + this.getPosition().getPosition().getY());
     }
 
+    /**
+     * This private method computes the actual speed based on the target speed and the speed delta. 
+     */
     private void computeActualSpeed() {
         if (this.targetSpeed != null) {
             double speedDelta = this.getSpeedDelta().getAsKnots();
@@ -177,6 +195,9 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
         }
     }
 
+    /**
+     * This private method computes the actual altitude based on the target altitude and the altitude delta. 
+     */
     private void computeActualAltitude() {
         if (this.targetAltitude != NO_VALUE) {
             double altitudeDelta = this.getAltitudeDelta();
@@ -198,6 +219,9 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
         }
     }
 
+    /**
+     * This private method computes the actual direction based on the target direction and the direction delta. 
+     */
     private void computeActualDirection() {
         if (this.targetDirection != null) {
             Direction directionDelta = this.getDirectionDelta();
@@ -221,9 +245,10 @@ public abstract class AbstactDynamicElement implements DynamicElement/* extends 
 
     protected abstract double getAltitudeDelta();
 
-    private void getPositionDelta() {
-        double xMovement = TIME_QUANTUM * this.speed.getAsKMH() * Math.cos(this.direction.getAsRadians());
-        double yMovement = TIME_QUANTUM * this.speed.getAsKMH() * Math.sin(this.direction.getAsRadians());
+    private Position2D getPositionDelta() {
+        double xMovement = (TIME_QUANTUM / SEC_TO_HOURS) * this.speed.getAsKMH() * Math.cos(this.direction.getAsRadians());
+        double yMovement = (TIME_QUANTUM / SEC_TO_HOURS) * this.speed.getAsKMH() * Math.sin(this.direction.getAsRadians());
+        return new Position2DImpl(xMovement, yMovement);
     }
 
 }
