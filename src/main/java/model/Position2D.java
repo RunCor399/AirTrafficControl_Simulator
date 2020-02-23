@@ -7,16 +7,30 @@ package model;
 public interface Position2D {
 
     /**
-     * this method return the coordinate X of an object.
+     * This method return the coordinate X of an object.
      * 
      * @return double
      */
     Double getX();
 
     /**
-     * this method return the coordinate Y of an object.
+     * This method return the coordinate Y of an object.
      * 
      * @return double
      */
     Double getY();
+
+    /**
+     * This method adds to the current x coordinate a value.
+     * 
+     * @param xOffset
+     */
+    void addX(Double xOffset);
+
+    /**
+     * This method add to the current y coordinate a value.
+     * 
+     * @param yOffset
+     */
+    void addY(Double yOffset);
 }
