@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public abstract class AbstractRadarElement implements RadarElement {
 
     private RadarPosition position;
@@ -11,8 +13,8 @@ public abstract class AbstractRadarElement implements RadarElement {
      * @param position where the element is in the radar.
      */
 
-    public AbstarctRadarElement(final RadarPosition position) {
-        this.position = Object.requireNonNull(position);
+    public AbstractRadarElement(final RadarPosition position) {
+        this.position = Objects.requireNonNull(position);
 
     }
 
