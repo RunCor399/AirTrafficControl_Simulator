@@ -3,7 +3,7 @@ package model;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class AbstactDynamicElement extends AbstractRadarElement implements DynamicElement/*, Serializable*/ {
+public abstract class AbstractDynamicElement extends AbstractRadarElement implements DynamicElement/*, Serializable*/ {
 
     private static final double NO_VALUE = -1;
     private static final double TIME_QUANTUM = 0.5;
@@ -24,7 +24,7 @@ public abstract class AbstactDynamicElement extends AbstractRadarElement impleme
 
     private double directionDifference;
 
-    public AbstactDynamicElement(final RadarPosition position, final Speed speed, final double altitude,
+    public AbstractDynamicElement(final RadarPosition position, final Speed speed, final double altitude,
             final Direction direction) {
         super(position);
         Objects.requireNonNull(speed);
