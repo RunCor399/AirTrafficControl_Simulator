@@ -76,4 +76,9 @@ public class DirectionImpl implements Serializable, Direction {
         return diff > 0 ? diff <= MAX_DIFF : diff < -MAX_DIFF;
     }
 
+    @Override
+    public final String toString() {
+        return "Direction : " + this.getAsDegrees() + "°, " + this.getAsRadians() + " rads.";
+    }
+
 }

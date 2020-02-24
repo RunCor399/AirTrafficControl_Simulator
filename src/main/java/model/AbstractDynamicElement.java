@@ -3,7 +3,8 @@ package model;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class AbstractDynamicElement extends AbstractRadarElement implements DynamicElement/*, Serializable*/ {
+public abstract class AbstractDynamicElement extends AbstractRadarElement
+        implements DynamicElement/* , Serializable */ {
 
     private static final double NO_VALUE = -1;
     private static final double TIME_QUANTUM = 0.5;
@@ -140,6 +141,17 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
      */
     @Override
     public void setTargetDirection(final Direction targetDirection) {
+        this.setOnlyTargetDirection(targetDirection);
+        this.targetPosition = null;
+    }
+
+    /**
+     * 
+     * Method that sets the target direction without removing the target position.
+     * 
+     * @param targetDirection the target direction.
+     */
+    private void setOnlyTargetDirection(final Direction targetDirection) {
         Objects.requireNonNull(targetDirection);
         this.targetDirection = targetDirection;
         this.goLeft = this.direction.isTurnCounterCW(this.targetDirection);
@@ -153,7 +165,20 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     public void setTargetPosition(final RadarPosition targetPosition) {
         Objects.requireNonNull(targetPosition);
         this.targetPosition = targetPosition;
-        //TODO
+    }
+
+    /**
+     * 
+     * Method that returns the direction to follow in order to go towards the target position.
+     * 
+     * @return the direction to follow.
+     */
+    private Direction computeDirectionToTargetPosition() {
+        final double xRelative = this.targetPosition.getPosition().getX() - this.getPosition().getPosition().getX();
+        final double yRelative = this.targetPosition.getPosition().getY() - this.getPosition().getPosition().getY();
+        double degrees = Math.toDegrees(Math.atan2(yRelative, xRelative));
+        degrees = degrees < 0 ? 360 + degrees : degrees;
+        return new DirectionImpl(degrees);
     }
 
     /**
@@ -161,18 +186,25 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
      */
     @Override
     public void computeNewPosition() {
+        if (this.targetPosition != null) {
+            this.setOnlyTargetDirection(this.computeDirectionToTargetPosition());
+            System.out.println("Target" + this.targetDirection.toString());
+        }
         this.computeActualSpeed();
         this.computeActualDirection();
         this.computeActualAltitude();
+        this.getPosition().sumPosition(this.getPositionDelta());
+        /* DEBUG !!! */
         System.out.println("Speed :" + this.speed.getAsKnots());
         System.out.println("Altitude :" + this.altitude);
         System.out.println("Direction :" + this.direction.getAsDegrees());
-        this.getPosition().sumPosition(this.getPositionDelta());
-        System.out.println("Position->  X: " + this.getPosition().getPosition().getX() + " Y: " + this.getPosition().getPosition().getY());
+        System.out.println("Position->  X: " + this.getPosition().getPosition().getX() + " Y: "
+                + this.getPosition().getPosition().getY());
     }
 
     /**
-     * This private method computes the actual speed based on the target speed and the speed delta. 
+     * This private method computes the actual speed based on the target speed and
+     * the speed delta.
      */
     private void computeActualSpeed() {
         if (this.targetSpeed != null) {
@@ -196,7 +228,8 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     }
 
     /**
-     * This private method computes the actual altitude based on the target altitude and the altitude delta. 
+     * This private method computes the actual altitude based on the target altitude
+     * and the altitude delta.
      */
     private void computeActualAltitude() {
         if (this.targetAltitude != NO_VALUE) {
@@ -220,7 +253,8 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     }
 
     /**
-     * This private method computes the actual direction based on the target direction and the direction delta. 
+     * This private method computes the actual direction based on the target
+     * direction and the direction delta.
      */
     private void computeActualDirection() {
         if (this.targetDirection != null) {
@@ -246,8 +280,10 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     protected abstract double getAltitudeDelta();
 
     private Position2D getPositionDelta() {
-        double xMovement = (TIME_QUANTUM / SEC_TO_HOURS) * this.speed.getAsKMH() * Math.cos(this.direction.getAsRadians());
-        double yMovement = (TIME_QUANTUM / SEC_TO_HOURS) * this.speed.getAsKMH() * Math.sin(this.direction.getAsRadians());
+        double xMovement = (TIME_QUANTUM / SEC_TO_HOURS) * this.speed.getAsKMH()
+                * Math.cos(this.direction.getAsRadians());
+        double yMovement = (TIME_QUANTUM / SEC_TO_HOURS) * this.speed.getAsKMH()
+                * Math.sin(this.direction.getAsRadians());
         return new Position2DImpl(xMovement, yMovement);
     }
 

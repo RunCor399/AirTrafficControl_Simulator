@@ -74,6 +74,7 @@ public interface DynamicElement extends RadarElement {
 
     /**
      * Method that sets the target direction.
+     * This method removes the target position of the element (if present).
      * 
      * @param targetDirection the target direction.
      */
