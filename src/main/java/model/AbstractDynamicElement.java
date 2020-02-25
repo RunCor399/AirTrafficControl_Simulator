@@ -41,8 +41,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
         this.targetDirection = null;
         this.targetPosition = null;
 
-        // flags useful to avoid checking where to go every time new position is
-        // computed
+        // flags useful to avoid checking where to go every time new parameter are computed
         this.goUp = false;
         this.goLeft = false;
         this.accelerate = false;
@@ -199,7 +198,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
         System.out.println("Altitude :" + this.altitude);
         System.out.println("Direction :" + this.direction.getAsDegrees());
         System.out.println("Position->  X: " + this.getPosition().getPosition().getX() + " Y: "
-                + this.getPosition().getPosition().getY());
+                + this.getPosition().getPosition().getY() + "\n");
     }
 
     /**
@@ -208,7 +207,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
      */
     private void computeActualSpeed() {
         if (this.targetSpeed != null) {
-            double speedDelta = this.getSpeedDelta().getAsKnots();
+            double speedDelta = this.getSpeedDelta().getAsKnots() * TIME_QUANTUM;
             if (this.accelerate) {
                 if (this.speed.getAsKnots() + speedDelta >= this.targetSpeed.getAsKnots()) {
                     this.speed = this.targetSpeed;
@@ -233,7 +232,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
      */
     private void computeActualAltitude() {
         if (this.targetAltitude != NO_VALUE) {
-            double altitudeDelta = this.getAltitudeDelta();
+            double altitudeDelta = this.getAltitudeDelta() * TIME_QUANTUM;
             if (this.goUp) {
                 if (this.altitude + altitudeDelta >= this.targetAltitude) {
                     this.altitude = this.targetAltitude;
@@ -258,7 +257,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
      */
     private void computeActualDirection() {
         if (this.targetDirection != null) {
-            Direction directionDelta = this.getDirectionDelta();
+            Direction directionDelta = new DirectionImpl(this.getDirectionDelta().getAsDegrees() * TIME_QUANTUM);
             if (this.goLeft) {
                 this.direction.sum(directionDelta);
             } else {
@@ -273,17 +272,42 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
         }
     }
 
+    /**
+     * 
+     * Method to get the direction delta per second (expressed in degrees per second).
+     * 
+     * @return the direction delta per second.
+     */
     protected abstract Direction getDirectionDelta();
 
+    /**
+     * 
+     * Method to get the speed delta per second (expressed in speed per second).
+     * 
+     * @return the speed delta per second.
+     */
     protected abstract Speed getSpeedDelta();
 
+    /**
+     * 
+     * Method to get the altitude delta per second (expressed in meters per second).
+     * 
+     * @return the altitude delta per second.
+     */
     protected abstract double getAltitudeDelta();
 
+    /**
+     * 
+     * This method computes the movement made by the element in the specified time quantum considering the 
+     * actual speed and direction.
+     * 
+     * @return the position delta in the specified time quantum.
+     */
     private Position2D getPositionDelta() {
-        double xMovement = (TIME_QUANTUM / SEC_TO_HOURS) * this.speed.getAsKMH()
-                * Math.cos(this.direction.getAsRadians());
-        double yMovement = (TIME_QUANTUM / SEC_TO_HOURS) * this.speed.getAsKMH()
-                * Math.sin(this.direction.getAsRadians());
+        final double actualSpeed = this.speed.getAsKMH();
+        final double actualDirection = this.direction.getAsRadians();
+        double xMovement = (TIME_QUANTUM / SEC_TO_HOURS) * actualSpeed * Math.cos(actualDirection);
+        double yMovement = (TIME_QUANTUM / SEC_TO_HOURS) * actualSpeed * Math.sin(actualDirection);
         return new Position2DImpl(xMovement, yMovement);
     }
 
