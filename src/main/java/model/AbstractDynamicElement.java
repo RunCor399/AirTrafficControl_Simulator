@@ -19,6 +19,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
     private Direction targetDirection;
     private RadarPosition targetPosition;
 
+// flags useful to avoid checking where to go every time new parameters are computed
     private boolean goUp;
     private boolean goLeft;
     private boolean accelerate;
@@ -41,7 +42,6 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
         this.targetDirection = null;
         this.targetPosition = null;
 
-        // flags useful to avoid checking where to go every time new parameter are computed
         this.goUp = false;
         this.goLeft = false;
         this.accelerate = false;
@@ -196,7 +196,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
         /* DEBUG !!! */
         System.out.println("Speed :" + this.speed.getAsKnots());
         System.out.println("Altitude :" + this.altitude);
-        System.out.println("Direction :" + this.direction.getAsDegrees());
+        System.out.println("Direction :" + this.direction);
         System.out.println("Position->  X: " + this.getPosition().getPosition().getX() + " Y: "
                 + this.getPosition().getPosition().getY() + "\n");
     }
