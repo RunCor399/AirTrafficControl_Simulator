@@ -73,8 +73,8 @@ public interface DynamicElement extends RadarElement {
     void setTargetSpeed(Speed targetSpeed);
 
     /**
-     * Method that sets the target direction.
-     * This method removes the target position of the element (if present).
+     * Method that sets the target direction. This method removes the target
+     * position of the element (if present).
      * 
      * @param targetDirection the target direction.
      */
@@ -86,6 +86,12 @@ public interface DynamicElement extends RadarElement {
      * @param targetPosition the target position.
      */
     void setTargetPosition(RadarPosition targetPosition);
+
+    /**
+     * Method that resets all the targets of the element.
+     * 
+     */
+    void resetAllTargets();
 
     /**
      * This method computes the new position, speed, altitude and direction of the

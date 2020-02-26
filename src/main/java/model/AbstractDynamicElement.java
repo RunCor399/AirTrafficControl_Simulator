@@ -37,10 +37,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
         this.altitude = altitude;
         this.direction = direction;
 
-        this.targetSpeed = null;
-        this.targetAltitude = NO_VALUE;
-        this.targetDirection = null;
-        this.targetPosition = null;
+        this.resetAllTargets();
 
         this.goUp = false;
         this.goLeft = false;
@@ -167,8 +164,20 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetAllTargets() {
+        this.targetAltitude = NO_VALUE;
+        this.targetDirection = null;
+        this.targetPosition = null;
+        this.targetSpeed = null;
+    }
+
+    /**
      * 
-     * Method that returns the direction to follow in order to go towards the target position.
+     * Method that returns the direction to follow in order to go towards the target
+     * position.
      * 
      * @return the direction to follow.
      */
@@ -274,7 +283,8 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
 
     /**
      * 
-     * Method to get the direction delta per second (expressed in degrees per second).
+     * Method to get the direction delta per second (expressed in degrees per
+     * second).
      * 
      * @return the direction delta per second.
      */
@@ -298,8 +308,8 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
 
     /**
      * 
-     * This method computes the movement made by the element in the specified time quantum considering the 
-     * actual speed and direction.
+     * This method computes the movement made by the element in the specified time
+     * quantum considering the actual speed and direction.
      * 
      * @return the position delta in the specified time quantum.
      */
