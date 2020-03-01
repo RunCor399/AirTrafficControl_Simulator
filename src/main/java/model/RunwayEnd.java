@@ -5,7 +5,7 @@ package model;
  * An interface that define the direction of use of a Runway.
  *
  */
-public interface RunwayEnd {
+public interface RunwayEnd extends RadarElement {
 
     /**
      * This method change the status of a runwayEnd.
