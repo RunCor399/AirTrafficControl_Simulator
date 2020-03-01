@@ -78,7 +78,7 @@ public class DirectionImpl implements Serializable, Direction {
 
     @Override
     public final String toString() {
-        return "Direction : " + this.getAsDegrees() + "°, " + this.getAsRadians() + " rads.";
+        return this.getAsDegrees() + "°, " + this.getAsRadians() + " rads.";
     }
 
 }
