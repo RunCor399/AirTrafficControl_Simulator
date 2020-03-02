@@ -203,11 +203,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
         this.computeActualAltitude();
         this.getPosition().sumPosition(this.getPositionDelta());
         /* DEBUG !!! */
-        System.out.println("Speed :" + this.speed.getAsKnots());
-        System.out.println("Altitude :" + this.altitude);
-        System.out.println("Direction :" + this.direction);
-        System.out.println("Position->  X: " + this.getPosition().getPosition().getX() + " Y: "
-                + this.getPosition().getPosition().getY() + "\n");
+        System.out.println(this);
     }
 
     /**
@@ -319,6 +315,25 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
         double xMovement = (TIME_QUANTUM / SEC_TO_HOURS) * actualSpeed * Math.cos(actualDirection);
         double yMovement = (TIME_QUANTUM / SEC_TO_HOURS) * actualSpeed * Math.sin(actualDirection);
         return new Position2DImpl(xMovement, yMovement);
+    }
+
+    /**
+     * Method that shows all the info about the element.
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder = builder.append("Speed -> ").append(this.speed.getAsKnots()).append(" knots\n");
+        builder = builder.append("Direction -> ").append(this.direction).append("\n");
+        builder = builder.append("Altitude -> ").append(this.altitude).append(" m\n");
+        builder = builder.append("Target speed -> ")
+                .append(this.targetSpeed == null ? "NONE" : this.targetSpeed + " knots").append("\n");
+        builder = builder.append("Target direction -> ")
+                .append(this.targetDirection == null ? "NONE" : this.targetDirection).append("\n");
+        builder = builder.append("Target altitude -> ")
+                .append(this.targetAltitude == NO_VALUE ? "NONE" : this.targetAltitude + " m").append("\n");
+        return builder.toString();
+
     }
 
 }
