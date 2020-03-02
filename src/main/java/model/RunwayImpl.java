@@ -43,7 +43,7 @@ public class RunwayImpl implements Runway {
      */
     @Override
     public void setActiveRunwayEnd(final String numRunwayEnd) {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub use RunwayEnd as parameter.
     }
 
     /**
@@ -51,7 +51,7 @@ public class RunwayImpl implements Runway {
      */
     @Override
     public boolean isRunwayEndActive(final String numRunwayEnd) {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub, use RunwayEnd as parameter.
         return false;
     }
 
