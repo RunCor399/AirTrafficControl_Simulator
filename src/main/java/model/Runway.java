@@ -12,7 +12,7 @@ public interface Runway {
      * 
      * @return String of the number of RunwayEnd
      */
-    String getRunwayStatus();
+    RunwayEnd getRunwayStatus();
 
     /**
      * This method returns the positions of the 2 ranwayEnds. 

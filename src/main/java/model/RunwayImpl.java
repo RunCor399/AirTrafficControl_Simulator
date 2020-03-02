@@ -17,8 +17,8 @@ public class RunwayImpl implements Runway {
      * {@inheritDoc}
      */
     @Override
-    public String getRunwayStatus() {
-        return this.runwayends.getX().getStatus() ? this.runwayends.getX().toString() : this.runwayends.getY().toString();
+    public RunwayEnd getRunwayStatus() {
+        return this.runwayends.getX().getStatus() ? this.runwayends.getX() : this.runwayends.getY();
     }
 
     /**
