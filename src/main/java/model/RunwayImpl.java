@@ -6,11 +6,11 @@ public class RunwayImpl implements Runway {
 
     private final Pair<RunwayEnd, RunwayEnd> runwayends;
 
-    public RunwayImpl(final String end1, final String end2) {
+    public RunwayImpl(final String end1, final RadarPosition endPosition1, final String end2, final RadarPosition endPosition2) {
         Objects.requireNonNull(end1);
         Objects.requireNonNull(end2);
 
-        this.runwayends = new Pair<>(new RunwayEndImpl(end1), new RunwayEndImpl(end2));
+        this.runwayends = new Pair<>(new RunwayEndImpl(end1, endPosition1), new RunwayEndImpl(end2, endPosition2));
     }
 
     /**
