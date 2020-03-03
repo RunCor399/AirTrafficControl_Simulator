@@ -18,7 +18,7 @@ public class AirportImpl implements Airport {
     private final String airportName;
     private List<Vor> vorList = new LinkedList<>();
     private Set<Runway> runwaySet = new HashSet<>();
-    private Set<RunwayEnd> activeRunwaysEnds = new HashSet<>();
+    private Set<Runway> activeRunways = new HashSet<>();
 
     /**
      * Constructor of a standard airport.
@@ -118,13 +118,21 @@ public class AirportImpl implements Airport {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Set<RunwayEnd>> getActiveRunways() {
+    public Optional<Set<Runway>> getActiveRunways() {
         this.computeActiveRunways();
-        return this.activeRunwaysEnds.isEmpty() ? Optional.empty() : Optional.of(this.activeRunwaysEnds);
+        return this.activeRunways.isEmpty() ? Optional.empty() : Optional.of(this.activeRunways);
     }
 
     private void computeActiveRunways() {
-        this.activeRunwaysEnds = this.runwaySet.stream().map(x -> x.getRunwayStatus()).collect(Collectors.toSet());
+        this.activeRunways = this.runwaySet.stream().filter(x -> x.isAnyEndActive()).collect(Collectors.toSet());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setActiveRunways(final Runway newActiveRunway, final RunwayEnd newActiveEnd) {
+
     }
 
     /**

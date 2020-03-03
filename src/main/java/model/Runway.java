@@ -2,7 +2,7 @@ package model;
 
 /**
  * 
- * An interface that models runway in airport. 
+ * An interface that models runway in airport.
  *
  */
 public interface Runway {
@@ -15,11 +15,18 @@ public interface Runway {
     RunwayEnd getRunwayStatus();
 
     /**
-     * This method returns the positions of the 2 ranwayEnds. 
+     * This method returns the positions of the 2 ranwayEnds.
      * 
      * @return Pair of 2 runwayEnds positions
      */
     Pair<RadarPosition, RadarPosition> getPosition();
+
+    /**
+     * NEW!!!!!! method that returns pair of runway ends of the current runway.
+     * 
+     * @return pair of runway ends
+     */
+    Pair<RunwayEnd, RunwayEnd> getRunwayEnds();
 
     /**
      * This method sets the positions of the runwayEnds.
@@ -29,18 +36,32 @@ public interface Runway {
     void setPosition(Pair<RadarPosition, RadarPosition> positions);
 
     /**
-     * This method sets the active runwayEnd.
+     * This method sets the active runwayEnd if not already.
      * 
-     * @param numRunwayEnd Number of the runwayEnd
+     * @param runwayEnd end to be set active
      */
-    void setActiveRunwayEnd(String numRunwayEnd);
+    void setActiveRunwayEnd(RunwayEnd runwayEnd);
+
+    /**
+     * NEW!!!!!! This method sets a runwayEnd inactive if not already.
+     * 
+     * @param runwayEnd end to be set inactive
+     */
+    void setInactiveRunwayEnd(RunwayEnd runwayEnd);
 
     /**
      * This method returns if a runwayEnd is active.
      * 
-     * @param numRunwayEnd Number of the runwayEnd
+     * @param runwayEnd to be checked
      * 
      * @return Boolean Active or not active
      */
-    boolean isRunwayEndActive(String numRunwayEnd);
+    boolean isRunwayEndActive(RunwayEnd runwayEnd);
+
+    /**
+     * method that checks if any of the runway ends is active.
+     * 
+     * @return true if a runway end is active, false otherwise
+     */
+    boolean isAnyEndActive();
 }

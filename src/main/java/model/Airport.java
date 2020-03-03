@@ -58,7 +58,15 @@ public interface Airport {
      * 
      * @return set of the active runways ends for the specific airport
      */
-    Optional<Set<RunwayEnd>> getActiveRunways();
+    Optional<Set<Runway>> getActiveRunways();
+
+    /**
+     * method that sets the given runwayEnd relative to his runway active if it is not already.
+     * 
+     * @param newActiveRunway
+     * @param newActiveEnd
+     */
+    void setActiveRunways(Runway newActiveRunway, RunwayEnd newActiveEnd);
 
     /**
      * method that adds to an airport a runway.

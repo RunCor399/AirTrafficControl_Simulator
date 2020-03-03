@@ -6,7 +6,8 @@ public class RunwayImpl implements Runway {
 
     private final Pair<RunwayEnd, RunwayEnd> runwayends;
 
-    public RunwayImpl(final String end1, final RadarPosition endPosition1, final String end2, final RadarPosition endPosition2) {
+    public RunwayImpl(final String end1, final RadarPosition endPosition1, final String end2,
+            final RadarPosition endPosition2) {
         Objects.requireNonNull(end1);
         Objects.requireNonNull(end2);
 
@@ -42,7 +43,7 @@ public class RunwayImpl implements Runway {
      * {@inheritDoc}
      */
     @Override
-    public void setActiveRunwayEnd(final String numRunwayEnd) {
+    public void setActiveRunwayEnd(final RunwayEnd runwayEnd) {
         // TODO Auto-generated method stub use RunwayEnd as parameter.
     }
 
@@ -50,8 +51,35 @@ public class RunwayImpl implements Runway {
      * {@inheritDoc}
      */
     @Override
-    public boolean isRunwayEndActive(final String numRunwayEnd) {
+    public boolean isRunwayEndActive(final RunwayEnd runwayEnd) {
         // TODO Auto-generated method stub, use RunwayEnd as parameter.
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Pair<RunwayEnd, RunwayEnd> getRunwayEnds() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setInactiveRunwayEnd(final RunwayEnd runwayEnd) {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isAnyEndActive() {
+        // NEW!!!!!! TODO Auto-generated method stub
         return false;
     }
 
