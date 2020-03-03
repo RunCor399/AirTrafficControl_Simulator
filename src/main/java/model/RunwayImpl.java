@@ -34,8 +34,8 @@ public class RunwayImpl implements Runway {
      */
     @Override
     public void setPosition(final Pair<RadarPosition, RadarPosition> positions) {
-        // TODO Auto-generated method stub
-
+        this.runwayends.getX().setPosition(positions.getX());
+        this.runwayends.getY().setPosition(positions.getY());
     }
 
     /**
@@ -62,12 +62,14 @@ public class RunwayImpl implements Runway {
     }
 
     /**
+     * This method checks if the runwayEnd exists in this runway.
      * 
+     * @param numRunwayEnd Number of runway
      */
     private void checkRunwayEnd(final String numRunwayEnd) {
         Objects.requireNonNull(numRunwayEnd);
         int num = Integer.parseInt(numRunwayEnd);
-        if ((num != Integer.parseInt(this.runwayends.getX().getNumRunwayEnd())) || num != Integer.parseInt(this.runwayends.getY().getNumRunwayEnd())) {
+        if ((num != Integer.parseInt(this.runwayends.getX().getNumRunwayEnd())) && num != Integer.parseInt(this.runwayends.getY().getNumRunwayEnd())) {
             throw new IllegalArgumentException("Not a runwayEnd");
         }
     }
