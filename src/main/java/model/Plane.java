@@ -12,10 +12,19 @@ public interface Plane extends DynamicElement {
 
     /**
      * 
+     * {@link Action} indicates what the plane has to do next.
+     *
+     */
+    enum Action {
+        LAND, TAKEOFF;
+    }
+
+    /**
+     * 
      * Method that allows the plane to land in the specified Airport.
      * 
-     * @throws RunwayNotAvailableException when there isn't an active available runway in the
-     *                                     specified airport.
+     * @throws RunwayNotAvailableException when there isn't an active available
+     *                                     runway in the specified airport.
      */
     void land(/* Airport airport */) throws RunwayNotAvailableException;
 
@@ -23,8 +32,17 @@ public interface Plane extends DynamicElement {
      * 
      * Method that allows the plane to take off from the specified airport.
      * 
-     * @throws RunwayNotAvailableException when there isn't an active available runway in the
-     *                                     specified airport.
+     * @throws RunwayNotAvailableException when there isn't an active available
+     *                                     runway in the specified airport.
      */
     void takeOff(/* Airport airport */) throws RunwayNotAvailableException;
+
+    /**
+     * 
+     * Method that returns the specific {@link Action} that the plane has to
+     * perform.
+     * 
+     * @return the action to perform.
+     */
+    Action getPlaneAction();
 }
