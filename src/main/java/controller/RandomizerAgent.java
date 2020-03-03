@@ -11,7 +11,9 @@ import java.util.Random;
 public class RandomizerAgent extends Thread {
 
     private static final long DELTA_TIME = 500;
-    private static final int MAX_WAIT = 10;
+    private static final int MILLIS_TO_SEC = 1000;
+    private static final int MAX_WAIT = 15;
+    private static final int MIN_WAIT = 8;
     private static final double NO_VALUE = -1;
     private static final int INITIAL_MULTIPLIER = 1;
 
@@ -33,7 +35,7 @@ public class RandomizerAgent extends Thread {
     }
 
     /**
-     * 
+     * {@inheritDoc}
      */
     @Override
     public void run() {
@@ -43,20 +45,17 @@ public class RandomizerAgent extends Thread {
                     if (pause) {
                         this.wait();
                     }
-                    this.pause = false;
                 }
-            } catch (InterruptedException e) {
-            }
-            try {
                 if (this.actualWaitTime == NO_VALUE) {
                     this.computeNewWaitTime();
                 }
                 sleep(DELTA_TIME / this.multiplier);
-                this.timeWaited = this.timeWaited + DELTA_TIME;
+                this.timeWaited = this.timeWaited + ((double) DELTA_TIME / MILLIS_TO_SEC);
                 if (this.timeWaited >= this.actualWaitTime) {
                     this.actualWaitTime = NO_VALUE;
                     this.createNewPlane();
                 }
+                System.out.println(this.timeWaited);
             } catch (InterruptedException e) {
             }
 
@@ -64,10 +63,11 @@ public class RandomizerAgent extends Thread {
     }
 
     /**
-     * Method that computes the next wait time before the creation of a new {@link Plane}. 
+     * Method that computes the next wait time before the creation of a new
+     * {@link Plane}.
      */
     private void computeNewWaitTime() {
-        this.actualWaitTime = this.random.nextInt(MAX_WAIT);
+        this.actualWaitTime = this.random.nextInt(MAX_WAIT - MIN_WAIT) + MIN_WAIT;
         System.out.println(this.actualWaitTime);
         this.timeWaited = 0;
     }
@@ -93,15 +93,25 @@ public class RandomizerAgent extends Thread {
     }
 
     /**
-     * 
+     * Method that stops the thread.
      */
-    public void stopCount() {
+    public void stopThread() {
         this.stop = true;
         interrupt();
     }
 
     /**
-     * 
+     * Method that resumes the thread.
+     */
+    public synchronized void resumeThread() {
+        if (this.pause) {
+            this.pause = false;
+            this.notify();
+        }
+    }
+
+    /**
+     * Method that temporarily pauses the current thread.
      */
     public void pauseThread() {
         this.pause = true;
