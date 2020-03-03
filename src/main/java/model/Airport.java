@@ -2,7 +2,6 @@ package model;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * An interface that models an airport.
@@ -46,22 +45,23 @@ public interface Airport {
     Optional<Vor> getVorById(String vorId);
 
     /**
-     * method that returns a set of all the runways of a specific airport if any
+     * method that returns a list of all the runways of a specific airport if any
      * exists.
      * 
-     * @return runways set of the specific airport
+     * @return runways list of the specific airport
      */
-    Optional<Set<Runway>> getRunways();
+    Optional<List<Runway>> getRunways();
 
     /**
      * method that returns the active runways ends of an airport.
      * 
-     * @return set of the active runways ends for the specific airport
+     * @return list of the active runways ends for the specific airport
      */
-    Optional<Set<Runway>> getActiveRunways();
+    Optional<List<Runway>> getActiveRunways();
 
     /**
-     * method that sets the given runwayEnd relative to his runway active if it is not already.
+     * method that sets the given runwayEnd relative to his runway active if it is
+     * not already.
      * 
      * @param newActiveRunway
      * @param newActiveEnd

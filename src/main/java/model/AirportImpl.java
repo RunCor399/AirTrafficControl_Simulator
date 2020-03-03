@@ -1,11 +1,9 @@
 package model;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -17,8 +15,8 @@ public class AirportImpl implements Airport {
     private final String airportId;
     private final String airportName;
     private List<Vor> vorList = new LinkedList<>();
-    private Set<Runway> runwaySet = new HashSet<>();
-    private Set<Runway> activeRunways = new HashSet<>();
+    private List<Runway> runwaySet = new LinkedList<>();
+    private List<Runway> activeRunways = new LinkedList<>();
 
     /**
      * Constructor of a standard airport.
@@ -32,7 +30,7 @@ public class AirportImpl implements Airport {
      * @param runwaySet
      */
     public AirportImpl(final String airportId, final String airportName, final List<Vor> vorList,
-            final Set<Runway> runwaySet) {
+            final List<Runway> runwaySet) {
         Objects.requireNonNull(airportId);
         Objects.requireNonNull(airportName);
         Objects.requireNonNull(vorList);
@@ -110,7 +108,7 @@ public class AirportImpl implements Airport {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Set<Runway>> getRunways() {
+    public Optional<List<Runway>> getRunways() {
         return this.runwaySet.isEmpty() ? Optional.empty() : Optional.of(this.runwaySet);
     }
 
@@ -118,13 +116,13 @@ public class AirportImpl implements Airport {
      * {@inheritDoc}
      */
     @Override
-    public Optional<Set<Runway>> getActiveRunways() {
+    public Optional<List<Runway>> getActiveRunways() {
         this.computeActiveRunways();
         return this.activeRunways.isEmpty() ? Optional.empty() : Optional.of(this.activeRunways);
     }
 
     private void computeActiveRunways() {
-        this.activeRunways = this.runwaySet.stream().filter(x -> x.isAnyEndActive()).collect(Collectors.toSet());
+        this.activeRunways = this.runwaySet.stream().filter(x -> x.isAnyEndActive()).collect(Collectors.toList());
     }
 
     /**
@@ -132,7 +130,19 @@ public class AirportImpl implements Airport {
      */
     @Override
     public void setActiveRunways(final Runway newActiveRunway, final RunwayEnd newActiveEnd) {
+        Objects.requireNonNull(newActiveRunway);
+        Objects.requireNonNull(newActiveEnd);
 
+        if (!this.activeRunways.contains(newActiveRunway)) {
+            this.activeRunways.add(newActiveRunway);
+            this.activeRunways.get(this.activeRunways.indexOf(newActiveRunway)).setActiveRunwayEnd(newActiveEnd);
+        } else if (this.activeRunways.get(this.activeRunways.indexOf(newActiveRunway)).getRunwayStatus()
+                .equals(newActiveEnd)) {
+            System.out.println("End already active");
+        } else {
+            // TODO
+            return;
+        }
     }
 
     /**
