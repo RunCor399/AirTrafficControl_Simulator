@@ -133,16 +133,7 @@ public class AirportImpl implements Airport {
         Objects.requireNonNull(newActiveRunway);
         Objects.requireNonNull(newActiveEnd);
 
-        if (!this.activeRunways.contains(newActiveRunway)) {
-            this.activeRunways.add(newActiveRunway);
-            this.activeRunways.get(this.activeRunways.indexOf(newActiveRunway)).setActiveRunwayEnd(newActiveEnd);
-        } else if (this.activeRunways.get(this.activeRunways.indexOf(newActiveRunway)).getRunwayStatus()
-                .equals(newActiveEnd)) {
-            System.out.println("End already active");
-        } else {
-            // TODO
-            return;
-        }
+        //TODO
     }
 
     /**

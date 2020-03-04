@@ -36,32 +36,14 @@ public interface Runway {
     void setPosition(Pair<RadarPosition, RadarPosition> positions);
 
     /**
-     * This method sets the active runwayEnd if not already.
-     * 
-     * @param runwayEnd end to be set active
-     */
-    void setActiveRunwayEnd(RunwayEnd runwayEnd);
-
-    /**
-     * NEW!!!!!! This method sets a runwayEnd inactive if not already.
-     * 
-     * @param runwayEnd end to be set inactive
-     */
-    void setInactiveRunwayEnd(RunwayEnd runwayEnd);
-
-    /**
-     * This method returns if a runwayEnd is active.
-     * 
-     * @param runwayEnd to be checked
-     * 
-     * @return Boolean Active or not active
-     */
-    boolean isRunwayEndActive(RunwayEnd runwayEnd);
-
-    /**
      * method that checks if any of the runway ends is active.
      * 
      * @return true if a runway end is active, false otherwise
      */
     boolean isAnyEndActive();
+
+    /**
+     * method that changes the active runway end.
+     */
+    void changeActiveRunwayEnd();
 }

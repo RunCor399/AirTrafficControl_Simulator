@@ -39,19 +39,19 @@ public class RunwayImpl implements Runway {
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setActiveRunwayEnd(final RunwayEnd runwayEnd) {
+    public void changeActiveRunwayEnd() {
+        // TODO
+    }
+
+    private void setActiveRunwayEnd(final RunwayEnd runwayEnd) {
         // TODO Auto-generated method stub use RunwayEnd as parameter.
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isRunwayEndActive(final RunwayEnd runwayEnd) {
+    private void setInactiveRunwayEnd(final RunwayEnd runwayEnd) {
+        // TODO Auto-generated method stub
+    }
+
+    private boolean isRunwayEndActive(final RunwayEnd runwayEnd) {
         // TODO Auto-generated method stub, use RunwayEnd as parameter.
         return false;
     }
@@ -63,15 +63,6 @@ public class RunwayImpl implements Runway {
     public Pair<RunwayEnd, RunwayEnd> getRunwayEnds() {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setInactiveRunwayEnd(final RunwayEnd runwayEnd) {
-        // TODO Auto-generated method stub
-
     }
 
     /**
