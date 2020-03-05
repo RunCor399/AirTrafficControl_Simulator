@@ -113,6 +113,17 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
     }
 
     /**
+     * 
+     * Protected method used to set directly the direction of a dynamic element.
+     * 
+     * @param direction the direction to set.
+     */
+    protected void setDirection(final Direction direction) {
+        Objects.requireNonNull(direction);
+        this.direction = direction;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
