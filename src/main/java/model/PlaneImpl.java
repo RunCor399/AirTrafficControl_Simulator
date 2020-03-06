@@ -20,6 +20,9 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane {
      * The maximum speed that allows the plane to land.
      */
     private static final Speed SPEED_TO_LAND = new SpeedImpl(100.0);
+    /**
+     * The specifics of an airplane.
+     */
     private static final Direction DIRECTION_DELTA = new DirectionImpl(1.8);
     private static final Speed SPEED_DELTA = new SpeedImpl(20.0);
     private static final double ALTITUDE_DELTA = 10;
