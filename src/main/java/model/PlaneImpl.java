@@ -95,4 +95,17 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane {
         return this.planeAction;
     }
 
+    /**
+     * 
+     * To string of a {@link Plane}.
+     * 
+     * @return the final string.
+     * 
+     */
+    public String toString() {
+        String result = "Plane\n";
+        result += "Action -> " + this.planeAction + "\n";
+        return result + super.toString();
+    }
+
 }
