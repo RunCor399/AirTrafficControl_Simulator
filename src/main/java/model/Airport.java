@@ -66,7 +66,7 @@ public interface Airport {
      * @param newActiveRunway
      * @param newActiveEnd
      */
-    void setActiveRunways(Runway newActiveRunway, RunwayEnd newActiveEnd);
+    void setActiveRunways(String runwayEnd);
 
     /**
      * method that adds to an airport a runway.

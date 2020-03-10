@@ -129,11 +129,13 @@ public class AirportImpl implements Airport {
      * {@inheritDoc}
      */
     @Override
-    public void setActiveRunways(final Runway newActiveRunway, final RunwayEnd newActiveEnd) {
-        Objects.requireNonNull(newActiveRunway);
-        Objects.requireNonNull(newActiveEnd);
+    public void setActiveRunways(final String runwayEnd) {
+        Objects.requireNonNull(runwayEnd);
 
-        //TODO
+        //TODO CICLA LE PISTE PER CONTROLLARE SE ESISTE UN RUNWAY END CON QUESTA STRINGA
+        //AGGIUNGI UNA PISTA ALLE ATTIVE DOPO L'ATTIVAZIONE
+        //METODO SU RUNWAY PER CONTROLLARE SE LO SPECIFICO END ESISTE
+        //SE ESISTE CHIAMO IL MERTODO PER ATTIVARE LA PISTA
     }
 
     /**

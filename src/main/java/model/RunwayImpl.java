@@ -51,11 +51,6 @@ public class RunwayImpl implements Runway {
         // TODO Auto-generated method stub
     }
 
-    private boolean isRunwayEndActive(final RunwayEnd runwayEnd) {
-        // TODO Auto-generated method stub, use RunwayEnd as parameter.
-        return false;
-    }
-
     /**
      * {@inheritDoc}
      */
