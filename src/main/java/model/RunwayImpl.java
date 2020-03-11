@@ -7,6 +7,12 @@ public class RunwayImpl implements Runway {
 
     private final Pair<RunwayEnd, RunwayEnd> runwayends;
 
+    /**
+     * Constructor of a Runway.
+     * 
+     * @param end1 RunwayEnd 1
+     * @param end2 RunwayEnd 2
+     */
     public RunwayImpl(final RunwayEnd end1, final RunwayEnd end2) {
         Objects.requireNonNull(end1);
         Objects.requireNonNull(end2);
@@ -55,16 +61,6 @@ public class RunwayImpl implements Runway {
         }
         this.runwayends.getX().changeStatus(false);
         this.runwayends.getY().changeStatus(true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isRunwayEndActive(final String numRunwayEnd) {
-        //TODO delete this method
-        checkRunwayEnd(numRunwayEnd);
-        return Integer.parseInt(numRunwayEnd) == Integer.parseInt(this.runwayends.getX().getNumRunwayEnd()) ? this.runwayends.getX().getStatus() : this.runwayends.getY().getStatus();
     }
 
     /**
