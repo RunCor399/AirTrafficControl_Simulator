@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import model.exceptions.RunwayNotAvailableException;
@@ -10,8 +11,12 @@ import model.exceptions.RunwayNotAvailableException;
  * {@link DynamicElement}.
  *
  */
-public class PlaneImpl extends AbstractDynamicElement implements Plane {
+public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5423657003954572219L;
     /**
      * The maximum altitude that allows the plane to land.
      */

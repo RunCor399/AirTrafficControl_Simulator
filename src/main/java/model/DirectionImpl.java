@@ -3,7 +3,12 @@ package model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class DirectionImpl implements Serializable, Direction {
+/**
+ * 
+ * An implementation of the {@link Direction} interface.
+ * 
+ */
+public class DirectionImpl implements Direction, Serializable {
 
     private static final long serialVersionUID = 344363981707757298L;
     private static final double MAX_ANGLE = 360;
@@ -11,6 +16,12 @@ public class DirectionImpl implements Serializable, Direction {
 
     private double direction;
 
+    /**
+     * 
+     * Constructor of the direction.
+     * 
+     * @param direction the direction in degrees.
+     */
     public DirectionImpl(final double direction) {
         this.checkIfValid(direction);
         this.direction = direction;

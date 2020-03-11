@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
 public abstract class AbstractDynamicElement extends AbstractRadarElement
-        implements DynamicElement/* , Serializable */ {
+        implements DynamicElement, Serializable {
 
+    private static final long serialVersionUID = 2968815545589737471L;
     private static final double NO_VALUE = -1;
     private static final double TIME_QUANTUM = 0.5;
     private static final int SEC_TO_HOURS = 3600;
@@ -26,6 +28,15 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
 
     private double directionDifference;
 
+    /**
+     * 
+     * Constructor of a {@link AbstractDynamicElement}.
+     * 
+     * @param position the position of the element.
+     * @param speed the speed of the element.
+     * @param altitude  the altitude of the element.
+     * @param direction the direction of the element.
+     */
     public AbstractDynamicElement(final RadarPosition position, final Speed speed, final double altitude,
             final Direction direction) {
         super(position);
