@@ -2,11 +2,10 @@ package model;
 
 import java.util.Objects;
 
-public class RunwayEndImpl implements RunwayEnd {
+public class RunwayEndImpl extends AbstractRadarElement implements RunwayEnd {
 
     private final String numRunwayEnd;
     private boolean isActive;
-    private RadarPosition runwayendPosition;
 
     /**
      * Constructor of runwayEnd.
@@ -16,11 +15,10 @@ public class RunwayEndImpl implements RunwayEnd {
      * @param runwayEndPosition Position of the runwayEnd
      */
     public RunwayEndImpl(final String numRunwayEnd, final RadarPosition runwayEndPosition) {
-        super();
+        super(runwayEndPosition);
         Objects.requireNonNull(numRunwayEnd);
         Objects.requireNonNull(runwayEndPosition);
 
-        this.runwayendPosition = runwayEndPosition;
         this.numRunwayEnd = numRunwayEnd;
         this.isActive = false;
     }
@@ -47,23 +45,6 @@ public class RunwayEndImpl implements RunwayEnd {
     @Override
     public String getNumRunwayEnd() {
         return this.numRunwayEnd;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public RadarPosition getPosition() {
-        return this.runwayendPosition;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setPosition(final RadarPosition position) {
-        Objects.requireNonNull(position);
-        this.runwayendPosition = position;
     }
 
 }
