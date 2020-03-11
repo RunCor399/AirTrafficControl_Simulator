@@ -4,8 +4,6 @@ import java.util.Objects;
 
 public class RunwayEndImpl implements RunwayEnd {
 
-    private static final int MINVALUERUNWAY = 1;
-    private static final int MAXVALUERUNWAY = 36;
     private final String numRunwayEnd;
     private boolean isActive;
     private RadarPosition runwayendPosition;
@@ -15,16 +13,14 @@ public class RunwayEndImpl implements RunwayEnd {
      * 
      * @param numRunwayEnd Value of the identifier for runwayEnd
      * 
-     * @param runwayendPosition Position of the runwayEnd
+     * @param runwayEndPosition Position of the runwayEnd
      */
-    public RunwayEndImpl(final String numRunwayEnd, final RadarPosition runwayendPosition) {
+    public RunwayEndImpl(final String numRunwayEnd, final RadarPosition runwayEndPosition) {
         super();
-        Objects.requireNonNull(runwayendPosition);
-        if ((Integer.parseInt(numRunwayEnd) < MINVALUERUNWAY) || (Integer.parseInt(numRunwayEnd) > MAXVALUERUNWAY)) {
-            throw new IllegalArgumentException("Out of range 1-36");
-        }
+        Objects.requireNonNull(numRunwayEnd);
+        Objects.requireNonNull(runwayEndPosition);
 
-        this.runwayendPosition = runwayendPosition;
+        this.runwayendPosition = runwayEndPosition;
         this.numRunwayEnd = numRunwayEnd;
         this.isActive = false;
     }
