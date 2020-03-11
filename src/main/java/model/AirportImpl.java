@@ -122,7 +122,7 @@ public class AirportImpl implements Airport {
     }
 
     private void computeActiveRunways() {
-        this.activeRunways = this.runwaySet.stream().filter(x -> x.isAnyEndActive()).collect(Collectors.toList());
+        //TODO
     }
 
     /**
