@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Optional;
+
 /**
  * 
  * An interface that models runway in airport. 
@@ -12,7 +14,7 @@ public interface Runway {
      * 
      * @return String of the number of RunwayEnd
      */
-    String getRunwayStatus();
+    Optional<String> getRunwayStatus();
 
     /**
      * This method returns the positions of the 2 ranwayEnds. 

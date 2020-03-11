@@ -1,26 +1,28 @@
 package model;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class RunwayImpl implements Runway {
 
     private final Pair<RunwayEnd, RunwayEnd> runwayends;
 
-    public RunwayImpl(final String end1, final RadarPosition endPosition1, final String end2, final RadarPosition endPosition2) {
-        //TODO add requireNonNull for positions
+    public RunwayImpl(final RunwayEnd end1, final RunwayEnd end2) {
         Objects.requireNonNull(end1);
         Objects.requireNonNull(end2);
 
-        this.runwayends = new Pair<>(new RunwayEndImpl(end1, endPosition1), new RunwayEndImpl(end2, endPosition2));
+        this.runwayends = new Pair<>(end1, end2);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getRunwayStatus() {
-        //TODO 2 runwayend can be false, return Optional
-        return this.runwayends.getX().getStatus() ? this.runwayends.getX().getNumRunwayEnd() : this.runwayends.getY().getNumRunwayEnd();
+    public Optional<String> getRunwayStatus() {
+        if (!this.runwayends.getX().getStatus() && !this.runwayends.getY().getStatus()) {
+            return Optional.empty();
+        }
+        return this.runwayends.getX().getStatus() ? Optional.of(this.runwayends.getX().getNumRunwayEnd()) : Optional.of(this.runwayends.getY().getNumRunwayEnd());
     }
 
     /**
@@ -36,7 +38,7 @@ public class RunwayImpl implements Runway {
      */
     @Override
     public void setPosition(final Pair<RadarPosition, RadarPosition> positions) {
-        //TODO add requireNonNull positions
+        Objects.requireNonNull(positions);
         this.runwayends.getX().setPosition(positions.getX());
         this.runwayends.getY().setPosition(positions.getY());
     }
