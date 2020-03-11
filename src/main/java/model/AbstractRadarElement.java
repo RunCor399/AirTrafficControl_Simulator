@@ -1,9 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class AbstractRadarElement implements RadarElement {
+public abstract class AbstractRadarElement implements RadarElement, Serializable  {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7658350082008425580L;
     private RadarPosition position;
 
     /**
