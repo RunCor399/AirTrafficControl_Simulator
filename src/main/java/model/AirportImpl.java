@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * An implementation of {@link Airport}.
@@ -14,6 +13,7 @@ import java.util.stream.Collectors;
 public class AirportImpl implements Airport {
     private final String airportId;
     private final String airportName;
+    private final RadarPosition parkingPosition;
     private List<Vor> vorList = new LinkedList<>();
     private List<Runway> runwaySet = new LinkedList<>();
     private List<Runway> activeRunways = new LinkedList<>();
@@ -28,16 +28,18 @@ public class AirportImpl implements Airport {
      * @param vorList
      * 
      * @param runwaySet
+     * 
+     * @param parkingPosition
      */
     public AirportImpl(final String airportId, final String airportName, final List<Vor> vorList,
-            final List<Runway> runwaySet) {
+            final List<Runway> runwaySet, final RadarPosition parkingPosition) {
         Objects.requireNonNull(airportId);
         Objects.requireNonNull(airportName);
         Objects.requireNonNull(vorList);
         this.airportId = airportId;
         this.airportName = airportName;
         this.vorList = vorList;
-        this.computeActiveRunways();
+        this.parkingPosition = parkingPosition;
     }
 
     /**
@@ -54,6 +56,14 @@ public class AirportImpl implements Airport {
     @Override
     public String getName() {
         return this.airportName;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RadarPosition getParkingPosition() {
+        return this.parkingPosition;
     }
 
     /**
@@ -117,12 +127,13 @@ public class AirportImpl implements Airport {
      */
     @Override
     public Optional<List<Runway>> getActiveRunways() {
-        this.computeActiveRunways();
         return this.activeRunways.isEmpty() ? Optional.empty() : Optional.of(this.activeRunways);
     }
 
-    private void computeActiveRunways() {
-        //TODO
+    private void addActiveRunway(final Runway newActiveRunway) {
+        if (!this.activeRunways.contains(newActiveRunway)) {
+            this.activeRunways.add(newActiveRunway);
+        }
     }
 
     /**
@@ -132,10 +143,18 @@ public class AirportImpl implements Airport {
     public void setActiveRunways(final String runwayEnd) {
         Objects.requireNonNull(runwayEnd);
 
-        //TODO CICLA LE PISTE PER CONTROLLARE SE ESISTE UN RUNWAY END CON QUESTA STRINGA
-        //AGGIUNGI UNA PISTA ALLE ATTIVE DOPO L'ATTIVAZIONE
-        //METODO SU RUNWAY PER CONTROLLARE SE LO SPECIFICO END ESISTE
-        //SE ESISTE CHIAMO IL MERTODO PER ATTIVARE LA PISTA
+        for (Runway runway : this.runwaySet) {
+            if (runway.checkRunwayEnd(runwayEnd)) {
+                runway.setActiveRunwayEnd(runwayEnd);
+                this.addActiveRunway(runway);
+            }
+        }
+
+        // TODO CICLA LE PISTE PER CONTROLLARE SE ESISTE UN RUNWAY END CON QUESTA
+        // STRINGA
+        // AGGIUNGI UNA PISTA ALLE ATTIVE DOPO L'ATTIVAZIONE
+        // METODO SU RUNWAY PER CONTROLLARE SE LO SPECIFICO END ESISTE
+        // SE ESISTE CHIAMO IL MERTODO PER ATTIVARE LA PISTA
     }
 
     /**
@@ -149,7 +168,5 @@ public class AirportImpl implements Airport {
         }
 
         this.runwaySet.add(newRunway);
-        this.computeActiveRunways();
-
     }
 }

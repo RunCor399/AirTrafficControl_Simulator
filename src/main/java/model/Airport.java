@@ -23,6 +23,13 @@ public interface Airport {
     String getName();
 
     /**
+     * method that returns the parking position of an airport.
+     * 
+     * @return parking position
+     */
+    RadarPosition getParkingPosition();
+
+    /**
      * this method adds a new VOR if not already present.
      * 
      * @param newVor
@@ -63,8 +70,7 @@ public interface Airport {
      * method that sets the given runwayEnd relative to his runway active if it is
      * not already.
      * 
-     * @param newActiveRunway
-     * @param newActiveEnd
+     * @param runwayEnd
      */
     void setActiveRunways(String runwayEnd);
 
