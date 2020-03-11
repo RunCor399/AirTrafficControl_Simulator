@@ -43,4 +43,12 @@ public interface Runway {
      * @return Boolean Active or not active
      */
     boolean isRunwayEndActive(String numRunwayEnd);
+
+    /**
+     * This method checks if the runwayEnd exists in this runway.
+     * 
+     * @param numRunwayEnd Number of runway
+     */
+    void checkRunwayEnd(String numRunwayEnd);
+
 }

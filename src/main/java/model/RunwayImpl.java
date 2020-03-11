@@ -7,6 +7,7 @@ public class RunwayImpl implements Runway {
     private final Pair<RunwayEnd, RunwayEnd> runwayends;
 
     public RunwayImpl(final String end1, final RadarPosition endPosition1, final String end2, final RadarPosition endPosition2) {
+        //TODO add requireNonNull for positions
         Objects.requireNonNull(end1);
         Objects.requireNonNull(end2);
 
@@ -18,6 +19,7 @@ public class RunwayImpl implements Runway {
      */
     @Override
     public String getRunwayStatus() {
+        //TODO 2 runwayend can be false, return Optional
         return this.runwayends.getX().getStatus() ? this.runwayends.getX().getNumRunwayEnd() : this.runwayends.getY().getNumRunwayEnd();
     }
 
@@ -34,6 +36,7 @@ public class RunwayImpl implements Runway {
      */
     @Override
     public void setPosition(final Pair<RadarPosition, RadarPosition> positions) {
+        //TODO add requireNonNull positions
         this.runwayends.getX().setPosition(positions.getX());
         this.runwayends.getY().setPosition(positions.getY());
     }
@@ -57,20 +60,19 @@ public class RunwayImpl implements Runway {
      */
     @Override
     public boolean isRunwayEndActive(final String numRunwayEnd) {
+        //TODO delete this method
         checkRunwayEnd(numRunwayEnd);
         return Integer.parseInt(numRunwayEnd) == Integer.parseInt(this.runwayends.getX().getNumRunwayEnd()) ? this.runwayends.getX().getStatus() : this.runwayends.getY().getStatus();
     }
 
     /**
-     * This method checks if the runwayEnd exists in this runway.
-     * 
-     * @param numRunwayEnd Number of runway
+     * {@inheritDoc}
      */
-    private void checkRunwayEnd(final String numRunwayEnd) {
+    public void checkRunwayEnd(final String numRunwayEnd) {
         Objects.requireNonNull(numRunwayEnd);
         int num = Integer.parseInt(numRunwayEnd);
         if ((num != Integer.parseInt(this.runwayends.getX().getNumRunwayEnd())) && num != Integer.parseInt(this.runwayends.getY().getNumRunwayEnd())) {
-            throw new IllegalArgumentException("Not a runwayEnd");
+            throw new IllegalArgumentException("Not a runwayEnd of this Runway");
         }
     }
 
