@@ -41,7 +41,9 @@ public interface Runway {
      * This method checks if the runwayEnd exists in this runway.
      * 
      * @param numRunwayEnd Number of runway
+     * 
+     * @return boolean 
      */
-    void checkRunwayEnd(String numRunwayEnd);
+    boolean checkRunwayEnd(String numRunwayEnd);
 
 }

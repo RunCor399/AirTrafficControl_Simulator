@@ -54,7 +54,10 @@ public class RunwayImpl implements Runway {
      */
     @Override
     public void setActiveRunwayEnd(final String numRunwayEnd) {
-        checkRunwayEnd(numRunwayEnd);
+        if (!checkRunwayEnd(numRunwayEnd)) {
+            throw new IllegalArgumentException("Not a runwayEnd of this Runway");
+        }
+
         if (Integer.parseInt(numRunwayEnd) == Integer.parseInt(this.runwayends.getX().getNumRunwayEnd())) {
             this.runwayends.getX().changeStatus(true);
             this.runwayends.getY().changeStatus(false);
@@ -66,12 +69,11 @@ public class RunwayImpl implements Runway {
     /**
      * {@inheritDoc}
      */
-    public void checkRunwayEnd(final String numRunwayEnd) {
+    public boolean checkRunwayEnd(final String numRunwayEnd) {
         Objects.requireNonNull(numRunwayEnd);
         int num = Integer.parseInt(numRunwayEnd);
-        if ((num != Integer.parseInt(this.runwayends.getX().getNumRunwayEnd())) && num != Integer.parseInt(this.runwayends.getY().getNumRunwayEnd())) {
-            throw new IllegalArgumentException("Not a runwayEnd of this Runway");
-        }
+
+        return (num != Integer.parseInt(this.runwayends.getX().getNumRunwayEnd())) && num != Integer.parseInt(this.runwayends.getY().getNumRunwayEnd());
     }
 
 }
