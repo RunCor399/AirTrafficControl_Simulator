@@ -16,7 +16,6 @@ public class AirportImpl implements Airport {
     private final RadarPosition parkingPosition;
     private List<Vor> vorList = new LinkedList<>();
     private List<Runway> runwaySet = new LinkedList<>();
-    private List<Runway> activeRunways = new LinkedList<>();
 
     /**
      * Constructor of a standard airport.
@@ -127,13 +126,7 @@ public class AirportImpl implements Airport {
      */
     @Override
     public Optional<List<Runway>> getActiveRunways() {
-        return this.activeRunways.isEmpty() ? Optional.empty() : Optional.of(this.activeRunways);
-    }
-
-    private void addActiveRunway(final Runway newActiveRunway) {
-        if (!this.activeRunways.contains(newActiveRunway)) {
-            this.activeRunways.add(newActiveRunway);
-        }
+        return this.computeActiveRunways();
     }
 
     /**
@@ -146,15 +139,8 @@ public class AirportImpl implements Airport {
         for (Runway runway : this.runwaySet) {
             if (runway.checkRunwayEnd(runwayEnd)) {
                 runway.setActiveRunwayEnd(runwayEnd);
-                this.addActiveRunway(runway);
             }
         }
-
-        // TODO CICLA LE PISTE PER CONTROLLARE SE ESISTE UN RUNWAY END CON QUESTA
-        // STRINGA
-        // AGGIUNGI UNA PISTA ALLE ATTIVE DOPO L'ATTIVAZIONE
-        // METODO SU RUNWAY PER CONTROLLARE SE LO SPECIFICO END ESISTE
-        // SE ESISTE CHIAMO IL MERTODO PER ATTIVARE LA PISTA
     }
 
     /**
@@ -168,5 +154,21 @@ public class AirportImpl implements Airport {
         }
 
         this.runwaySet.add(newRunway);
+    }
+
+    private Optional<List<Runway>> computeActiveRunways() {
+        List<Runway> activeRunwayList = new LinkedList<>();
+
+        for (Runway runway : this.runwaySet) {
+            if (runway.getRunwayStatus().isPresent()) {
+                activeRunwayList.add(runway);
+            }
+        }
+
+        if (activeRunwayList.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(activeRunwayList);
     }
 }
