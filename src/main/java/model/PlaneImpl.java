@@ -129,7 +129,8 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      * 
      */
     public String toString() {
-        String result = "Plane\n";
+        String result = "Plane id -> " + this.planeId + "\n";
+        result += "Company name -> " + this.companyName + "\n";
         result += "Action -> " + this.planeAction + "\n";
         return result + super.toString();
     }
