@@ -10,18 +10,22 @@ import model.Plane.Action;
  * An implementation of a {@link PlaneBuilder} interface.
  *
  */
-public class PlaneBuilderImpl {
+public class PlaneBuilderImpl implements PlaneBuilder {
 
-    private final RadarPosition position;
+    private final int planeId;
+    private final String companyName;
+    private Optional<RadarPosition> position;
     private Optional<Action> planeAction;
     private Optional<Speed> speed;
     private Optional<Double> altitude;
     private Optional<Direction> direction;
     private boolean built;
 
-    public PlaneBuilderImpl(final RadarPosition position) {
-        Objects.requireNonNull(position);
-        this.position = position;
+    public PlaneBuilderImpl(final int planeId, final String companyName) {
+        Objects.requireNonNull(companyName);
+        this.planeId = planeId;
+        this.companyName = companyName;
+        this.position = Optional.empty();
         this.planeAction = Optional.empty();
         this.speed = Optional.empty();
         this.altitude = Optional.empty();
@@ -44,12 +48,21 @@ public class PlaneBuilderImpl {
 
     /**
      * 
-     * Method that sets the {@link Action} of the plane.
-     * 
-     * @param action the action we want to give to the plane.
-     * @return the PlaneBuilder object (this).
+     * {@inheritDoc}
      */
-    public PlaneBuilderImpl planeAction(final Action action) {
+    @Override
+    public PlaneBuilder position(final RadarPosition position) {
+        this.checkAndThrow(this.built);
+        this.position = Optional.of(position);
+        return this;
+    }
+
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public PlaneBuilder planeAction(final Action action) {
         this.checkAndThrow(this.built);
         this.planeAction = Optional.of(action);
         return this;
@@ -57,12 +70,10 @@ public class PlaneBuilderImpl {
 
     /**
      * 
-     * Method that sets the {@link Speed} of the plane.
-     * 
-     * @param speed the speed of the plane.
-     * @return the PlaneBuilder object (this).
+     * {@inheritDoc}
      */
-    public PlaneBuilderImpl speed(final Speed speed) {
+    @Override
+    public PlaneBuilder speed(final Speed speed) {
         this.checkAndThrow(this.built);
         this.speed = Optional.of(speed);
         return this;
@@ -70,12 +81,10 @@ public class PlaneBuilderImpl {
 
     /**
      * 
-     * Method that sets the altitude of the plane.
-     * 
-     * @param altitude the altitude of the new plane.
-     * @return the PlaneBuilder object (this).
+     * {@inheritDoc}
      */
-    public PlaneBuilderImpl altitude(final double altitude) {
+    @Override
+    public PlaneBuilder altitude(final double altitude) {
         this.checkAndThrow(this.built);
         this.altitude = Optional.of(altitude);
         return this;
@@ -83,12 +92,10 @@ public class PlaneBuilderImpl {
 
     /**
      * 
-     * Method that sets the {@link Direction} of the plane.
-     * 
-     * @param direction the direction of the plane.
-     * @return the PlaneBuilder object (this).
+     * {@inheritDoc}
      */
-    public PlaneBuilderImpl direction(final Direction direction) {
+    @Override
+    public PlaneBuilder direction(final Direction direction) {
         this.checkAndThrow(this.built);
         this.direction = Optional.of(direction);
         return this;
@@ -96,19 +103,19 @@ public class PlaneBuilderImpl {
 
     /**
      * 
-     * Method that creates the wanted plane.
-     * 
-     * @return the new plane.
+     * {@inheritDoc}
      */
+    @Override
     public Plane build() {
         this.checkAndThrow(this.built);
+        this.checkAndThrow(this.position.isEmpty());
         this.checkAndThrow(this.planeAction.isEmpty());
         this.checkAndThrow(this.speed.isEmpty());
         this.checkAndThrow(this.altitude.isEmpty());
         this.checkAndThrow(this.direction.isEmpty());
         this.built = true;
-        return new PlaneImpl(this.planeAction.get(), this.position, this.speed.get(), this.altitude.get(),
-                this.direction.get());
+        return new PlaneImpl(this.planeId, this.companyName, this.planeAction.get(), this.position.get(),
+                this.speed.get(), this.altitude.get(), this.direction.get());
     }
 
 }
