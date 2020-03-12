@@ -3,7 +3,7 @@ package model;
 import java.util.Objects;
 
 public class RunwayEndImpl extends AbstractRadarElement implements RunwayEnd {
-
+    private static final long serialVersionUID = 1L;
     private final String numRunwayEnd;
     private boolean isActive;
 
