@@ -58,12 +58,20 @@ public class RunwayImpl implements Runway {
             throw new IllegalArgumentException("Not a runwayEnd of this Runway");
         }
 
-        if (Integer.parseInt(numRunwayEnd) == Integer.parseInt(this.runwayends.getX().getNumRunwayEnd())) {
-            this.runwayends.getX().changeStatus(true);
-            this.runwayends.getY().changeStatus(false);
+        if (numRunwayEnd.equals(this.runwayends.getX().getNumRunwayEnd())) {
+            if (this.runwayends.getX().getStatus()) {
+                this.runwayends.getX().changeStatus(false);
+            } else {
+                this.runwayends.getX().changeStatus(true);
+                this.runwayends.getY().changeStatus(false);
+            }
         }
-        this.runwayends.getX().changeStatus(false);
-        this.runwayends.getY().changeStatus(true);
+        if (this.runwayends.getY().getStatus()) {
+            this.runwayends.getY().changeStatus(false);
+        } else {
+            this.runwayends.getX().changeStatus(false);
+            this.runwayends.getY().changeStatus(true);
+        }
     }
 
     /**
@@ -71,9 +79,8 @@ public class RunwayImpl implements Runway {
      */
     public boolean checkRunwayEnd(final String numRunwayEnd) {
         Objects.requireNonNull(numRunwayEnd);
-        int num = Integer.parseInt(numRunwayEnd);
 
-        return (num != Integer.parseInt(this.runwayends.getX().getNumRunwayEnd())) && num != Integer.parseInt(this.runwayends.getY().getNumRunwayEnd());
+        return (this.runwayends.getX().getNumRunwayEnd().equals(numRunwayEnd) || this.runwayends.getY().getNumRunwayEnd().equals(numRunwayEnd));
     }
 
 }
