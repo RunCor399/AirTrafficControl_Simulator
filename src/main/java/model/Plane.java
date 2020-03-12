@@ -21,6 +21,22 @@ public interface Plane extends DynamicElement {
 
     /**
      * 
+     * Getter of the plane's id.
+     * 
+     * @return the plane's id.
+     */
+    int getAirplaneId();
+
+    /**
+     * 
+     * Getter of the plane's company name.
+     * 
+     * @return the company name.
+     */
+    String getCompanyName();
+
+    /**
+     * 
      * Method that allows the plane to land in the specified Airport.
      * 
      * @throws RunwayNotAvailableException when there isn't an active available

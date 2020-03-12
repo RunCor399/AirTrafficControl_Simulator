@@ -32,12 +32,17 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     private static final Speed SPEED_DELTA = new SpeedImpl(20.0);
     private static final double ALTITUDE_DELTA = 10;
 
+    private final int planeId;
+    private final String companyName;
     private final Action planeAction;
 
-    public PlaneImpl(final Action planeAction, final RadarPosition position, final Speed speed, final double altitude,
-            final Direction direction) {
+    public PlaneImpl(final int planeId, final String companyName, final Action planeAction,
+            final RadarPosition position, final Speed speed, final double altitude, final Direction direction) {
         super(position, speed, altitude, direction);
         Objects.requireNonNull(planeAction);
+        Objects.requireNonNull(companyName);
+        this.planeId = planeId;
+        this.companyName = companyName;
         this.planeAction = planeAction;
     }
 
@@ -63,6 +68,22 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     @Override
     protected double getAltitudeDelta() {
         return ALTITUDE_DELTA;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getAirplaneId() {
+        return this.planeId;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getCompanyName() {
+        return this.companyName;
     }
 
     /**
