@@ -18,11 +18,11 @@ public class RunwayImpl implements Runway {
      * {@inheritDoc}
      */
     @Override
-    public Optional<String> getRunwayStatus() {
+    public Optional<RunwayEnd> getRunwayStatus() {
         if (!this.runwayends.getX().getStatus() && !this.runwayends.getY().getStatus()) {
             return Optional.empty();
         }
-        return this.runwayends.getX().getStatus() ? Optional.of(this.runwayends.getX().getNumRunwayEnd()) : Optional.of(this.runwayends.getY().getNumRunwayEnd());
+        return this.runwayends.getX().getStatus() ? Optional.of(this.runwayends.getX()) : Optional.of(this.runwayends.getY());
     }
 
     /**

@@ -10,11 +10,11 @@ import java.util.Optional;
 public interface Runway {
 
     /**
-     * This method returns the active runwayEnd.
+     * This method returns the Optional of the active runwayEnd.
      * 
-     * @return String of the number of RunwayEnd
+     * @return RunwayEnd 
      */
-    Optional<String> getRunwayStatus();
+    Optional<RunwayEnd> getRunwayStatus();
 
     /**
      * This method returns the positions of the 2 ranwayEnds. 
