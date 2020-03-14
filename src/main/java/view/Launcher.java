@@ -1,10 +1,7 @@
 package view;
 
-public final class Launcher {
-        private Launcher() {
-        }
-
-        public static void main(final String[] args) {
-                
-        }
+public class Launcher {
+    public static void main(final String[] args) {
+        ViewImpl.launch(args);
+    }
 }

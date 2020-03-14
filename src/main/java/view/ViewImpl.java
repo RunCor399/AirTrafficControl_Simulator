@@ -18,8 +18,13 @@ public class ViewImpl extends Application implements View {
     public void start(final Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         // create controller and factory
+        // Controller controller = new ControllerImpl();
+
         // view passes controller and view to factory
+        // SceneFactory sceneFactory = new SceneFactory(controller, this);
+
         // view calls method switchToMenu
+        // sceneFactory.changeScene();
         this.setStageResolution();
 
         // create scene by calling changeScene
@@ -32,6 +37,7 @@ public class ViewImpl extends Application implements View {
     @Override
     public void changeScene(final Parent newScene) {
         // TODO Auto-generated method stub
+        //set scene to the parent received
 
     }
 
