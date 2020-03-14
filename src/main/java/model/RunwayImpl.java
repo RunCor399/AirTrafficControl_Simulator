@@ -3,6 +3,8 @@ package model;
 import java.util.Objects;
 import java.util.Optional;
 
+import utilities.Pair;
+
 public class RunwayImpl implements Runway {
 
     private final Pair<RunwayEnd, RunwayEnd> runwayends;
