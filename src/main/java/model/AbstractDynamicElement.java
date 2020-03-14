@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
 public abstract class AbstractDynamicElement extends AbstractRadarElement
-        implements DynamicElement/* , Serializable */ {
+        implements DynamicElement, Serializable {
 
+    private static final long serialVersionUID = 5949982404790725460L;
     private static final double NO_VALUE = -1;
     private static final double TIME_QUANTUM = 0.5;
     private static final int SEC_TO_HOURS = 3600;
@@ -175,27 +177,12 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
     }
 
     /**
-     * 
-     * Method that returns the direction to follow in order to go towards the target
-     * position.
-     * 
-     * @return the direction to follow.
-     */
-    private Direction computeDirectionToTargetPosition() {
-        final double xRelative = this.targetPosition.getPosition().getX() - this.getPosition().getPosition().getX();
-        final double yRelative = this.targetPosition.getPosition().getY() - this.getPosition().getPosition().getY();
-        double degrees = Math.toDegrees(Math.atan2(yRelative, xRelative));
-        degrees = degrees < 0 ? 360 + degrees : degrees;
-        return new DirectionImpl(degrees);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public void computeNewPosition() {
         if (this.targetPosition != null) {
-            this.setOnlyTargetDirection(this.computeDirectionToTargetPosition());
+            this.setOnlyTargetDirection(this.getPosition().computeDirectionToTargetPosition(targetPosition));
             System.out.println("Target" + this.targetDirection.toString());
         }
         this.computeActualSpeed();
