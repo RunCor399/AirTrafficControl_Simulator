@@ -13,18 +13,19 @@ import model.exceptions.RunwayNotAvailableException;
  */
 public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5423657003954572219L;
     /**
      * The maximum altitude that allows the plane to land.
      */
-    private static final double ALTITUDE_TO_LAND = 300;
+    private static final double ALTITUDE_TO_LAND = 2000;
     /**
      * The maximum speed that allows the plane to land.
      */
-    private static final Speed SPEED_TO_LAND = new SpeedImpl(100.0);
+    private static final Speed SPEED_TO_LAND = new SpeedImpl(140.0);
+    /**
+     * The maximum speed that allows the plane to land.
+     */
+    private static final Speed SPEED = new SpeedImpl(220.0);
     /**
      * The specifics of an airplane.
      */
@@ -90,7 +91,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      * {@inheritDoc}
      */
     @Override
-    public void land(/* final Airport airport */) throws RunwayNotAvailableException {
+    public void land(final Airport airport) throws RunwayNotAvailableException {
         // I take an active runway. From this one, i get the active runwayEnd
         RadarPosition runwayEndPosition = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         // I check if it's close enough and the parameters are correct (altitude, speed,
@@ -105,11 +106,15 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      * {@inheritDoc}
      */
     @Override
-    public void takeOff(/* final Airport airport */) throws RunwayNotAvailableException {
+    public void takeOff(final Airport airport) throws RunwayNotAvailableException {
         // I take an active runway. From this one, i get the active runwayEnd
         // The other runwayEnd will be the target of the plane.
-        RadarPosition runwayEndPosition = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
-        this.setPosition(runwayEndPosition);
+        if (airport.getActiveRunways().isEmpty()) {
+            throw new RunwayNotAvailableException();
+        }
+        Runway activeRunway = airport.getActiveRunways().get().get(0);
+        //RadarPosition runwayEndPosition = airport.getActiveRunways().get().get(0).getRunwayStatus().get();
+        this.setPosition(activeRunway.getRunwayStatus().get().getPosition());
 
     }
 

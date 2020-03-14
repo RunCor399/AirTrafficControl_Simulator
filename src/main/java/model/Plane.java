@@ -42,7 +42,7 @@ public interface Plane extends DynamicElement {
      * @throws RunwayNotAvailableException when there isn't an active available
      *                                     runway in the specified airport.
      */
-    void land(/* Airport airport */) throws RunwayNotAvailableException;
+    void land(Airport airport) throws RunwayNotAvailableException;
 
     /**
      * 
@@ -51,7 +51,7 @@ public interface Plane extends DynamicElement {
      * @throws RunwayNotAvailableException when there isn't an active available
      *                                     runway in the specified airport.
      */
-    void takeOff(/* Airport airport */) throws RunwayNotAvailableException;
+    void takeOff(Airport airport) throws RunwayNotAvailableException;
 
     /**
      * 
