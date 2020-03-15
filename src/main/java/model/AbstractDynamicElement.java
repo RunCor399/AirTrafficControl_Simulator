@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class AbstractDynamicElement extends AbstractRadarElement
-        implements DynamicElement, Serializable {
+public abstract class AbstractDynamicElement extends AbstractRadarElement implements DynamicElement, Serializable {
 
-    private static final long serialVersionUID = 2968815545589737471L;
+    private static final long serialVersionUID = 5949982404790725460L;
     private static final double NO_VALUE = -1;
     private static final double TIME_QUANTUM = 0.5;
     private static final int SEC_TO_HOURS = 3600;
@@ -28,15 +27,6 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
 
     private double directionDifference;
 
-    /**
-     * 
-     * Constructor of a {@link AbstractDynamicElement}.
-     * 
-     * @param position the position of the element.
-     * @param speed the speed of the element.
-     * @param altitude  the altitude of the element.
-     * @param direction the direction of the element.
-     */
     public AbstractDynamicElement(final RadarPosition position, final Speed speed, final double altitude,
             final Direction direction) {
         super(position);
@@ -125,7 +115,31 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
 
     /**
      * 
-     * Protected method used to set directly the direction of a dynamic element.
+     * Protected method to set the altitude internally.
+     * This method intent is to allow the subclasses to directly work with the element parameters.
+     * 
+     * @param altitude the altitude to set.
+     */
+    protected void setAltitude(final double altitude) {
+        this.altitude = altitude;
+    }
+
+    /**
+     * 
+     * Protected method to set the internally.
+     * This method intent is to allow the subclasses to directly work with the element parameters.
+     * 
+     * @param speed the speed to set.
+     */
+    protected void setSpeed(final Speed speed) {
+        Objects.requireNonNull(speed);
+        this.speed = speed;
+    }
+
+    /**
+     * 
+     * Protected method to set the direction internally.
+     * This method intent is to allow the subclasses to directly work with the element parameters.
      * 
      * @param direction the direction to set.
      */
@@ -197,27 +211,12 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
     }
 
     /**
-     * 
-     * Method that returns the direction to follow in order to go towards the target
-     * position.
-     * 
-     * @return the direction to follow.
-     */
-    private Direction computeDirectionToTargetPosition() {
-        final double xRelative = this.targetPosition.getPosition().getX() - this.getPosition().getPosition().getX();
-        final double yRelative = this.targetPosition.getPosition().getY() - this.getPosition().getPosition().getY();
-        double degrees = Math.toDegrees(Math.atan2(yRelative, xRelative));
-        degrees = degrees < 0 ? 360 + degrees : degrees;
-        return new DirectionImpl(degrees);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public void computeNewPosition() {
         if (this.targetPosition != null) {
-            this.setOnlyTargetDirection(this.computeDirectionToTargetPosition());
+            this.setOnlyTargetDirection(this.getPosition().computeDirectionToTargetPosition(targetPosition));
             System.out.println("Target" + this.targetDirection.toString());
         }
         this.computeActualSpeed();
@@ -347,13 +346,13 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
         StringBuilder builder = new StringBuilder();
         builder = builder.append("Speed -> ").append(this.speed.getAsKnots()).append(" knots\n");
         builder = builder.append("Direction -> ").append(this.direction).append("\n");
-        builder = builder.append("Altitude -> ").append(this.altitude).append(" m\n");
+        builder = builder.append("Altitude -> ").append(this.altitude).append(" ft\n");
         builder = builder.append("Target speed -> ")
                 .append(this.targetSpeed == null ? "NONE" : this.targetSpeed + " knots").append("\n");
         builder = builder.append("Target direction -> ")
                 .append(this.targetDirection == null ? "NONE" : this.targetDirection).append("\n");
         builder = builder.append("Target altitude -> ")
-                .append(this.targetAltitude == NO_VALUE ? "NONE" : this.targetAltitude + " m").append("\n");
+                .append(this.targetAltitude == NO_VALUE ? "NONE" : this.targetAltitude + " ft").append("\n");
         return builder.toString();
 
     }
