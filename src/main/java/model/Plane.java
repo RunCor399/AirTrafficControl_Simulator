@@ -39,6 +39,8 @@ public interface Plane extends DynamicElement {
      * 
      * Method that allows the plane to land in the specified Airport.
      * 
+     * @param airport the airport in which the plane has to land.
+     * 
      * @throws RunwayNotAvailableException when there isn't an active available
      *                                     runway in the specified airport.
      */
@@ -47,6 +49,8 @@ public interface Plane extends DynamicElement {
     /**
      * 
      * Method that allows the plane to take off from the specified airport.
+     * 
+     * @param airport the airport from where the plane has to take off.
      * 
      * @throws RunwayNotAvailableException when there isn't an active available
      *                                     runway in the specified airport.
