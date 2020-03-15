@@ -46,4 +46,14 @@ public interface RadarPosition {
      * @return the direction to follow.
      */
     Direction computeDirectionToTargetPosition(RadarPosition targetPosition);
+
+    /**
+     * 
+     * Method that returns the distance between this point and the given one.
+     * 
+     * @param position the given position.
+     * 
+     * @return the distance between the two points.
+     */
+    double distanceFrom(RadarPosition position);
 }
