@@ -1,6 +1,6 @@
 package model;
 
-import model.exceptions.RunwayNotAvailableException;
+import model.exceptions.OperationNotAvailableException;
 
 /**
  * 
@@ -41,10 +41,10 @@ public interface Plane extends DynamicElement {
      * 
      * @param airport the airport in which the plane has to land.
      * 
-     * @throws RunwayNotAvailableException when there isn't an active available
+     * @throws OperationNotAvailableException when there isn't an active available
      *                                     runway in the specified airport.
      */
-    void land(Airport airport) throws RunwayNotAvailableException;
+    void land(Airport airport) throws OperationNotAvailableException;
 
     /**
      * 
@@ -52,10 +52,10 @@ public interface Plane extends DynamicElement {
      * 
      * @param airport the airport from where the plane has to take off.
      * 
-     * @throws RunwayNotAvailableException when there isn't an active available
+     * @throws OperationNotAvailableException when there isn't an active available
      *                                     runway in the specified airport.
      */
-    void takeOff(Airport airport) throws RunwayNotAvailableException;
+    void takeOff(Airport airport) throws OperationNotAvailableException;
 
     /**
      * 

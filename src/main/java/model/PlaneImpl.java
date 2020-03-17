@@ -2,8 +2,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Optional;
 
-import model.exceptions.RunwayNotAvailableException;
+import model.exceptions.OperationNotAvailableException;
 
 /**
  * 
@@ -23,9 +24,18 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      */
     private static final Speed SPEED_TO_LAND = new SpeedImpl(140.0);
     /**
-     * The maximum speed that allows the plane to land.
+     * The speed to reach when the plane takes off.
      */
-    private static final Speed SPEED = new SpeedImpl(220.0);
+    private static final Speed TAKEOFF_SPEED = new SpeedImpl(220.0);
+    /**
+     * The speed to reach when the plane takes off.
+     */
+    private static final double TAKEOFF_ALTITUDE = 200;
+    /**
+     * The maximum distance between the plane and the runway end.
+     */
+    private static final double MAXIMUM_DISTANCE = 5;
+
     /**
      * The specifics of an airplane.
      */
@@ -87,35 +97,78 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
         return this.companyName;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void land(final Airport airport) throws RunwayNotAvailableException {
-        // I take an active runway. From this one, i get the active runwayEnd
-        RadarPosition runwayEndPosition = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
-        // I check if it's close enough and the parameters are correct (altitude, speed,
-        // direction)
-        if (this.getSpeed().getAsKnots() <= SPEED_TO_LAND.getAsKnots() && this.getAltitude() <= ALTITUDE_TO_LAND) {
-            // land
+    private void checkIfTrueAndThrow(final boolean condition, final String message)
+            throws OperationNotAvailableException {
+        if (condition) {
+            throw new OperationNotAvailableException(message);
         }
-
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void takeOff(final Airport airport) throws RunwayNotAvailableException {
-        // I take an active runway. From this one, i get the active runwayEnd
-        // The other runwayEnd will be the target of the plane.
-        if (airport.getActiveRunways().isEmpty()) {
-            throw new RunwayNotAvailableException();
-        }
-        Runway activeRunway = airport.getActiveRunways().get().get(0);
-        //RadarPosition runwayEndPosition = airport.getActiveRunways().get().get(0).getRunwayStatus().get();
-        this.setPosition(activeRunway.getRunwayStatus().get().getPosition());
+    public void land(final Airport airport) throws OperationNotAvailableException {
+        Objects.requireNonNull(airport);
+        this.checkIfTrueAndThrow(airport.getActiveRunways().isEmpty(), "No active runway found.");
+        this.checkIfTrueAndThrow(!this.isLandingPossible(), "Speed or altitude of the plane are too high.");
+        this.checkIfTrueAndThrow(this.getClosestRunway(airport).isEmpty(), "No active runway found.");
+        // I check if the direction is correct. (TODO)
 
+        // I stop the plane
+        this.resetAllTargets();
+        this.setAltitude(0);
+        this.setSpeed(new SpeedImpl(0.0));
+        this.setPosition(airport.getParkingPosition());
+
+    }
+
+    /**
+     * This method checks if speed and altitude allow the plane to land.
+     * 
+     * @return the result of the check.
+     */
+    private boolean isLandingPossible() {
+        return (this.getSpeed().getAsKnots() <= SPEED_TO_LAND.getAsKnots() && this.getAltitude() <= ALTITUDE_TO_LAND)
+                ? true
+                : false;
+    }
+
+    /**
+     * This method gets the closest runway end to the plane that can be used by it to land.
+     * 
+     * @param airport the target airport.
+     * @return the closest runway end.
+     */
+    private Optional<RunwayEnd> getClosestRunway(final Airport airport) {
+        return airport.getActiveRunways().get().stream().map(runway -> runway.getRunwayStatus().get())
+                .filter(runwayEnd -> runwayEnd.getPosition().distanceFrom(this.getPosition()) <= MAXIMUM_DISTANCE)
+                .sorted((run1, run2) -> {
+                    double diff = run1.getPosition().distanceFrom(this.getPosition())
+                            - run2.getPosition().distanceFrom(this.getPosition());
+                    if (diff > 0) {
+                        return 1;
+                    } else if (diff < 0) {
+                        return -1;
+                    }
+                    return 0;
+                }).findFirst();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void takeOff(final Airport airport) throws OperationNotAvailableException {
+        Objects.requireNonNull(airport);
+        this.checkIfTrueAndThrow(airport.getActiveRunways().isEmpty(), "No active runway found.");
+        Runway activeRunway = airport.getActiveRunways().get().get(0);
+        RunwayEnd startRunwayEnd = activeRunway.getRunwayStatus().get();
+        // RunwayEnd targetRunwayEnd = activeRunway.
+        // DEVO IMPOSTARE LA DIREZIONE!!!
+        this.setPosition(startRunwayEnd.getPosition());
+        this.setTargetSpeed(TAKEOFF_SPEED);
+        this.setTargetAltitude(TAKEOFF_ALTITUDE);
     }
 
     /**
