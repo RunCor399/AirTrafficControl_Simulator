@@ -112,7 +112,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
         Objects.requireNonNull(airport);
         this.checkIfTrueAndThrow(airport.getActiveRunways().isEmpty(), "No active runway found.");
         this.checkIfTrueAndThrow(!this.isLandingPossible(), "Speed or altitude of the plane are too high.");
-        this.checkIfTrueAndThrow(this.getClosestRunway(airport).isEmpty(), "No active runway found.");
+        this.checkIfTrueAndThrow(this.getClosestRunway(airport).isEmpty(), "No nearby active runway found.");
         // I check if the direction is correct. (TODO)
 
         // I stop the plane
@@ -141,7 +141,8 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      * @return the closest runway end.
      */
     private Optional<RunwayEnd> getClosestRunway(final Airport airport) {
-        return airport.getActiveRunways().get().stream().map(runway -> runway.getRunwayStatus().get())
+        return airport.getActiveRunways().get().stream()
+                .map(runway -> runway.getRunwayStatus().get())
                 .filter(runwayEnd -> runwayEnd.getPosition().distanceFrom(this.getPosition()) <= MAXIMUM_DISTANCE)
                 .sorted((run1, run2) -> {
                     double diff = run1.getPosition().distanceFrom(this.getPosition())
