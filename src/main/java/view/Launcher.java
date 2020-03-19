@@ -1,6 +1,9 @@
 package view;
 
-public class Launcher {
+public final class Launcher {
+    private Launcher() {
+    }
+
     public static void main(final String[] args) {
         ViewImpl.launch(args);
     }
