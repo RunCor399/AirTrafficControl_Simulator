@@ -15,7 +15,7 @@ public class AirportImpl implements Airport {
     private final String airportName;
     private final RadarPosition parkingPosition;
     private List<Vor> vorList = new LinkedList<>();
-    private List<Runway> runwaySet = new LinkedList<>();
+    private List<Runway> runwayList = new LinkedList<>();
 
     /**
      * Constructor of a standard airport.
@@ -26,18 +26,21 @@ public class AirportImpl implements Airport {
      * 
      * @param vorList
      * 
-     * @param runwaySet
+     * @param runwayList
      * 
      * @param parkingPosition
      */
     public AirportImpl(final String airportId, final String airportName, final List<Vor> vorList,
-            final List<Runway> runwaySet, final RadarPosition parkingPosition) {
+            final List<Runway> runwayList, final RadarPosition parkingPosition) {
         Objects.requireNonNull(airportId);
         Objects.requireNonNull(airportName);
         Objects.requireNonNull(vorList);
+        Objects.requireNonNull(runwayList);
+        Objects.requireNonNull(parkingPosition);
         this.airportId = airportId;
         this.airportName = airportName;
         this.vorList = vorList;
+        this.runwayList = runwayList;
         this.parkingPosition = parkingPosition;
     }
 
@@ -118,7 +121,7 @@ public class AirportImpl implements Airport {
      */
     @Override
     public Optional<List<Runway>> getRunways() {
-        return this.runwaySet.isEmpty() ? Optional.empty() : Optional.of(this.runwaySet);
+        return this.runwayList.isEmpty() ? Optional.empty() : Optional.of(this.runwayList);
     }
 
     /**
@@ -136,7 +139,7 @@ public class AirportImpl implements Airport {
     public void setActiveRunways(final String runwayEnd) {
         Objects.requireNonNull(runwayEnd);
 
-        for (Runway runway : this.runwaySet) {
+        for (Runway runway : this.runwayList) {
             if (runway.checkRunwayEnd(runwayEnd)) {
                 runway.setActiveRunwayEnd(runwayEnd);
             }
@@ -149,17 +152,17 @@ public class AirportImpl implements Airport {
     @Override
     public void addRunway(final Runway newRunway) {
         Objects.requireNonNull(newRunway);
-        if (this.runwaySet.contains(newRunway)) {
+        if (this.runwayList.contains(newRunway)) {
             throw new IllegalStateException();
         }
 
-        this.runwaySet.add(newRunway);
+        this.runwayList.add(newRunway);
     }
 
     private Optional<List<Runway>> computeActiveRunways() {
         List<Runway> activeRunwayList = new LinkedList<>();
 
-        for (Runway runway : this.runwaySet) {
+        for (Runway runway : this.runwayList) {
             if (runway.getRunwayStatus().isPresent()) {
                 activeRunwayList.add(runway);
             }
