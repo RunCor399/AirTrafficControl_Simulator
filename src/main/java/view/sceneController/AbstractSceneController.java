@@ -1,6 +1,7 @@
 package view.sceneController;
 
 import controller.Controller;
+import view.View;
 
 /**
  * 
@@ -10,15 +11,15 @@ import controller.Controller;
 public abstract class AbstractSceneController implements SceneController {
 
     private Controller controller;
-    // private View view;
+    private View view;
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void setParameters(final Controller controller/* , final View view */) {
+    public void setParameters(final Controller controller, final View view) {
         this.controller = controller;
-//        this.view = view;
+        this.view = view;
     }
 
     /**
@@ -37,20 +38,20 @@ public abstract class AbstractSceneController implements SceneController {
         this.controller = controller;
     }
 
-//    /**
-//     * {@inheritDoc}
-//     */
-//    @Override
-//    public View getView() {
-//        return this.view;
-//    }
-//
-//    /**
-//     * {@inheritDoc}
-//     */
-//    @Override
-//    public void setView(final View view) {
-//        this.view = view;
-//    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public View getView() {
+        return this.view;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setView(final View view) {
+        this.view = view;
+    }
 
 }

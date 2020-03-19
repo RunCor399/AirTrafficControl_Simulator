@@ -1,6 +1,7 @@
 package view.sceneController;
 
 import controller.Controller;
+import view.View;
 
 /**
  * 
@@ -15,9 +16,10 @@ public interface SceneController {
      * them.
      * 
      * @param controller the main controller of the application.
+     * @param view the main view of the application.
      * 
      */
-    void setParameters(Controller controller /* , final View view */);
+    void setParameters(Controller controller, View view);
 
     /**
      * 
@@ -35,20 +37,20 @@ public interface SceneController {
      */
     void setController(Controller controller);
 
-//    /**
-//     * 
-//     * View getter.
-//     * 
-//     * @return the main view of the application.
-//     */
-//    View getView();
-//
-//    /**
-//     * 
-//     * View setter.
-//     * 
-//     * @param view the main view of the application.
-//     */
-//    void setView(View view);
+    /**
+     * 
+     * View getter.
+     * 
+     * @return the main view of the application.
+     */
+    View getView();
+
+    /**
+     * 
+     * View setter.
+     * 
+     * @param view the main view of the application.
+     */
+    void setView(View view);
 
 }
