@@ -2,6 +2,8 @@ package model;
 
 import java.util.Optional;
 
+import utilities.Pair;
+
 /**
  * 
  * An interface that models runway in airport. 
