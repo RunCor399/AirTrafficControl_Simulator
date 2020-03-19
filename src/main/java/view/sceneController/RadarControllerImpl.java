@@ -1,11 +1,11 @@
-package view;
+package view.sceneController;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 
-public class RadarControllerImpl /*extends AbstractSceneController*/{
+public class RadarControllerImpl extends AbstractSceneController {
 
     @FXML
     private Slider timeWarpSlider;
