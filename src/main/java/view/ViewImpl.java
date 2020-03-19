@@ -1,7 +1,6 @@
 package view;
 
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import utilities.Pair;
@@ -35,9 +34,9 @@ public class ViewImpl extends Application implements View {
      * {@inheritDoc}
      */
     @Override
-    public void changeScene(final Parent newScene) {
+    public void changeScene(/* final Pair<SceneController, Parent> sceneContext */) {
         // TODO Auto-generated method stub
-        //set scene to the parent received
+        // set scene to the parent received
 
     }
 
