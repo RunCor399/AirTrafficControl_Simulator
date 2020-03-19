@@ -3,6 +3,8 @@ package model;
 import java.util.Objects;
 import java.util.Optional;
 
+import utilities.Pair;
+
 public class RunwayImpl implements Runway {
 
     private final Pair<RunwayEnd, RunwayEnd> runwayends;
@@ -59,12 +61,13 @@ public class RunwayImpl implements Runway {
                 this.runwayends.getX().changeStatus(true);
                 this.runwayends.getY().changeStatus(false);
             }
-        }
-        if (this.runwayends.getY().getStatus()) {
-            this.runwayends.getY().changeStatus(false);
         } else {
-            this.runwayends.getX().changeStatus(false);
-            this.runwayends.getY().changeStatus(true);
+            if (this.runwayends.getY().getStatus()) {
+                this.runwayends.getY().changeStatus(false);
+            } else {
+                this.runwayends.getX().changeStatus(false);
+                this.runwayends.getY().changeStatus(true);
+            }
         }
     }
 
