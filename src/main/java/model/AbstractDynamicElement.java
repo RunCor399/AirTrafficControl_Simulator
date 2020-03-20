@@ -9,7 +9,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     private static final long serialVersionUID = 5949982404790725460L;
     private static final double NO_VALUE = -1;
     private static final double TIME_QUANTUM = 0.5;
-    private static final int SEC_TO_HOURS = 3600;
+    private static final double KMH_TO_MS = 3.6;
 
     private Speed speed;
     private double altitude;
@@ -225,6 +225,8 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
         this.getPosition().sumPosition(this.getPositionDelta());
         /* DEBUG !!! */
         System.out.println(this);
+        System.out.println("Position -> x: " + this.getPosition().getPosition().getX());
+        System.out.println("y: " + this.getPosition().getPosition().getY());
     }
 
     /**
@@ -317,7 +319,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
 
     /**
      * 
-     * Method to get the altitude delta per second (expressed in meters per second).
+     * Method to get the altitude delta per second (expressed in feet per second).
      * 
      * @return the altitude delta per second.
      */
@@ -331,10 +333,10 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
      * @return the position delta in the specified time quantum.
      */
     private Position2D getPositionDelta() {
-        final double actualSpeed = this.speed.getAsKMH();
+        final double actualSpeed = this.speed.getAsKMH() / KMH_TO_MS;
         final double actualDirection = this.direction.getAsRadians();
-        double xMovement = (TIME_QUANTUM / SEC_TO_HOURS) * actualSpeed * Math.cos(actualDirection);
-        double yMovement = (TIME_QUANTUM / SEC_TO_HOURS) * actualSpeed * Math.sin(actualDirection);
+        double xMovement = TIME_QUANTUM * actualSpeed * Math.cos(actualDirection);
+        double yMovement = TIME_QUANTUM * actualSpeed * Math.sin(actualDirection);
         return new Position2DImpl(xMovement, yMovement);
     }
 
