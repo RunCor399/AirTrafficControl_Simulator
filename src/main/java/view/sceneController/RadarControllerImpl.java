@@ -10,6 +10,8 @@ import javafx.scene.layout.Pane;
 
 public class RadarControllerImpl extends AbstractSceneController {
 
+    private double xRatio;
+    private double yRatio;
     private GraphicsContext radarContext;
     @FXML
     private Slider timeWarpSlider;
@@ -24,7 +26,11 @@ public class RadarControllerImpl extends AbstractSceneController {
 
     public void initialize() {
         this.timeWarpSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            this.setTimeWarpValue((int) newValue);
+            int oldIntValue = oldValue.intValue();
+            int newIntValue = newValue.intValue();
+            if (oldIntValue != newIntValue) {
+                this.setTimeWarpValue(newValue.intValue());
+            }
         });
 
     }
@@ -36,6 +42,15 @@ public class RadarControllerImpl extends AbstractSceneController {
         this.radarCanvas.setHeight(parentHeight);
         this.radarContext = this.radarCanvas.getGraphicsContext2D();
         this.radarContext.translate(parentWidth / 2, parentHeight / 2);
+        // TODO cambia in valore del model
+        this.xRatio = parentWidth / (30000 * 2);
+        // Inverted the sign because of how the canvas considers the y axis.
+        this.yRatio = -parentHeight / (20000 * 2);
+        this.radarContext.fillText("TEST", 30000 * this.xRatio, 30000 * this.yRatio, 15);
+    }
+
+    public void drawPlanes(/* final List<Plane> planes */) {
+        this.radarContext.restore();
     }
 
     private void setTimeWarpValue(final int value) {
