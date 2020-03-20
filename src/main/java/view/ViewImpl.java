@@ -10,7 +10,7 @@ import utilities.Pair;
 public class ViewImpl extends Application implements View {
     private Stage primaryStage;
     // private SceneFactory sceneFactory;
-    private Controller controller;
+    //private Controller controller;
 
     /**
      * {@inheritDoc}
