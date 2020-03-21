@@ -22,11 +22,11 @@ public class MovementControllerImpl extends AbstractSceneController implements S
 
     }
 
-    public void executeTakeoff(/*should pass airport*/) {
+    public void executeTakeoff() {
 
     }
 
-    public void executeLanding(/*should pass airport*/) {
+    public void executeLanding() {
 
     }
 
