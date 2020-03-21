@@ -24,7 +24,8 @@ public class RunwayImpl implements Runway {
         if (!this.runwayends.getX().getStatus() && !this.runwayends.getY().getStatus()) {
             return Optional.empty();
         }
-        return this.runwayends.getX().getStatus() ? Optional.of(this.runwayends.getX()) : Optional.of(this.runwayends.getY());
+        return this.runwayends.getX().getStatus() ? Optional.of(this.runwayends.getX())
+                : Optional.of(this.runwayends.getY());
     }
 
     /**
@@ -78,6 +79,15 @@ public class RunwayImpl implements Runway {
     public boolean checkRunwayEnd(final String numRunwayEnd) {
         Objects.requireNonNull(numRunwayEnd);
 
-        return (this.runwayends.getX().getNumRunwayEnd().equals(numRunwayEnd) || this.runwayends.getY().getNumRunwayEnd().equals(numRunwayEnd));
+        return (this.runwayends.getX().getNumRunwayEnd().equals(numRunwayEnd)
+                || this.runwayends.getY().getNumRunwayEnd().equals(numRunwayEnd));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Pair<RunwayEnd, RunwayEnd> getRunwayEnds() {
+        return this.runwayends;
     }
 }

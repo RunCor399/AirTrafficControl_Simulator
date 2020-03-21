@@ -27,4 +27,11 @@ public interface RunwayEnd extends RadarElement {
      * @return String Number of runwayEnd
      */
     String getNumRunwayEnd();
+
+    /**
+     * Method that return runwayEnd heading.
+     * 
+     * @return runwayEnd heading
+     */
+    Direction getRunwayEndHeading();
 }
