@@ -1,14 +1,20 @@
 package view;
 
+import controller.Controller;
+import controller.ControllerImpl;
 import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import utilities.Pair;
+import view.sceneController.SceneController;
 
 public class ViewImpl extends Application implements View {
     private Stage primaryStage;
-    // private SceneFactory sceneFactory;
-    //private Controller controller;
+    private SceneFactory sceneFactory;
+    private Controller controller;
+    private SceneController sceneController;
 
     /**
      * {@inheritDoc}
@@ -16,29 +22,20 @@ public class ViewImpl extends Application implements View {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        // create controller and factory
-        //Controller controller = new ControllerImpl();
+        this.controller = new ControllerImpl();
+        this.sceneFactory = new SceneFactoryImpl(controller, this);
 
-        // view passes controller and view to factory
-        // SceneFactory sceneFactory = new SceneFactory(controller, this);
-
-        // view calls method switchToMenu
-        // sceneFactory.changeScene();
+        this.changeScene(sceneFactory.loadMenu());
         this.setStageResolution();
-
-        // create scene by calling changeScene
-
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void changeScene(/* final Pair<SceneController, Parent> sceneContext */) {
-        // TODO Auto-generated method stub
-        // set scene to the parent received
-        //MAY NEED TO COMPUTE AND SET SCREEN RESOLUTION AGAIN
-        //this.primaryStage.setScene(new Scene(sceneContext.getY()));
+    public void changeScene(final Pair<SceneController, Parent> sceneContext) {
+        this.sceneController = sceneContext.getX();
+        this.primaryStage.setScene(new Scene(sceneContext.getY(), this.primaryStage.getWidth(), this.primaryStage.getHeight()));
     }
 
     private Pair<Double, Double> computeScreenResolution() {
@@ -51,4 +48,11 @@ public class ViewImpl extends Application implements View {
         this.primaryStage.setHeight(resolution.getY());
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SceneFactory getSceneFactory() {
+        return this.sceneFactory;
+    }
 }

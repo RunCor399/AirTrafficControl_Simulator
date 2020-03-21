@@ -1,5 +1,8 @@
 package view;
 
+import javafx.scene.Parent;
+import utilities.Pair;
+import view.sceneController.SceneController;
 
 /**
  * 
@@ -10,15 +13,21 @@ public interface View {
     /**
      * methods that changes the current scene.
      * 
-     *
+     * @param sceneContext
      */
-    void changeScene(/* Pair<SceneController, Parent> sceneContext */);
+    void changeScene(Pair<SceneController, Parent> sceneContext);
 
     /**
-     * method that update position of all airplanes.
+     * method that updates position of all airplanes.
      * 
      * @param planes
      */
     // void radarUpdate(List<Plane> planes);
 
+    /**
+     * method that returns SceneFactory.
+     * 
+     * @return SceneFactory
+     */
+    SceneFactory getSceneFactory();
 }
