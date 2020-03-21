@@ -1,7 +1,5 @@
 package view;
 
-import controller.Controller;
-import controller.ControllerImpl;
 import javafx.application.Application;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
