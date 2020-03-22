@@ -132,6 +132,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
         this.checkIfTrueAndThrow(!this.isLandingPossible(), "Speed or altitude of the plane are too high.");
         this.checkIfTrueAndThrow(this.getClosestRunway(airport).isEmpty(),
                 "No nearby active runway found.\nCheck if your direction is compatible with the active runways.");
+        //I stop the airplane
         this.resetAllTargets();
         this.setAltitude(0);
         this.setSpeed(new SpeedImpl(0.0));
@@ -191,9 +192,11 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      */
     @Override
     public void takeOff(final Airport airport) throws OperationNotAvailableException {
+        //I check if there are any runways available.
         Objects.requireNonNull(airport);
         this.checkIfTrueAndThrow(!this.planeAction.equals(Action.TAKEOFF), "The plane is not supposed to take off.");
         this.checkIfTrueAndThrow(airport.getActiveRunways().isEmpty(), "No active runway found.");
+        //I set up the plane in order to let it take off.
         Runway activeRunway = airport.getActiveRunways().get().get(0);
         Pair<RunwayEnd, RunwayEnd> ends = activeRunway.getRunwayEnds();
         RunwayEnd startRunwayEnd = activeRunway.getRunwayStatus().get();
@@ -210,6 +213,50 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     @Override
     public Action getPlaneAction() {
         return this.planeAction;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
+        result = prime * result + ((planeAction == null) ? 0 : planeAction.hashCode());
+        result = prime * result + planeId;
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        PlaneImpl other = (PlaneImpl) obj;
+        if (companyName == null) {
+            if (other.getCompanyName() != null) {
+                return false;
+            }
+        } else if (!companyName.equals(other.getCompanyName())) {
+            return false;
+        }
+        if (planeAction != other.getPlaneAction()) {
+            return false;
+        }
+        if (planeId != other.getAirplaneId()) {
+            return false;
+        }
+        return true;
     }
 
     /**

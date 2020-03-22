@@ -87,6 +87,40 @@ public class DirectionImpl implements Direction, Serializable {
         return diff > 0 ? diff <= MAX_DIFF : diff < -MAX_DIFF;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(direction);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        DirectionImpl other = (DirectionImpl) obj;
+        if (Double.doubleToLongBits(direction) != Double.doubleToLongBits(other.getAsDegrees())) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public final String toString() {
         return this.getAsDegrees() + "°, " + this.getAsRadians() + " rads.";
