@@ -71,4 +71,14 @@ public class RadarPositionImpl implements RadarPosition {
         return new DirectionImpl(degrees);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double distanceFrom(final RadarPosition position) {
+        Position2D targetPosition = position.getPosition();
+        return Math.sqrt(Math.pow(targetPosition.getX() - this.elementPosition.getX(), 2)
+                + Math.pow(targetPosition.getY() - this.elementPosition.getY(), 2));
+    }
+
 }
