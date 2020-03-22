@@ -1,10 +1,12 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
 
 import model.exceptions.OperationNotAvailableException;
+import utilities.Pair;
 
 /**
  * 
@@ -18,7 +20,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     /**
      * The maximum altitude that allows the plane to land.
      */
-    private static final double ALTITUDE_TO_LAND = 2000;
+    private static final double ALTITUDE_TO_LAND = 200;
     /**
      * The maximum speed that allows the plane to land.
      */
@@ -34,7 +36,12 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     /**
      * The maximum distance between the plane and the runway end.
      */
-    private static final double MAXIMUM_DISTANCE = 5;
+    private static final double MAXIMUM_DISTANCE = 5000;
+    /**
+     * The maximum difference between the direction of the plane and the runway
+     * direction.
+     */
+    private static final double MAXIMUM_DIRECTION_DIFF = 5;
 
     /**
      * The specifics of an airplane.
@@ -46,6 +53,16 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     private final int planeId;
     private final String companyName;
     private final Action planeAction;
+    private final Comparator<? super RunwayEnd> sortByDistance = (run1, run2) -> {
+        double diff = run1.getPosition().distanceFrom(this.getPosition())
+                - run2.getPosition().distanceFrom(this.getPosition());
+        if (diff > 0) {
+            return 1;
+        } else if (diff < 0) {
+            return -1;
+        }
+        return 0;
+    };
 
     public PlaneImpl(final int planeId, final String companyName, final Action planeAction,
             final RadarPosition position, final Speed speed, final double altitude, final Direction direction) {
@@ -110,12 +127,11 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     @Override
     public void land(final Airport airport) throws OperationNotAvailableException {
         Objects.requireNonNull(airport);
+        this.checkIfTrueAndThrow(!this.planeAction.equals(Action.LAND), "The plane is not supposed to land.");
         this.checkIfTrueAndThrow(airport.getActiveRunways().isEmpty(), "No active runway found.");
         this.checkIfTrueAndThrow(!this.isLandingPossible(), "Speed or altitude of the plane are too high.");
-        this.checkIfTrueAndThrow(this.getClosestRunway(airport).isEmpty(), "No nearby active runway found.");
-        // I check if the direction is correct. (TODO)
-
-        // I stop the plane
+        this.checkIfTrueAndThrow(this.getClosestRunway(airport).isEmpty(),
+                "No nearby active runway found.\nCheck if your direction is compatible with the active runways.");
         this.resetAllTargets();
         this.setAltitude(0);
         this.setSpeed(new SpeedImpl(0.0));
@@ -135,25 +151,39 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     }
 
     /**
-     * This method gets the closest runway end to the plane that can be used by it to land.
+     * This method gets the closest runway end that can be used by it to land. The
+     * direction of the runway must be at max 5° different from the plane direction,
+     * in order to be used to land. Moreover, the plane heading must be at max 5°
+     * different from the heading to follow in order to reach the runway end
+     * (considering the actual plane position).
      * 
      * @param airport the target airport.
      * @return the closest runway end.
      */
     private Optional<RunwayEnd> getClosestRunway(final Airport airport) {
-        return airport.getActiveRunways().get().stream()
-                .map(runway -> runway.getRunwayStatus().get())
-                .filter(runwayEnd -> runwayEnd.getPosition().distanceFrom(this.getPosition()) <= MAXIMUM_DISTANCE)
-                .sorted((run1, run2) -> {
-                    double diff = run1.getPosition().distanceFrom(this.getPosition())
-                            - run2.getPosition().distanceFrom(this.getPosition());
-                    if (diff > 0) {
-                        return 1;
-                    } else if (diff < 0) {
-                        return -1;
-                    }
-                    return 0;
-                }).findFirst();
+        return airport.getActiveRunways().get().stream().filter(runway -> runway.getRunwayStatus().get().getPosition()
+                .distanceFrom(this.getPosition()) <= MAXIMUM_DISTANCE).filter(runway -> {
+                    RunwayEnd active = runway.getRunwayStatus().get();
+                    RunwayEnd inactive = runway.getRunwayEnds().getX().getStatus() ? runway.getRunwayEnds().getY()
+                            : runway.getRunwayEnds().getX();
+                    return active.getPosition().computeDirectionToTargetPosition(inactive.getPosition())
+                            .compareTo(this.getDirection()) <= MAXIMUM_DIRECTION_DIFF;
+                })
+                .filter(runway -> this
+                        .directionDiffToRunwayEnd(runway.getRunwayStatus().get()) <= MAXIMUM_DIRECTION_DIFF)
+                .map(runway -> runway.getRunwayStatus().get()).sorted(this.sortByDistance).findFirst();
+    }
+
+    /**
+     * This method returns the difference (in degrees) between the actual heading
+     * and the heading to follow in order to arrive at the target runway end.
+     * 
+     * @param runwayEnd the target runway end.
+     * @return the difference in terms of degrees.
+     */
+    private double directionDiffToRunwayEnd(final RunwayEnd runwayEnd) {
+        return this.getDirection()
+                .compareTo(this.getPosition().computeDirectionToTargetPosition(runwayEnd.getPosition()));
     }
 
     /**
@@ -162,12 +192,14 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     @Override
     public void takeOff(final Airport airport) throws OperationNotAvailableException {
         Objects.requireNonNull(airport);
+        this.checkIfTrueAndThrow(!this.planeAction.equals(Action.TAKEOFF), "The plane is not supposed to take off.");
         this.checkIfTrueAndThrow(airport.getActiveRunways().isEmpty(), "No active runway found.");
         Runway activeRunway = airport.getActiveRunways().get().get(0);
+        Pair<RunwayEnd, RunwayEnd> ends = activeRunway.getRunwayEnds();
         RunwayEnd startRunwayEnd = activeRunway.getRunwayStatus().get();
-        // RunwayEnd targetRunwayEnd = activeRunway.
-        // DEVO IMPOSTARE LA DIREZIONE!!!
+        RunwayEnd targetRunwayEnd = ends.getX().getStatus() ? ends.getY() : ends.getX();
         this.setPosition(startRunwayEnd.getPosition());
+        this.setDirection(this.getPosition().computeDirectionToTargetPosition(targetRunwayEnd.getPosition()));
         this.setTargetSpeed(TAKEOFF_SPEED);
         this.setTargetAltitude(TAKEOFF_ALTITUDE);
     }

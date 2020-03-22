@@ -350,7 +350,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
         builder = builder.append("Direction -> ").append(this.direction).append("\n");
         builder = builder.append("Altitude -> ").append(this.altitude).append(" ft\n");
         builder = builder.append("Target speed -> ")
-                .append(this.targetSpeed == null ? "NONE" : this.targetSpeed + " knots").append("\n");
+                .append(this.targetSpeed == null ? "NONE" : this.targetSpeed.getAsKnots() + " knots").append("\n");
         builder = builder.append("Target direction -> ")
                 .append(this.targetDirection == null ? "NONE" : this.targetDirection).append("\n");
         builder = builder.append("Target altitude -> ")
