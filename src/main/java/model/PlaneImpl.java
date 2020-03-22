@@ -47,7 +47,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      * The specifics of an airplane.
      */
     private static final Direction DIRECTION_DELTA = new DirectionImpl(1.8);
-    private static final Speed SPEED_DELTA = new SpeedImpl(20.0);
+    private static final Speed SPEED_DELTA = new SpeedImpl(10.0);
     private static final double ALTITUDE_DELTA = 10;
 
     private final int planeId;
@@ -162,17 +162,18 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      * @return the closest runway end.
      */
     private Optional<RunwayEnd> getClosestRunway(final Airport airport) {
-        return airport.getActiveRunways().get().stream().filter(runway -> runway.getRunwayStatus().get().getPosition()
-                .distanceFrom(this.getPosition()) <= MAXIMUM_DISTANCE).filter(runway -> {
+        return airport.getActiveRunways().get().stream()
+                .filter(runway -> runway.getRunwayStatus().get().getPosition().distanceFrom(this.getPosition()) <= MAXIMUM_DISTANCE)
+                .filter(runway -> {
                     RunwayEnd active = runway.getRunwayStatus().get();
                     RunwayEnd inactive = runway.getRunwayEnds().getX().getStatus() ? runway.getRunwayEnds().getY()
                             : runway.getRunwayEnds().getX();
                     return active.getPosition().computeDirectionToTargetPosition(inactive.getPosition())
                             .compareTo(this.getDirection()) <= MAXIMUM_DIRECTION_DIFF;
                 })
-                .filter(runway -> this
-                        .directionDiffToRunwayEnd(runway.getRunwayStatus().get()) <= MAXIMUM_DIRECTION_DIFF)
-                .map(runway -> runway.getRunwayStatus().get()).sorted(this.sortByDistance).findFirst();
+                .filter(runway -> this.directionDiffToRunwayEnd(runway.getRunwayStatus().get()) <= MAXIMUM_DIRECTION_DIFF)
+                .map(runway -> runway.getRunwayStatus().get())
+                .sorted(this.sortByDistance).findFirst();
     }
 
     /**
