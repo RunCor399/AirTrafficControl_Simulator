@@ -6,7 +6,7 @@ import utilities.Pair;
 
 /**
  * 
- * An interface that models runway in airport. 
+ * An interface that models runway in airport.
  *
  */
 public interface Runway {
@@ -14,12 +14,12 @@ public interface Runway {
     /**
      * This method returns the Optional of the active runwayEnd.
      * 
-     * @return RunwayEnd 
+     * @return RunwayEnd
      */
     Optional<RunwayEnd> getRunwayStatus();
 
     /**
-     * This method returns the positions of the 2 ranwayEnds. 
+     * This method returns the positions of the 2 ranwayEnds.
      * 
      * @return Pair of 2 runwayEnds positions
      */
@@ -44,8 +44,15 @@ public interface Runway {
      * 
      * @param numRunwayEnd Number of runway
      * 
-     * @return boolean 
+     * @return boolean
      */
     boolean checkRunwayEnd(String numRunwayEnd);
+
+    /**
+     * Method that return a pair of runwayEnds.
+     * 
+     * @return pair of runwayEnds relative to a runway
+     */
+    Pair<RunwayEnd, RunwayEnd> getRunwayEnds();
 
 }
