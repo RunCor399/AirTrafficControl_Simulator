@@ -11,7 +11,7 @@ import view.sceneController.SceneController;
 public interface View {
 
     /**
-     * methods that changes the current scene.
+     * method that changes the current scene.
      * 
      * @param sceneContext
      */
