@@ -223,8 +223,6 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
-        result = prime * result + ((planeAction == null) ? 0 : planeAction.hashCode());
         result = prime * result + planeId;
         return result;
     }
@@ -244,17 +242,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
             return false;
         }
         PlaneImpl other = (PlaneImpl) obj;
-        if (companyName == null) {
-            if (other.getCompanyName() != null) {
-                return false;
-            }
-        } else if (!companyName.equals(other.getCompanyName())) {
-            return false;
-        }
-        if (planeAction != other.getPlaneAction()) {
-            return false;
-        }
-        if (planeId != other.getAirplaneId()) {
+        if (this.planeId != other.getAirplaneId()) {
             return false;
         }
         return true;
