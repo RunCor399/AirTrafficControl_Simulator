@@ -12,7 +12,7 @@ import model.Vor;
 public class ControllerImpl implements Controller {
 
     @Override
-    public void selectTargetPlane() {
+    public void selectTargetPlane(final int planeId) {
         // TODO Auto-generated method stub
 
     }

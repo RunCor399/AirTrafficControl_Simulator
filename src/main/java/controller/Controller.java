@@ -14,9 +14,9 @@ public interface Controller {
     /**
      * method that selects a plane as target.
      * 
-     * 
+     * @param planeId
      */
-    void selectTargetPlane(/* Plane targetPlane */);
+    void selectTargetPlane(int planeId);
 
     /**
      * method that sets a speed of an airplane.
