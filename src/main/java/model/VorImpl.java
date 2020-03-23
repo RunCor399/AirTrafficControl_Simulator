@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class VorImpl implements Vor {
     private final String vorId;
-    private final Position2D vorPosition;
+    private final RadarPosition vorPosition;
 
     /**
      * Constructor of a VOR.
@@ -18,7 +18,7 @@ public class VorImpl implements Vor {
      * 
      * @param vorPosition
      */
-    public VorImpl(final String vorId, final Position2D vorPosition) {
+    public VorImpl(final String vorId, final RadarPosition vorPosition) {
         Objects.requireNonNull(vorId);
         Objects.requireNonNull(vorPosition);
         this.vorId = vorId;
@@ -37,7 +37,7 @@ public class VorImpl implements Vor {
      * {@inheritDoc}
      */
     @Override
-    public Position2D getPosition() {
+    public RadarPosition getPosition() {
         return this.vorPosition;
     }
 
