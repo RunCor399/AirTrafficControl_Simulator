@@ -1,6 +1,7 @@
 package controller;
 
 import model.Direction;
+import model.Plane;
 import model.Speed;
 import model.Vor;
 
@@ -10,6 +11,11 @@ import model.Vor;
  *
  */
 public class ControllerImpl implements Controller {
+    private Plane currentSelectedPlane;
+
+    public ControllerImpl() {
+        this.currentSelectedPlane = null;
+    }
 
     @Override
     public void selectTargetPlane(final int planeId) {
