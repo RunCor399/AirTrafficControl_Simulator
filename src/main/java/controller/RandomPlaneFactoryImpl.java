@@ -19,7 +19,7 @@ import model.Plane.Action;
  * An implementation of a {@link RandomPlaneFactory}.
  *
  */
-public class RandomPlaneFactoryImpl {
+public class RandomPlaneFactoryImpl implements RandomPlaneFactory {
 
     private static final Speed STANDARD_SPEED = new SpeedImpl(200.0);
     private static final double STANDARD_ALTITUDE = 300;
@@ -44,12 +44,21 @@ public class RandomPlaneFactoryImpl {
         this.random = new Random();
     }
 
+    /**
+     * This private method creates a basic random plane.
+     * 
+     * @return
+     */
     private PlaneBuilder getStandardPlane() {
         int planeId = this.random.nextInt(MAX_VALUE);
         String companyName = this.companies.get(this.random.nextInt(this.companies.size() - 1));
         return new PlaneBuilderImpl(planeId, companyName);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Plane randomLandingPlane() {
         double xPosition = this.random.nextBoolean() ? -this.xBound : this.yBound;
         double yPosition = this.random.nextBoolean() ? -this.yBound : this.yBound;
@@ -63,6 +72,10 @@ public class RandomPlaneFactoryImpl {
         return builder.build();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Plane randomStillPlane(final RadarPosition planePosition) {
         PlaneBuilder builder = this.getStandardPlane();
         builder.planeAction(Action.TAKEOFF);

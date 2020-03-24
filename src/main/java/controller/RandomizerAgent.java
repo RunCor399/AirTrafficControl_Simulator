@@ -2,6 +2,8 @@ package controller;
 
 import java.util.Random;
 
+import model.RadarPositionImpl;
+
 /**
  * 
  * The purpose of this agent is to randomly generate a {@link Plane}, either on
@@ -23,6 +25,7 @@ public class RandomizerAgent extends Thread {
     private volatile int multiplier;
     private double actualWaitTime;
     private double timeWaited;
+    private final RandomPlaneFactory planeFactory;
 
     public RandomizerAgent() {
         this.random = new Random();
@@ -31,6 +34,7 @@ public class RandomizerAgent extends Thread {
         this.multiplier = INITIAL_MULTIPLIER;
         this.actualWaitTime = NO_VALUE;
         this.timeWaited = NO_VALUE;
+        this.planeFactory = new RandomPlaneFactoryImpl(RadarPositionImpl.X_BOUND, RadarPositionImpl.Y_BOUND);
         this.setDaemon(true);
     }
 
