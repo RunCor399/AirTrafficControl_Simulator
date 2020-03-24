@@ -2,25 +2,24 @@ package view.sceneController;
 
 public class MenuControllerImpl extends AbstractSceneController implements SceneController {
 
-
     /**
      * Method that switches into game Scenery.
      */
-    private void switchToGameScenery() {
-        //TODO
+    public void switchToGameScenery() {
+        this.getView().changeScene(this.getView().getSceneFactory().loadGame());
     }
 
     /**
      * Method that switches into tutorial Scenery.
      */
-    private void switchToTutorialScenery() {
-        //TODO
+    public void switchToTutorialScenery() {
+        this.getView().changeScene(this.getView().getSceneFactory().loadTutorial());
     }
 
     /**
      * Method that leaves the game.
      */
-    private void quitGame() {
-        //TODO
+    public void quitGame() {
+        System.exit(0);
     }
 }
