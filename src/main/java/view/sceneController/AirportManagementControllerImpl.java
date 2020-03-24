@@ -1,29 +1,25 @@
 package view.sceneController;
 
 import java.util.List;
-
 import utilities.Pair;
 
 public class AirportManagementControllerImpl extends AbstractSceneController implements SceneController {
 
-    private List<Pair<String, Boolean>> runwayEndList = null;
+    private List<Pair<String, Boolean>> runwayEndList;
 
     /**
      * Constructor of a AirportManagementController.
      */
     public AirportManagementControllerImpl() {
         super();
-        this.runwayEndList = this.getAllRunwayaEnds();
+        this.getAllRunwayaEnds();
     }
 
     /**
-     * Method that gets the List of runwayEnds and their status from controller.
-     * 
-     * @return List of runwayEnds and their status
+     * Method that refreshes the runwayEndList after a change in the airport.
      */
-    public List<Pair<String, Boolean>> getAllRunwayaEnds() {
+    public void getAllRunwayaEnds() {
         //TODO
-        return null;
     }
 
     /**
