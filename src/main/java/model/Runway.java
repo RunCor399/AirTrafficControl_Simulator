@@ -1,21 +1,25 @@
 package model;
 
+import java.util.Optional;
+
+import utilities.Pair;
+
 /**
  * 
- * An interface that models runway in airport. 
+ * An interface that models runway in airport.
  *
  */
 public interface Runway {
 
     /**
-     * This method returns the active runwayEnd.
+     * This method returns the Optional of the active runwayEnd.
      * 
-     * @return String of the number of RunwayEnd
+     * @return RunwayEnd
      */
-    String getRunwayStatus();
+    Optional<RunwayEnd> getRunwayStatus();
 
     /**
-     * This method returns the positions of the 2 ranwayEnds. 
+     * This method returns the positions of the 2 ranwayEnds.
      * 
      * @return Pair of 2 runwayEnds positions
      */
@@ -36,11 +40,19 @@ public interface Runway {
     void setActiveRunwayEnd(String numRunwayEnd);
 
     /**
-     * This method returns if a runwayEnd is active.
+     * This method checks if the runwayEnd exists in this runway.
      * 
-     * @param numRunwayEnd Number of the runwayEnd
+     * @param numRunwayEnd Number of runway
      * 
-     * @return Boolean Active or not active
+     * @return boolean
      */
-    boolean isRunwayEndActive(String numRunwayEnd);
+    boolean checkRunwayEnd(String numRunwayEnd);
+
+    /**
+     * Method that return a pair of runwayEnds.
+     * 
+     * @return pair of runwayEnds relative to a runway
+     */
+    Pair<RunwayEnd, RunwayEnd> getRunwayEnds();
+
 }

@@ -59,4 +59,26 @@ public class RadarPositionImpl implements RadarPosition {
         return ((Math.abs(position.getX()) <= X_BOUND) && (Math.abs(position.getY())) <= Y_BOUND);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Direction computeDirectionToTargetPosition(final RadarPosition targetPosition) {
+        final double xRelative = targetPosition.getPosition().getX() - this.elementPosition.getX();
+        final double yRelative = targetPosition.getPosition().getY() - this.elementPosition.getY();
+        double degrees = Math.toDegrees(Math.atan2(yRelative, xRelative));
+        degrees = degrees < 0 ? 360 + degrees : degrees;
+        return new DirectionImpl(degrees);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public double distanceFrom(final RadarPosition position) {
+        Position2D targetPosition = position.getPosition();
+        return Math.sqrt(Math.pow(targetPosition.getX() - this.elementPosition.getX(), 2)
+                + Math.pow(targetPosition.getY() - this.elementPosition.getY(), 2));
+    }
+
 }

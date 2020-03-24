@@ -1,14 +1,15 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class AbstractDynamicElement extends AbstractRadarElement
-        implements DynamicElement/* , Serializable */ {
+public abstract class AbstractDynamicElement extends AbstractRadarElement implements DynamicElement, Serializable {
 
+    private static final long serialVersionUID = 5949982404790725460L;
     private static final double NO_VALUE = -1;
     private static final double TIME_QUANTUM = 0.5;
-    private static final int SEC_TO_HOURS = 3600;
+    private static final double KMH_TO_MS = 3.6;
 
     private Speed speed;
     private double altitude;
@@ -113,6 +114,41 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
     }
 
     /**
+     * 
+     * Protected method to set the altitude internally.
+     * This method intent is to allow the subclasses to directly work with the element parameters.
+     * 
+     * @param altitude the altitude to set.
+     */
+    protected void setAltitude(final double altitude) {
+        this.altitude = altitude;
+    }
+
+    /**
+     * 
+     * Protected method to set the internally.
+     * This method intent is to allow the subclasses to directly work with the element parameters.
+     * 
+     * @param speed the speed to set.
+     */
+    protected void setSpeed(final Speed speed) {
+        Objects.requireNonNull(speed);
+        this.speed = speed;
+    }
+
+    /**
+     * 
+     * Protected method to set the direction internally.
+     * This method intent is to allow the subclasses to directly work with the element parameters.
+     * 
+     * @param direction the direction to set.
+     */
+    protected void setDirection(final Direction direction) {
+        Objects.requireNonNull(direction);
+        this.direction = direction;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -175,27 +211,12 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
     }
 
     /**
-     * 
-     * Method that returns the direction to follow in order to go towards the target
-     * position.
-     * 
-     * @return the direction to follow.
-     */
-    private Direction computeDirectionToTargetPosition() {
-        final double xRelative = this.targetPosition.getPosition().getX() - this.getPosition().getPosition().getX();
-        final double yRelative = this.targetPosition.getPosition().getY() - this.getPosition().getPosition().getY();
-        double degrees = Math.toDegrees(Math.atan2(yRelative, xRelative));
-        degrees = degrees < 0 ? 360 + degrees : degrees;
-        return new DirectionImpl(degrees);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public void computeNewPosition() {
         if (this.targetPosition != null) {
-            this.setOnlyTargetDirection(this.computeDirectionToTargetPosition());
+            this.setOnlyTargetDirection(this.getPosition().computeDirectionToTargetPosition(targetPosition));
             System.out.println("Target" + this.targetDirection.toString());
         }
         this.computeActualSpeed();
@@ -204,6 +225,8 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
         this.getPosition().sumPosition(this.getPositionDelta());
         /* DEBUG !!! */
         System.out.println(this);
+        System.out.println("Position -> x: " + this.getPosition().getPosition().getX());
+        System.out.println("y: " + this.getPosition().getPosition().getY());
     }
 
     /**
@@ -296,7 +319,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
 
     /**
      * 
-     * Method to get the altitude delta per second (expressed in meters per second).
+     * Method to get the altitude delta per second (expressed in feet per second).
      * 
      * @return the altitude delta per second.
      */
@@ -310,10 +333,10 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
      * @return the position delta in the specified time quantum.
      */
     private Position2D getPositionDelta() {
-        final double actualSpeed = this.speed.getAsKMH();
+        final double actualSpeed = this.speed.getAsKMH() / KMH_TO_MS;
         final double actualDirection = this.direction.getAsRadians();
-        double xMovement = (TIME_QUANTUM / SEC_TO_HOURS) * actualSpeed * Math.cos(actualDirection);
-        double yMovement = (TIME_QUANTUM / SEC_TO_HOURS) * actualSpeed * Math.sin(actualDirection);
+        double xMovement = TIME_QUANTUM * actualSpeed * Math.cos(actualDirection);
+        double yMovement = TIME_QUANTUM * actualSpeed * Math.sin(actualDirection);
         return new Position2DImpl(xMovement, yMovement);
     }
 
@@ -325,13 +348,13 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement
         StringBuilder builder = new StringBuilder();
         builder = builder.append("Speed -> ").append(this.speed.getAsKnots()).append(" knots\n");
         builder = builder.append("Direction -> ").append(this.direction).append("\n");
-        builder = builder.append("Altitude -> ").append(this.altitude).append(" m\n");
+        builder = builder.append("Altitude -> ").append(this.altitude).append(" ft\n");
         builder = builder.append("Target speed -> ")
-                .append(this.targetSpeed == null ? "NONE" : this.targetSpeed + " knots").append("\n");
+                .append(this.targetSpeed == null ? "NONE" : this.targetSpeed.getAsKnots() + " knots").append("\n");
         builder = builder.append("Target direction -> ")
                 .append(this.targetDirection == null ? "NONE" : this.targetDirection).append("\n");
         builder = builder.append("Target altitude -> ")
-                .append(this.targetAltitude == NO_VALUE ? "NONE" : this.targetAltitude + " m").append("\n");
+                .append(this.targetAltitude == NO_VALUE ? "NONE" : this.targetAltitude + " ft").append("\n");
         return builder.toString();
 
     }
