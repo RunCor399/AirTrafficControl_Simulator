@@ -4,12 +4,35 @@ import java.util.Objects;
 
 import controller.Controller;
 import controller.ControllerImpl;
+import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.Spinner;
 import model.Direction;
 import model.Speed;
 import model.Vor;
 
 public class MovementControllerImpl extends AbstractSceneController implements SceneController {
     private final Controller controller = new ControllerImpl();
+
+    @FXML
+    private Slider speedSlider;
+
+    @FXML
+    private Slider altitudeSlider;
+
+    @FXML
+    private Label speedLabel;
+
+    @FXML
+    private Label altitudeLabel;
+
+    @FXML
+    private ChoiceBox<String> vorChoiceBox;
+
+    @FXML
+    private Spinner<Double> directionSpinner;
 
     /**
      * method that decides which plane is to be set as current.
@@ -54,6 +77,7 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     /**
      * method that makes a plane takeoff from the airport.
      */
+    @FXML
     public void executeTakeoff() {
         this.controller.takeOff();
     }
@@ -61,6 +85,7 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     /**
      * method that makes a plane land in a specific runway of the airport.
      */
+    @FXML
     public void executeLanding() {
         this.controller.land();
     }
@@ -73,5 +98,10 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     public void headToVor(final Vor targetVor) {
         Objects.requireNonNull(targetVor);
         this.controller.goToVor(targetVor);
+    }
+
+    @FXML
+    public void getSpeedValue() {
+
     }
 }
