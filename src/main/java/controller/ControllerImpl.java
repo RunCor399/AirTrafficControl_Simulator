@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.List;
 import java.util.Objects;
 
 import model.Direction;
@@ -9,6 +10,7 @@ import model.Plane;
 import model.Speed;
 import model.Vor;
 import model.exceptions.OperationNotAvailableException;
+import utilities.Pair;
 
 /**
  * 
@@ -95,4 +97,20 @@ public class ControllerImpl implements Controller {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Pair<String, Boolean>> getListRunwayEnds() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void changeRunwayEnd() {
+        // TODO Auto-generated method stub
+    }
 }
