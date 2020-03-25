@@ -22,7 +22,7 @@ import model.Plane.Action;
 public class RandomPlaneFactoryImpl implements RandomPlaneFactory {
 
     private static final Speed STANDARD_SPEED = new SpeedImpl(200.0);
-    private static final double STANDARD_ALTITUDE = 300;
+    private static final double STANDARD_ALTITUDE = 3000;
     private static final RadarPosition CENTER = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
     private static final int MAX_VALUE = 999;
     private final List<String> companies = List.of("ALI", "AAL", "ACA", "AZA", "AFR", "ACI", "BAW", "COA", "DAL", "MSR",
