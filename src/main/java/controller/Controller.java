@@ -70,6 +70,8 @@ public interface Controller {
 
     /**
      * Method that change the status of a runwayEnd.
+     * 
+     * @param runwayEnd to change
      */
-    void changeRunwayEnd();
+    void changeStatusRunwayEnd(String runwayEnd);
 }

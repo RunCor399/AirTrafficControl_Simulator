@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -7,6 +8,7 @@ import model.Direction;
 import model.Model;
 import model.ModelImpl;
 import model.Plane;
+import model.Runway;
 import model.Speed;
 import model.Vor;
 import model.exceptions.OperationNotAvailableException;
@@ -102,15 +104,20 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public List<Pair<String, Boolean>> getListRunwayEnds() {
-        // TODO Auto-generated method stub
-        return null;
+        List<Pair<String, Boolean>> list = new LinkedList<>();
+        Objects.requireNonNull(this.model.getAirport().getRunways().get());
+        for (Runway r : this.model.getAirport().getRunways().get()) {
+            list.add(new Pair<>(r.getRunwayEnds().getX().toString(), r.getRunwayEnds().getX().getStatus()));
+            list.add(new Pair<>(r.getRunwayEnds().getY().toString(), r.getRunwayEnds().getY().getStatus()));
+        }
+        return list;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void changeRunwayEnd() {
-        // TODO Auto-generated method stub
+    public void changeStatusRunwayEnd(final String runwayEnd) {
+        this.model.getAirport().setActiveRunways(runwayEnd);
     }
 }
