@@ -17,6 +17,6 @@ public interface Vor {
      * 
      * @return the position of a VOR
      */
-    Position2D getPosition();
+    RadarPosition getPosition();
 
 }
