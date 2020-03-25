@@ -26,7 +26,7 @@ public class RandomPlaneFactoryImpl implements RandomPlaneFactory {
     private static final RadarPosition CENTER = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
     private static final int MAX_VALUE = 999;
     private final List<String> companies = List.of("ALI", "AAL", "ACA", "AZA", "AFR", "ACI", "BAW", "COA", "DAL", "MSR",
-            "UAE", "FDX", "IRA");
+            "UAE", "FDX", "IRA", "NWA", "PAL", "QFA", "SQC");
 
     private final double xBound;
     private final double yBound;
