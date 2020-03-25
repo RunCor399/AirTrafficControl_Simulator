@@ -3,8 +3,14 @@ package model;
 import java.util.Objects;
 
 public class RadarPositionImpl implements RadarPosition {
-    private static final Double X_BOUND = 30000.0;
-    private static final Double Y_BOUND = 20000.0;
+    /**
+     * The X coordinate bound.
+     */
+    public static final Double X_BOUND = 30000.0;
+    /**
+     * The Y coordinate bound.
+     */
+    public static final Double Y_BOUND = 20000.0;
     private Position2D elementPosition;
 
     /**
