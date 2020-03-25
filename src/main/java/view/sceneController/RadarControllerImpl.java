@@ -1,5 +1,7 @@
 package view.sceneController;
 
+import java.util.Set;
+
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,10 +10,16 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import model.Airport;
+import model.Plane;
+import model.Position2D;
 import model.Vor;
 
 public class RadarControllerImpl extends AbstractSceneController {
+
+    private static final int TEXT_DIMENSION = 30;
+    private static final int VOR_DIM = 15;
 
     private double xRatio;
     private double yRatio;
@@ -96,12 +104,18 @@ public class RadarControllerImpl extends AbstractSceneController {
      * @param airport the airport to draw.
      */
     private void drawAirport(final Airport airport) {
+        this.airportContext.setStroke(Color.WHITE);
+        this.airportContext.setFill(Color.WHITE);
         for (Vor vor : airport.getVorList().get()) {
-
+            Position2D position = vor.getPosition().getPosition();
+            double xPos = this.computeX(position.getX());
+            double yPos = this.computeY(position.getY());
+            this.airportContext.strokeOval(xPos, yPos, VOR_DIM, VOR_DIM);
+            this.airportContext.fillText(vor.getId(), xPos, yPos, TEXT_DIMENSION);
         }
     }
 
-    public void drawPlanes(/* final List<Plane> planes */) {
+    public void drawPlanes(final Set<Plane> planes) {
         this.radarContext.restore();
     }
 
