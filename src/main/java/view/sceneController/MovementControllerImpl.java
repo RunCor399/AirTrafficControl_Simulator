@@ -75,6 +75,13 @@ public class MovementControllerImpl extends AbstractSceneController implements S
             }
         });
 
+        this.vorChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(final ObservableValue<? extends Number> observable, final Number oldValue, final Number newValue) {
+                headToVor(vorChoiceBox.getItems().get((Integer) newValue));
+            }
+        });
+
         this.initializeVorList();
         this.speedLabel.setText("210");
         this.altitudeLabel.setText("7000");
@@ -138,11 +145,11 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     /**
      * method that passes to controller the vor to which the plane will be directed.
      * 
-     * @param targetVor
+     * @param vorId
      */
-    private void headToVor(final Vor targetVor) {
-        Objects.requireNonNull(targetVor);
-        this.getController().goToVor(targetVor);
+    private void headToVor(final String vorId) {
+        Objects.requireNonNull(vorId);
+        this.getController().goToVor(vorId);
     }
 
     /**
