@@ -60,7 +60,7 @@ public class RandomPlaneFactoryImpl implements RandomPlaneFactory {
      */
     @Override
     public Plane randomLandingPlane() {
-        double xPosition = this.random.nextBoolean() ? -this.xBound : this.yBound;
+        double xPosition = this.random.nextBoolean() ? -this.xBound : this.xBound;
         double yPosition = this.random.nextBoolean() ? -this.yBound : this.yBound;
         RadarPosition planePosition = new RadarPositionImpl(new Position2DImpl(xPosition, yPosition));
         PlaneBuilder builder = this.getStandardPlane();
