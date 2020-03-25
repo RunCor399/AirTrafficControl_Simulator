@@ -1,9 +1,10 @@
 package view.sceneController;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
-import controller.Controller;
-import controller.ControllerImpl;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -13,10 +14,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import model.Direction;
+import model.DirectionImpl;
 import model.Speed;
+import model.SpeedImpl;
 import model.Vor;
 
 public class MovementControllerImpl extends AbstractSceneController implements SceneController {
+    private List<Vor> vorList = new LinkedList<>();
+
     @FXML
     private Slider speedSlider;
 
@@ -48,7 +53,7 @@ public class MovementControllerImpl extends AbstractSceneController implements S
             @Override
             public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
                     final Number newValue) {
-                System.out.println(newValue);
+                setCurrentHeading(new DirectionImpl(newValue.doubleValue()));
             }
         });
 
@@ -57,6 +62,7 @@ public class MovementControllerImpl extends AbstractSceneController implements S
             public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
                     final Number newValue) {
                 speedLabel.textProperty().setValue(String.valueOf(newValue.intValue()));
+                setCurrentSpeed(new SpeedImpl((double) newValue.intValue()));
             }
         });
 
@@ -65,23 +71,38 @@ public class MovementControllerImpl extends AbstractSceneController implements S
             public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
                     final Number newValue) {
                 altitudeLabel.textProperty().setValue(String.valueOf(newValue.intValue()));
+                setCurrentAltitude((double) newValue.intValue());
             }
         });
 
+        this.initializeVorList();
         this.speedLabel.setText("210");
         this.altitudeLabel.setText("7000");
     }
 
-    private final Controller controller = new ControllerImpl();
+    /**
+     * method that initializes vor's choice box with all the vor's of an airport.
+     */
+    private void initializeVorList() {
+        Optional<List<Vor>> vorListOpt = getController().getActualAirport().getVorList();
+        if (vorListOpt.isPresent()) {
+            this.vorList = vorListOpt.get();
+        }
+
+        for (Vor elem : this.vorList) {
+            this.vorChoiceBox.getItems().add(elem.getId());
+        }
+    }
 
     /**
-     * method that decides which plane is to be set as current.
+     * method that passes planeId of the plane to be selected.
      * 
      * @param planeId
      */
+    @FXML
     public void setTargetAirplane(final int planeId) {
         Objects.requireNonNull(planeId);
-        this.controller.selectTargetPlane(planeId);
+        this.getController().selectTargetPlane(planeId);
     }
 
     /**
@@ -89,9 +110,9 @@ public class MovementControllerImpl extends AbstractSceneController implements S
      * 
      * @param targetSpeed
      */
-    public void setCurrentSpeed(final Speed targetSpeed) {
+    private void setCurrentSpeed(final Speed targetSpeed) {
         Objects.requireNonNull(targetSpeed);
-        this.controller.setPlaneSpeed(targetSpeed);
+        this.getController().setPlaneSpeed(targetSpeed);
     }
 
     /**
@@ -99,9 +120,9 @@ public class MovementControllerImpl extends AbstractSceneController implements S
      * 
      * @param targetDirection
      */
-    public void setCurrentHeading(final Direction targetDirection) {
+    private void setCurrentHeading(final Direction targetDirection) {
         Objects.requireNonNull(targetDirection);
-        this.controller.setPlaneHeading(targetDirection);
+        this.getController().setPlaneHeading(targetDirection);
     }
 
     /**
@@ -109,19 +130,19 @@ public class MovementControllerImpl extends AbstractSceneController implements S
      * 
      * @param targetAltitude
      */
-    public void setCurrentAltitude(final double targetAltitude) {
+    private void setCurrentAltitude(final double targetAltitude) {
         Objects.requireNonNull(targetAltitude);
-        this.controller.setPlaneAltitude(targetAltitude);
+        this.getController().setPlaneAltitude(targetAltitude);
     }
 
     /**
-     * method that directs a plane to a specific vor.
+     * method that passes to controller the vor to which the plane will be directed.
      * 
      * @param targetVor
      */
-    public void headToVor(final Vor targetVor) {
+    private void headToVor(final Vor targetVor) {
         Objects.requireNonNull(targetVor);
-        this.controller.goToVor(targetVor);
+        this.getController().goToVor(targetVor);
     }
 
     /**
@@ -129,7 +150,7 @@ public class MovementControllerImpl extends AbstractSceneController implements S
      */
     @FXML
     public void takeoffPressed() {
-        this.controller.takeOff();
+        this.getController().takeOff();
     }
 
     /**
@@ -137,7 +158,7 @@ public class MovementControllerImpl extends AbstractSceneController implements S
      */
     @FXML
     public void landPressed() {
-        this.controller.land();
+        this.getController().land();
     }
 
 }

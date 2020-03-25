@@ -1,5 +1,6 @@
 package controller;
 
+import model.Airport;
 import model.Direction;
 import model.Speed;
 import model.Vor;
@@ -57,4 +58,11 @@ public interface Controller {
      * method that allows the selected plane to land.
      */
     void land();
+    
+    /**
+     * method that returns current airport.
+     * 
+     * @return current airport
+     */
+    Airport getActualAirport();
 }

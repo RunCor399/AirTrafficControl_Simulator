@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Objects;
 
+import model.Airport;
 import model.Direction;
 import model.Model;
 import model.ModelImpl;
@@ -93,6 +94,14 @@ public class ControllerImpl implements Controller {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Airport getActualAirport() {
+        return this.model.getAirport();
     }
 
 }
