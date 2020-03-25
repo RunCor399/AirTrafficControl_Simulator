@@ -60,7 +60,6 @@ public class RandomizerAgent extends Thread {
                     this.computeNewWaitTime();
                     this.createNewPlane();
                 }
-                System.out.println(this.timeWaited);
             } catch (InterruptedException e) {
             }
 
@@ -73,7 +72,6 @@ public class RandomizerAgent extends Thread {
      */
     private void computeNewWaitTime() {
         this.actualWaitTime = this.random.nextInt(MAX_WAIT - MIN_WAIT) + MIN_WAIT;
-        System.out.println(this.actualWaitTime);
         this.timeWaited = 0;
     }
 
@@ -84,10 +82,11 @@ public class RandomizerAgent extends Thread {
         Plane newPlane = this.random.nextBoolean() ? this.planeFactory.randomLandingPlane()
                 : this.planeFactory.randomStillPlane(this.model.getAirport().getParkingPosition());
         this.model.addPlane(newPlane);
-        System.out.println(newPlane);
-        System.out.println("Position -> x: " + newPlane.getPosition().getPosition().getX());
-        System.out.println("y: " + newPlane.getPosition().getPosition().getY());
-        System.out.println(this.model.getAllPlanes().size());
+//DEBUG CODE
+//        System.out.println(newPlane);
+//        System.out.println("Position -> x: " + newPlane.getPosition().getPosition().getX());
+//        System.out.println("y: " + newPlane.getPosition().getPosition().getY());
+//        System.out.println(this.model.getAllPlanes().size());
     }
 
     /**
