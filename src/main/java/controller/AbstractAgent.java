@@ -2,7 +2,7 @@ package controller;
 
 import model.Model;
 
-public abstract class AbstractAgent extends Thread{
+public abstract class AbstractAgent extends Thread {
 
     private static final long DELTA_TIME = 500;
     private static final int INITIAL_MULTIPLIER = 1;
@@ -37,5 +37,23 @@ public abstract class AbstractAgent extends Thread{
     public void stopThread() {
         this.stop = true;
         interrupt();
+    }
+
+    /**
+     * method that pauses the thread.
+     */
+    public void pauseThread() {
+        this.pause = true;
+        interrupt();
+    }
+
+    /**
+     * method that resume's a paused thread.
+     */
+    public synchronized void resumeThread() {
+        if (this.pause) {
+            this.pause = false;
+            this.notify();
+        }
     }
 }
