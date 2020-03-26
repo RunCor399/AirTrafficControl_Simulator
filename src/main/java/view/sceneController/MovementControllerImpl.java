@@ -78,7 +78,9 @@ public class MovementControllerImpl extends AbstractSceneController implements S
         this.vorChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(final ObservableValue<? extends Number> observable, final Number oldValue, final Number newValue) {
-                headToVor(vorChoiceBox.getItems().get((Integer) newValue));
+                if (!vorChoiceBox.getItems().get((int) newValue).equals("none")) {
+                    headToVor(vorChoiceBox.getItems().get((Integer) newValue));
+                }
             }
         });
 
@@ -95,6 +97,7 @@ public class MovementControllerImpl extends AbstractSceneController implements S
         if (vorListOpt.isPresent()) {
             this.vorList = vorListOpt.get();
         }
+        this.vorChoiceBox.getItems().add("none");
 
         for (Vor elem : this.vorList) {
             this.vorChoiceBox.getItems().add(elem.getId());
