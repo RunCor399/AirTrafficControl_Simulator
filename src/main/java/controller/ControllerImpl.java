@@ -20,10 +20,12 @@ import model.exceptions.OperationNotAvailableException;
 public class ControllerImpl implements Controller {
     private Model model;
     private Plane currentSelectedPlane;
+    private RandomizerAgent planeRandomizer;
 
     public ControllerImpl() {
         this.model = new ModelImpl();
         this.currentSelectedPlane = null;
+        this.planeRandomizer = new RandomizerAgent(this.model);
     }
 
     /**
@@ -108,6 +110,42 @@ public class ControllerImpl implements Controller {
     @Override
     public Airport getActualAirport() {
         return this.model.getAirport();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void stopThreads() {
+        this.planeRandomizer.stopThread();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void pauseThreads() {
+        this.planeRandomizer.pauseThread();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSimulationRate(final int rate) {
+        this.planeRandomizer.setMultiplier(rate);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void startThreads() {
+        if (this.planeRandomizer.isAlive()) {
+            this.planeRandomizer.resumeThread();
+        } else {
+            this.planeRandomizer.start();
+        }
     }
 
 }
