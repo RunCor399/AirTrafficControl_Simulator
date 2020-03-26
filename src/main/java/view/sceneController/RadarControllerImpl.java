@@ -14,15 +14,23 @@ import javafx.scene.paint.Color;
 import model.Airport;
 import model.Plane;
 import model.Position2D;
+import model.RadarPosition;
 import model.Vor;
+import model.Direction;
+import model.DirectionImpl;
+import utilities.Pair;
 
 public class RadarControllerImpl extends AbstractSceneController {
 
     private static final int TEXT_DIMENSION = 30;
     private static final int VOR_DIM = 15;
+    private static final Direction INVERTED_ANGLE = new DirectionImpl(180);
+    private static final double EXTENSION_VALUE = 2000;
+    private static final double DASHES_VALUE = 8;
 
     private double xRatio;
     private double yRatio;
+    private Airport actualAirport;
 
     @FXML
     private Slider timeWarpSlider;
@@ -44,7 +52,7 @@ public class RadarControllerImpl extends AbstractSceneController {
             int oldIntValue = oldValue.intValue();
             int newIntValue = newValue.intValue();
             if (oldIntValue != newIntValue) {
-                this.setTimeWarpValue(newValue.intValue());
+                getController().setSimulationRate(newIntValue);
             }
         });
         ChangeListener<? super Number> resizeListener = (obs, oldVal, newVal) -> this.loadRadar();
@@ -52,15 +60,21 @@ public class RadarControllerImpl extends AbstractSceneController {
         this.radarPane.heightProperty().addListener(resizeListener);
         this.radarContext = this.radarCanvas.getGraphicsContext2D();
         this.airportContext = this.airportCanvas.getGraphicsContext2D();
+        this.actualAirport = this.getController().getActualAirport();
     }
 
-    public void loadRadar() {
+    /**
+     * Method that draws both the airport elements and the actual planes in the
+     * radar with the actual dimension.
+     */
+    private void loadRadar() {
         double parentWidth = this.radarPane.getWidth();
         double parentHeight = this.radarPane.getHeight();
         this.radarCanvas.setWidth(parentWidth);
         this.radarCanvas.setHeight(parentHeight);
         this.airportCanvas.setWidth(parentWidth);
         this.airportCanvas.setHeight(parentHeight);
+        this.drawAirport(this.actualAirport);
     }
 
     /**
@@ -113,37 +127,54 @@ public class RadarControllerImpl extends AbstractSceneController {
             this.airportContext.strokeOval(xPos, yPos, VOR_DIM, VOR_DIM);
             this.airportContext.fillText(vor.getId(), xPos, yPos, TEXT_DIMENSION);
         }
+        this.airportContext.setStroke(Color.FORESTGREEN);
+        for (model.Runway runway : airport.getRunways().get()) {
+            Pair<RadarPosition, RadarPosition> ends = runway.getPosition();
+            Position2D first = ends.getX().getPosition();
+            Position2D second = ends.getY().getPosition();
+            this.drawRunwayExtension(ends);
+            this.airportContext.strokeLine(this.computeX(first.getX()), this.computeY(first.getY()),
+                    this.computeX(second.getX()), this.computeY(second.getY()));
+        }
+    }
+
+    private void drawRunwayExtension(final Pair<RadarPosition, RadarPosition> ends) {
+        Direction extensionDir = ends.getX().computeDirectionToTargetPosition(ends.getY());
+        double xExt1 = this
+                .computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getX());
+        double yExt1 = this
+                .computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getY());
+        extensionDir.sum(INVERTED_ANGLE);
+        double xExt2 = this
+                .computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getX());
+        double yExt2 = this
+                .computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getY());
+        this.airportContext.setLineDashes(DASHES_VALUE);
+        this.airportContext.strokeLine(xExt1, yExt1, xExt2, yExt2);
+        this.airportContext.setLineDashes(0);
     }
 
     public void drawPlanes(final Set<Plane> planes) {
-        this.radarContext.restore();
-    }
-
-    private void setTimeWarpValue(final int value) {
-        // calls the controller to set the value.
-    }
-
-    private void pauseTimeThread() {
         // TODO
     }
 
     @FXML
     protected void goToMenu(final ActionEvent e) {
-        // pause the time warp, change scene
-        this.pauseTimeThread();
+        this.getController().pauseThreads();
+        this.getView().changeScene(this.getView().getSceneFactory().loadMenu());
     }
 
     @FXML
     protected void pauseTimeWarp(final ActionEvent e) {
         this.btnResume.setDisable(false);
         this.btnPause.setDisable(true);
-        this.pauseTimeThread();
+        this.getController().pauseThreads();
     }
 
     @FXML
     protected void resumeTimeWarp(final ActionEvent e) {
         this.btnResume.setDisable(true);
         this.btnPause.setDisable(false);
-        // pause the time warp
+        this.getController().startThreads();
     }
 }
