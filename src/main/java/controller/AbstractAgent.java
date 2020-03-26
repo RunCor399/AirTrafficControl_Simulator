@@ -4,7 +4,10 @@ import model.Model;
 
 public abstract class AbstractAgent extends Thread {
 
-    private static final long DELTA_TIME = 500;
+    /**
+     * delta time used in thread's sleep.
+     */
+    protected static final long DELTA_TIME = 500;
     private static final int INITIAL_MULTIPLIER = 1;
 
     private final Model model;
@@ -17,6 +20,42 @@ public abstract class AbstractAgent extends Thread {
         this.stop = false;
         this.pause = false;
         this.multiplier = INITIAL_MULTIPLIER;
+    }
+
+    /**
+     * method that return the model instance.
+     * 
+     * @return model to which apply operations
+     */
+    public Model getModel() {
+        return this.model;
+    }
+
+    /**
+     * method to check whether a thread is running or not.
+     * 
+     * @return true if thread has been stopped, false otherwise
+     */
+    public boolean isStopped() {
+        return this.stop;
+    }
+
+    /**
+     * method to check whether a thread is paused or running.
+     * 
+     * @return true if thread is paused, false otherwise
+     */
+    public boolean isPaused() {
+        return this.pause;
+    }
+
+    /**
+     * method that gets the current time multiplier.
+     * 
+     * @return value of time multiplier
+     */
+    public int getMultiplier() {
+        return this.multiplier;
     }
 
     /**
