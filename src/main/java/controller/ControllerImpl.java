@@ -1,7 +1,9 @@
 package controller;
 
 import java.util.Objects;
+import java.util.Optional;
 
+import model.Airport;
 import model.Direction;
 import model.Model;
 import model.ModelImpl;
@@ -66,9 +68,14 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void goToVor(final Vor targetVor) {
-        Objects.requireNonNull(targetVor);
-        this.currentSelectedPlane.setTargetPosition(targetVor.getPosition());
+    public void goToVor(final String vorId) {
+        Objects.requireNonNull(vorId);
+        Optional<Vor> vor = this.getActualAirport().getVorById(vorId);
+        if (vor.isEmpty()) {
+            throw new IllegalStateException();
+        }
+
+        this.currentSelectedPlane.setTargetPosition(vor.get().getPosition());
     }
 
     /**
@@ -95,6 +102,14 @@ public class ControllerImpl implements Controller {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Airport getActualAirport() {
+        return this.model.getAirport();
     }
 
     /**
