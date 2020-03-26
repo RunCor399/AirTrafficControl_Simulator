@@ -31,6 +31,7 @@ public class MovementAgent extends Thread {
                         this.wait();
                     }
                 }
+                //compute wait time
               sleep(DELTA_UPDATE);
             } catch (InterruptedException exception) {
             }
