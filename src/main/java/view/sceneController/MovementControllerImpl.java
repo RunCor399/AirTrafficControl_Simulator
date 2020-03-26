@@ -1,6 +1,5 @@
 package view.sceneController;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,7 +19,6 @@ import model.SpeedImpl;
 import model.Vor;
 
 public class MovementControllerImpl extends AbstractSceneController implements SceneController {
-    private List<Vor> vorList = new LinkedList<>();
 
     @FXML
     private Slider speedSlider;
@@ -77,7 +75,8 @@ public class MovementControllerImpl extends AbstractSceneController implements S
 
         this.vorChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void changed(final ObservableValue<? extends Number> observable, final Number oldValue, final Number newValue) {
+            public void changed(final ObservableValue<? extends Number> observable, final Number oldValue,
+                    final Number newValue) {
                 if (!vorChoiceBox.getItems().get((int) newValue).equals("none")) {
                     headToVor(vorChoiceBox.getItems().get((Integer) newValue));
                 }
@@ -94,13 +93,12 @@ public class MovementControllerImpl extends AbstractSceneController implements S
      */
     private void initializeVorList() {
         Optional<List<Vor>> vorListOpt = getController().getActualAirport().getVorList();
-        if (vorListOpt.isPresent()) {
-            this.vorList = vorListOpt.get();
-        }
         this.vorChoiceBox.getItems().add("none");
 
-        for (Vor elem : this.vorList) {
-            this.vorChoiceBox.getItems().add(elem.getId());
+        if (vorListOpt.isPresent()) {
+            for (Vor elem : vorListOpt.get()) {
+                this.vorChoiceBox.getItems().add(elem.getId());
+            }
         }
     }
 
