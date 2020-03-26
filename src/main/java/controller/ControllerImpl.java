@@ -3,7 +3,9 @@ package controller;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
+import model.Airport;
 import model.Direction;
 import model.Model;
 import model.ModelImpl;
@@ -22,10 +24,12 @@ import utilities.Pair;
 public class ControllerImpl implements Controller {
     private Model model;
     private Plane currentSelectedPlane;
+    private RandomizerAgent planeRandomizer;
 
     public ControllerImpl() {
         this.model = new ModelImpl();
         this.currentSelectedPlane = null;
+        this.planeRandomizer = new RandomizerAgent(this.model);
     }
 
     /**
@@ -68,9 +72,14 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void goToVor(final Vor targetVor) {
-        Objects.requireNonNull(targetVor);
-        this.currentSelectedPlane.setTargetPosition(targetVor.getPosition());
+    public void goToVor(final String vorId) {
+        Objects.requireNonNull(vorId);
+        Optional<Vor> vor = this.getActualAirport().getVorById(vorId);
+        if (vor.isEmpty()) {
+            throw new IllegalStateException();
+        }
+
+        this.currentSelectedPlane.setTargetPosition(vor.get().getPosition());
     }
 
     /**
@@ -116,8 +125,52 @@ public class ControllerImpl implements Controller {
     /**
      * {@inheritDoc}
      */
+    public Airport getActualAirport() {
+        return this.model.getAirport();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
+
     public void changeStatusRunwayEnd(final String runwayEnd) {
         this.model.getAirport().setActiveRunways(runwayEnd);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void stopThreads() {
+        this.planeRandomizer.stopThread();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void pauseThreads() {
+        this.planeRandomizer.pauseThread();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSimulationRate(final int rate) {
+        this.planeRandomizer.setMultiplier(rate);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void startThreads() {
+        if (this.planeRandomizer.isAlive()) {
+            this.planeRandomizer.resumeThread();
+        } else {
+            this.planeRandomizer.start();
+        }
+    }
+
 }
