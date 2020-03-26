@@ -2,6 +2,7 @@ package view.sceneController;
 
 import java.util.Set;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +32,7 @@ public class RadarControllerImpl extends AbstractSceneController {
     private double xRatio;
     private double yRatio;
     private Airport actualAirport;
+    private Set<Plane> cachedPlanes;
 
     @FXML
     private Slider timeWarpSlider;
@@ -74,7 +76,9 @@ public class RadarControllerImpl extends AbstractSceneController {
         this.radarCanvas.setHeight(parentHeight);
         this.airportCanvas.setWidth(parentWidth);
         this.airportCanvas.setHeight(parentHeight);
+        this.computeRatios();
         this.drawAirport(this.actualAirport);
+        this.drawPlanes();
     }
 
     /**
@@ -113,11 +117,19 @@ public class RadarControllerImpl extends AbstractSceneController {
     }
 
     /**
+     * Removes all the drawings related to the airport.
+     */
+    private void clearAirport() {
+        this.airportContext.clearRect(0, 0, this.airportCanvas.getWidth(), this.airportCanvas.getHeight());
+    }
+
+    /**
      * Method that draws the VORs and the Runways of the airplane.
      * 
      * @param airport the airport to draw.
      */
     private void drawAirport(final Airport airport) {
+        this.clearAirport();
         this.airportContext.setStroke(Color.WHITE);
         this.airportContext.setFill(Color.WHITE);
         for (Vor vor : airport.getVorList().get()) {
@@ -154,8 +166,22 @@ public class RadarControllerImpl extends AbstractSceneController {
         this.airportContext.setLineDashes(0);
     }
 
-    public void drawPlanes(final Set<Plane> planes) {
-        // TODO
+    public void updatePlanes(final Set<Plane> planes) {
+        Platform.runLater(() -> {
+            this.cachedPlanes = planes;
+            this.drawPlanes();
+        });
+    }
+
+    /**
+     * Method that draws all the cached planes.
+     */
+    private void drawPlanes() {
+        this.clearRadar();
+        this.radarContext.setStroke(Color.ORANGE);
+        for (Plane plane : this.cachedPlanes) {
+            Position2D planePosition = plane.getPosition().getPosition();
+        }
     }
 
     @FXML
