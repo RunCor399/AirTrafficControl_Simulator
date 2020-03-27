@@ -2,6 +2,10 @@ package model;
 
 import java.util.Objects;
 
+/**
+ * An implementation of {@link RadarPosition}.
+ * 
+ */
 public class RadarPositionImpl implements RadarPosition {
     /**
      * The X coordinate bound.
