@@ -11,6 +11,7 @@ import model.Plane;
 import model.Speed;
 import model.Vor;
 import model.exceptions.OperationNotAvailableException;
+import view.View;
 
 /**
  * 
@@ -19,13 +20,17 @@ import model.exceptions.OperationNotAvailableException;
  */
 public class ControllerImpl implements Controller {
     private Model model;
+    private View view;
     private Plane currentSelectedPlane;
     private RandomizerAgent planeRandomizer;
+    private MovementAgent movementAgent;
 
-    public ControllerImpl() {
+    public ControllerImpl(final View view) {
         this.model = new ModelImpl();
+        this.view = view;
         this.currentSelectedPlane = null;
         this.planeRandomizer = new RandomizerAgent(this.model);
+        this.movementAgent = new MovementAgent(this.model, this.view);
     }
 
     /**
@@ -118,6 +123,7 @@ public class ControllerImpl implements Controller {
     @Override
     public void stopThreads() {
         this.planeRandomizer.stopThread();
+        this.movementAgent.stopThread();
     }
 
     /**
@@ -126,6 +132,7 @@ public class ControllerImpl implements Controller {
     @Override
     public void pauseThreads() {
         this.planeRandomizer.pauseThread();
+        this.movementAgent.pauseThread();
     }
 
     /**
@@ -134,6 +141,7 @@ public class ControllerImpl implements Controller {
     @Override
     public void setSimulationRate(final int rate) {
         this.planeRandomizer.setMultiplier(rate);
+        this.movementAgent.setMultiplier(rate);
     }
 
     /**
@@ -145,6 +153,12 @@ public class ControllerImpl implements Controller {
             this.planeRandomizer.resumeThread();
         } else {
             this.planeRandomizer.start();
+        }
+
+        if (this.movementAgent.isAlive()) {
+            this.movementAgent.resumeThread();
+        } else {
+            this.movementAgent.resumeThread();
         }
     }
 

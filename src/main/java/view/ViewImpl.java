@@ -25,7 +25,7 @@ public class ViewImpl extends Application implements View {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        this.controller = new ControllerImpl();
+        this.controller = new ControllerImpl(this);
         this.sceneFactory = new SceneFactoryImpl(controller, this);
 
         this.changeScene(sceneFactory.loadMenu());
@@ -62,7 +62,6 @@ public class ViewImpl extends Application implements View {
 
     @Override
     public void radarUpdate(final Set<Plane> planes) {
-        // TODO Auto-generated method stub
-
+        //TODO
     }
 }
