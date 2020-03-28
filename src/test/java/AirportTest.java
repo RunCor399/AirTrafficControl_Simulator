@@ -18,8 +18,8 @@ public class AirportTest {
     @org.junit.Test
     public void initializationTest() {
         RadarPosition position18 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
-        RadarPosition position36 = new RadarPositionImpl(new Position2DImpl(0.0, 10.0));
-        RadarPosition position27 = new RadarPositionImpl(new Position2DImpl(1.0, 2.0));
+        RadarPosition position36 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
+        RadarPosition position27 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition position9 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition positionVor1 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition positionVor2 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
@@ -31,18 +31,18 @@ public class AirportTest {
         vorList.add(vor1);
         vorList.add(vor2);
 
-        RunwayEnd runway18 = new RunwayEndImpl("18", position18);
-        RunwayEnd runway36 = new RunwayEndImpl("36", position36);
-        RunwayEnd runway27 = new RunwayEndImpl("27", position27);
-        RunwayEnd runway9 = new RunwayEndImpl("9", position9);
+        RunwayEnd runwayEnd18 = new RunwayEndImpl("18", position18);
+        RunwayEnd runwayEnd36 = new RunwayEndImpl("36", position36);
+        RunwayEnd runwayEnd27 = new RunwayEndImpl("27", position27);
+        RunwayEnd runwayEnd9 = new RunwayEndImpl("9", position9);
 
-        Runway runway1836 = new RunwayImpl(runway18, runway36);
-        Runway runway927 = new RunwayImpl(runway9, runway27);
+        Runway runway1836 = new RunwayImpl(runwayEnd18, runwayEnd36);
+        Runway runway927 = new RunwayImpl(runwayEnd9, runwayEnd27);
         List<Runway> runwayList = new LinkedList<>();
         runwayList.add(runway1836);
         runwayList.add(runway927);
 
         Airport airport = new AirportImpl("LIRF", "Roma Fiumicino", vorList, runwayList, parkingPosition);
-
+        System.out.println(airport.toString());
     }
 }

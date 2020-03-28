@@ -162,7 +162,7 @@ public class AirportImpl implements Airport {
     private Optional<List<Runway>> computeActiveRunways() {
         List<Runway> activeRunwayList = new LinkedList<>();
 
-        for (Runway runway : this.runwayList) {
+        for (final Runway runway : this.runwayList) {
             if (runway.getRunwayStatus().isPresent()) {
                 activeRunwayList.add(runway);
             }
@@ -173,5 +173,15 @@ public class AirportImpl implements Airport {
         }
 
         return Optional.of(activeRunwayList);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "Airport name: " + this.airportName + "\nAirport id: " + this.airportId + "\nRunways list: "
+                + this.runwayList + "\nVor list: " + this.vorList + "\nParking position: " + this.parkingPosition.getPosition();
+
     }
 }
