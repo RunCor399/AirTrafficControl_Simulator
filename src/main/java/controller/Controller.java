@@ -3,6 +3,7 @@ package controller;
 import model.Airport;
 import model.Direction;
 import model.Speed;
+import utilities.Pair;
 
 /**
  * 
@@ -88,4 +89,12 @@ public interface Controller {
      * started yet, it will start.
      */
     void startThreads();
+
+    /**
+     * Method that returns the X and Y bounds of the radar.
+     * This method is useful to correctly represent the radar.
+     * 
+     * @return a {@link Pair} containing the X and Y bounds.
+     */
+    Pair<Double, Double> getRadarDimension();
 }

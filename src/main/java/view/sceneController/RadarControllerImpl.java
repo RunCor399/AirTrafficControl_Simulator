@@ -15,21 +15,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import model.Airport;
 import model.Plane;
-import model.PlaneImpl;
 import model.Position2D;
-import model.Position2DImpl;
 import model.RadarPosition;
-import model.RadarPositionImpl;
 import model.Runway;
-import model.SpeedImpl;
 import model.Vor;
-import model.Plane.Action;
 import model.Direction;
 import model.DirectionImpl;
 import utilities.Pair;
 import view.View;
 
-public class RadarControllerImpl extends AbstractSceneController {
+public class RadarControllerImpl extends AbstractSceneController implements RadarController {
 
     private AirportDrawer drawer = new AirportDrawer();
 
@@ -63,12 +58,19 @@ public class RadarControllerImpl extends AbstractSceneController {
         this.airportContext = this.airportCanvas.getGraphicsContext2D();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setParameters(final Controller controller, final View view) {
         super.setParameters(controller, view);
         // TODO passa i parametri agli altri
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void updatePlanes(final Set<Plane> planes) {
         Platform.runLater(() -> {
             this.drawer.cachedPlanes = planes;
@@ -77,20 +79,20 @@ public class RadarControllerImpl extends AbstractSceneController {
     }
 
     @FXML
-    protected void goToMenu(final ActionEvent e) {
+    protected final void goToMenu(final ActionEvent e) {
         this.getController().pauseThreads();
         this.getView().changeScene(this.getView().getSceneFactory().loadMenu());
     }
 
     @FXML
-    protected void pauseTimeWarp(final ActionEvent e) {
+    protected final void pauseTimeWarp(final ActionEvent e) {
         this.btnResume.setDisable(false);
         this.btnPause.setDisable(true);
         this.getController().pauseThreads();
     }
 
     @FXML
-    protected void resumeTimeWarp(final ActionEvent e) {
+    protected final void resumeTimeWarp(final ActionEvent e) {
         this.btnResume.setDisable(true);
         this.btnPause.setDisable(false);
         this.getController().startThreads();
@@ -105,7 +107,7 @@ public class RadarControllerImpl extends AbstractSceneController {
     private class AirportDrawer {
 
         private static final int TEXT_DIMENSION = 30;
-        private static final int VOR_DIM = 15;
+        private static final int VOR_DIM = 12;
         private static final double EXTENSION_VALUE = 2000;
         private static final double DASHES_VALUE = 8;
         private static final double LINE_LENGHT = 20;
@@ -115,20 +117,19 @@ public class RadarControllerImpl extends AbstractSceneController {
         private double xRatio;
         private double yRatio;
         private Airport actualAirport;
-        private Set<Plane> cachedPlanes = Set.of(
-                new PlaneImpl(324, "ALI", Action.LAND, new RadarPositionImpl(new Position2DImpl(20000.0, 10000.0)),
-                        new SpeedImpl(100.0), 200, new DirectionImpl(90)),
-                new PlaneImpl(535, "EMU", Action.TAKEOFF, new RadarPositionImpl(new Position2DImpl(100.0, 100.0)),
-                        new SpeedImpl(0.0), 0, new DirectionImpl(200)));
+        private Set<Plane> cachedPlanes = Set.of();
+        private Pair<Double, Double> radarDimension;
 
         /**
          * Method that computes the ratios used to obtain the coordinates of an object.
          */
         private void computeRatios() {
-            // TODO cambia in valore del model
-            this.xRatio = radarCanvas.getWidth() / (30000 * 2);
+            if (this.radarDimension == null) {
+                this.radarDimension = getController().getRadarDimension();
+            }
+            this.xRatio = radarCanvas.getWidth() / (this.radarDimension.getX() * 2);
             // Inverted the sign because of how the canvas considers the y axis.
-            this.yRatio = -radarCanvas.getHeight() / (20000 * 2);
+            this.yRatio = -radarCanvas.getHeight() / (this.radarDimension.getY() * 2);
         }
 
         /**
@@ -181,21 +182,12 @@ public class RadarControllerImpl extends AbstractSceneController {
         }
 
         /**
-         * Method that draws the VORs and the Runways of the airplane.
+         * Method that draws the VORs and the runways of the airplane.
          * 
          * @param airport the airport to draw.
          */
         private void drawAirport(final Airport airport) {
             this.clearAirport();
-            airportContext.setStroke(Color.WHITE);
-            airportContext.setFill(Color.WHITE);
-            for (Vor vor : airport.getVorList().get()) {
-                Position2D position = vor.getPosition().getPosition();
-                double xPos = this.computeX(position.getX());
-                double yPos = this.computeY(position.getY());
-                airportContext.strokeOval(xPos, yPos, VOR_DIM, VOR_DIM);
-                airportContext.fillText(vor.getId(), xPos, yPos, TEXT_DIMENSION);
-            }
             airportContext.setStroke(Color.FORESTGREEN);
             for (Runway runway : airport.getRunways().get()) {
                 Pair<RadarPosition, RadarPosition> ends = runway.getPosition();
@@ -205,23 +197,30 @@ public class RadarControllerImpl extends AbstractSceneController {
                 airportContext.strokeLine(this.computeX(first.getX()), this.computeY(first.getY()),
                         this.computeX(second.getX()), this.computeY(second.getY()));
             }
+            airportContext.setFill(Color.WHITE);
+            for (Vor vor : airport.getVorList().get()) {
+                Position2D position = vor.getPosition().getPosition();
+                double xPos = this.computeX(position.getX());
+                double yPos = this.computeY(position.getY());
+                airportContext.fillOval(xPos, yPos, VOR_DIM, VOR_DIM);
+                airportContext.fillText(vor.getId(), xPos + VOR_DIM, yPos + VOR_DIM, TEXT_DIMENSION);
+            }
+ 
         }
 
+        /**
+         * Method that draws a dashed line that extends the specified runway (to make it more visible).
+         */
         private void drawRunwayExtension(final Pair<RadarPosition, RadarPosition> ends) {
             Direction extensionDir = ends.getX().computeDirectionToTargetPosition(ends.getY());
-            double xExt1 = this.computeX(
-                    (Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getX());
-            double yExt1 = this.computeY(
-                    (Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getY());
+            double xExt1 = this.computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getX());
+            double yExt1 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getY());
             extensionDir.sum(flatAngle);
-            double xExt2 = this.computeX(
-                    (Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getX());
-            double yExt2 = this.computeY(
-                    (Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getY());
+            double xExt2 = this.computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getX());
+            double yExt2 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getY());
             airportContext.setLineDashes(DASHES_VALUE);
             airportContext.strokeLine(xExt1, yExt1, xExt2, yExt2);
             airportContext.setLineDashes(0);
-            System.out.println("FATOO2");
         }
 
         /**
@@ -237,11 +236,15 @@ public class RadarControllerImpl extends AbstractSceneController {
                 double yPosition = this.computeY(planePosition.getY());
                 radarContext.strokeRect(xPosition - (PLANE_DIM / 2), yPosition - (PLANE_DIM / 2), PLANE_DIM, PLANE_DIM);
                 this.drawGuideline(xPosition, yPosition, plane.getDirection());
-                radarContext.fillText(plane.getCompanyName() + " " + plane.getAirplaneId(), xPosition + LINE_LENGHT,
-                        yPosition + LINE_LENGHT);
+                radarContext.fillText(plane.getCompanyName() + " " + plane.getAirplaneId() + "\n" 
+                        + plane.getSpeed().getAsKnots().intValue() + " kt " + (int) plane.getAltitude() + " ft",
+                        xPosition + LINE_LENGHT, yPosition + LINE_LENGHT);
             }
         }
 
+        /**
+         * Method that draws a line that indicates the direction of a specific element.
+         */
         private void drawGuideline(final double x, final double y, final Direction direction) {
             double rads = direction.getAsRadians();
             radarContext.strokeLine(x, y, x + (LINE_LENGHT * Math.cos(rads)), y - (LINE_LENGHT * Math.sin(rads)));
