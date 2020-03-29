@@ -1,7 +1,9 @@
 package controller;
 
 import java.util.Objects;
+import java.util.Optional;
 
+import model.Airport;
 import model.Direction;
 import model.Model;
 import model.ModelImpl;
@@ -9,6 +11,7 @@ import model.Plane;
 import model.Speed;
 import model.Vor;
 import model.exceptions.OperationNotAvailableException;
+import view.View;
 
 /**
  * 
@@ -17,11 +20,17 @@ import model.exceptions.OperationNotAvailableException;
  */
 public class ControllerImpl implements Controller {
     private Model model;
+    private View view;
     private Plane currentSelectedPlane;
+    private RandomizerAgent planeRandomizer;
+    private MovementAgent movementAgent;
 
-    public ControllerImpl() {
+    public ControllerImpl(final View view) {
         this.model = new ModelImpl();
+        this.view = view;
         this.currentSelectedPlane = null;
+        this.planeRandomizer = new RandomizerAgent(this.model);
+        this.movementAgent = new MovementAgent(this.model, this.view);
     }
 
     /**
@@ -64,9 +73,14 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void goToVor(final Vor targetVor) {
-        Objects.requireNonNull(targetVor);
-        this.currentSelectedPlane.setTargetPosition(targetVor.getPosition());
+    public void goToVor(final String vorId) {
+        Objects.requireNonNull(vorId);
+        Optional<Vor> vor = this.getActualAirport().getVorById(vorId);
+        if (vor.isEmpty()) {
+            throw new IllegalStateException();
+        }
+
+        this.currentSelectedPlane.setTargetPosition(vor.get().getPosition());
     }
 
     /**
@@ -92,6 +106,59 @@ public class ControllerImpl implements Controller {
         } catch (OperationNotAvailableException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Airport getActualAirport() {
+        return this.model.getAirport();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void stopThreads() {
+        this.planeRandomizer.stopThread();
+        this.movementAgent.stopThread();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void pauseThreads() {
+        this.planeRandomizer.pauseThread();
+        this.movementAgent.pauseThread();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSimulationRate(final int rate) {
+        this.planeRandomizer.setMultiplier(rate);
+        this.movementAgent.setMultiplier(rate);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void startThreads() {
+        if (this.planeRandomizer.isAlive()) {
+            this.planeRandomizer.resumeThread();
+        } else {
+            this.planeRandomizer.start();
+        }
+
+        if (this.movementAgent.isAlive()) {
+            this.movementAgent.resumeThread();
+        } else {
+            this.movementAgent.resumeThread();
         }
     }
 

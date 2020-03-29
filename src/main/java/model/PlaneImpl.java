@@ -20,7 +20,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     /**
      * The maximum altitude that allows the plane to land.
      */
-    private static final double ALTITUDE_TO_LAND = 200;
+    private static final double ALTITUDE_TO_LAND = 2000;
     /**
      * The maximum speed that allows the plane to land.
      */
@@ -32,7 +32,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     /**
      * The speed to reach when the plane takes off.
      */
-    private static final double TAKEOFF_ALTITUDE = 200;
+    private static final double TAKEOFF_ALTITUDE = 2000;
     /**
      * The maximum distance between the plane and the runway end.
      */
@@ -48,7 +48,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      */
     private static final Direction DIRECTION_DELTA = new DirectionImpl(1.8);
     private static final Speed SPEED_DELTA = new SpeedImpl(10.0);
-    private static final double ALTITUDE_DELTA = 10;
+    private static final double ALTITUDE_DELTA = 80;
 
     private final int planeId;
     private final String companyName;

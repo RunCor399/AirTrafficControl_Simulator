@@ -9,14 +9,14 @@ import java.util.Optional;
 
 public interface Airport {
     /**
-     * this method return the id of an airport.
+     * method that returns the id of an airport.
      * 
      * @return id of an airport
      */
     String getId();
 
     /**
-     * this method gets the name of an airport.
+     * method that gets the name of an airport.
      * 
      * @return name of an airport
      */
@@ -30,21 +30,21 @@ public interface Airport {
     RadarPosition getParkingPosition();
 
     /**
-     * this method adds a new VOR if not already present.
+     * method that adds a new VOR if not already present.
      * 
      * @param newVor
      */
     void addVor(Vor newVor);
 
     /**
-     * this method returns a list of all VOR's if any exists.
+     * method that returns a list of all VOR's if any exists.
      * 
      * @return list of all VOR's
      */
     Optional<List<Vor>> getVorList();
 
     /**
-     * this method returns a VOR with id vorId if any exists.
+     * method that returns a VOR with id vorId if any exists.
      * 
      * @param vorId
      * @return VOR with id vorId

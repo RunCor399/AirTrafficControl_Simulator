@@ -1,8 +1,8 @@
 package controller;
 
+import model.Airport;
 import model.Direction;
 import model.Speed;
-import model.Vor;
 
 /**
  * 
@@ -40,11 +40,11 @@ public interface Controller {
     void setPlaneAltitude(double targetAltitude);
 
     /**
-     * method that heads a plane to a specific vor.
+     * method that heads a plane to a specific vor retrieving it from id.
      * 
-     * @param targetVor
+     * @param vorId
      */
-    void goToVor(Vor targetVor);
+    void goToVor(String vorId);
 
     /**
      * method that allows the selected plane to takeoff.
@@ -57,4 +57,35 @@ public interface Controller {
      * method that allows the selected plane to land.
      */
     void land();
+
+    /**
+     * method that returns current airport.
+     * 
+     * @return current airport
+     */
+    Airport getActualAirport();
+
+    /**
+     * Method that stops all the threads of the application.
+     */
+    void stopThreads();
+
+    /**
+     * Method that pauses all the threads of the application.
+     */
+    void pauseThreads();
+
+    /**
+     * Method that sets the simulation rate of all the threads of the application.
+     * 
+     * @param rate the integer value that represents the rate of update of the
+     *             threads.
+     */
+    void setSimulationRate(int rate);
+
+    /**
+     * Method that resumes all the threads of the application. If a thread hasn't
+     * started yet, it will start.
+     */
+    void startThreads();
 }

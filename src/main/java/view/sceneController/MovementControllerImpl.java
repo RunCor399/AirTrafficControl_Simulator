@@ -1,20 +1,24 @@
 package view.sceneController;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
-import controller.Controller;
-import controller.ControllerImpl;
 import javafx.fxml.FXML;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import model.Direction;
+import model.DirectionImpl;
 import model.Speed;
+import model.SpeedImpl;
 import model.Vor;
 
 public class MovementControllerImpl extends AbstractSceneController implements SceneController {
-    private final Controller controller = new ControllerImpl();
 
     @FXML
     private Slider speedSlider;
@@ -23,25 +27,90 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     private Slider altitudeSlider;
 
     @FXML
+    private Button takeoffButton;
+
+    @FXML
+    private Button landButton;
+
+    @FXML
     private Label speedLabel;
 
     @FXML
     private Label altitudeLabel;
 
     @FXML
+    private Spinner<Double> directionSpinner;
+
+    @FXML
     private ChoiceBox<String> vorChoiceBox;
 
     @FXML
-    private Spinner<Double> directionSpinner;
+    public final void initialize() {
+
+        this.directionSpinner.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
+                    final Number newValue) {
+                setCurrentHeading(new DirectionImpl(newValue.doubleValue()));
+            }
+        });
+
+        this.speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
+                    final Number newValue) {
+                speedLabel.textProperty().setValue(String.valueOf(newValue.intValue()));
+                setCurrentSpeed(new SpeedImpl((double) newValue.intValue()));
+            }
+        });
+
+        this.altitudeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
+                    final Number newValue) {
+                altitudeLabel.textProperty().setValue(String.valueOf(newValue.intValue()));
+                setCurrentAltitude((double) newValue.intValue());
+            }
+        });
+
+        this.vorChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(final ObservableValue<? extends Number> observable, final Number oldValue,
+                    final Number newValue) {
+                if (!vorChoiceBox.getItems().get((int) newValue).equals("none")) {
+                    headToVor(vorChoiceBox.getItems().get((Integer) newValue));
+                }
+            }
+        });
+
+        this.initializeVorList();
+        this.speedLabel.setText("210");
+        this.altitudeLabel.setText("7000");
+    }
 
     /**
-     * method that decides which plane is to be set as current.
+     * method that initializes vor's choice box with all the vor's of an airport.
+     */
+    private void initializeVorList() {
+        Optional<List<Vor>> vorListOpt = getController().getActualAirport().getVorList();
+        this.vorChoiceBox.getItems().add("none");
+
+        if (vorListOpt.isPresent()) {
+            for (Vor elem : vorListOpt.get()) {
+                this.vorChoiceBox.getItems().add(elem.getId());
+            }
+        }
+    }
+
+    /**
+     * method that passes planeId of the plane to be selected.
      * 
      * @param planeId
      */
+    @FXML
     public void setTargetAirplane(final int planeId) {
         Objects.requireNonNull(planeId);
-        this.controller.selectTargetPlane(planeId);
+        this.getController().selectTargetPlane(planeId);
     }
 
     /**
@@ -49,9 +118,9 @@ public class MovementControllerImpl extends AbstractSceneController implements S
      * 
      * @param targetSpeed
      */
-    public void setCurrentSpeed(final Speed targetSpeed) {
+    private void setCurrentSpeed(final Speed targetSpeed) {
         Objects.requireNonNull(targetSpeed);
-        this.controller.setPlaneSpeed(targetSpeed);
+        this.getController().setPlaneSpeed(targetSpeed);
     }
 
     /**
@@ -59,9 +128,9 @@ public class MovementControllerImpl extends AbstractSceneController implements S
      * 
      * @param targetDirection
      */
-    public void setCurrentHeading(final Direction targetDirection) {
+    private void setCurrentHeading(final Direction targetDirection) {
         Objects.requireNonNull(targetDirection);
-        this.controller.setPlaneHeading(targetDirection);
+        this.getController().setPlaneHeading(targetDirection);
     }
 
     /**
@@ -69,39 +138,34 @@ public class MovementControllerImpl extends AbstractSceneController implements S
      * 
      * @param targetAltitude
      */
-    public void setCurrentAltitude(final double targetAltitude) {
+    private void setCurrentAltitude(final double targetAltitude) {
         Objects.requireNonNull(targetAltitude);
-        this.controller.setPlaneAltitude(targetAltitude);
+        this.getController().setPlaneAltitude(targetAltitude);
+    }
+
+    /**
+     * method that passes to controller the vor to which the plane will be directed.
+     * 
+     * @param vorId
+     */
+    private void headToVor(final String vorId) {
+        Objects.requireNonNull(vorId);
+        this.getController().goToVor(vorId);
     }
 
     /**
      * method that makes a plane takeoff from the airport.
      */
     @FXML
-    public void executeTakeoff() {
-        this.controller.takeOff();
+    public void takeoffPressed() {
+        this.getController().takeOff();
     }
 
     /**
      * method that makes a plane land in a specific runway of the airport.
      */
     @FXML
-    public void executeLanding() {
-        this.controller.land();
-    }
-
-    /**
-     * method that directs a plane to a specific vor.
-     * 
-     * @param targetVor
-     */
-    public void headToVor(final Vor targetVor) {
-        Objects.requireNonNull(targetVor);
-        this.controller.goToVor(targetVor);
-    }
-
-    @FXML
-    public void getSpeedValue() {
-
+    public void landPressed() {
+        this.getController().land();
     }
 }

@@ -1,7 +1,6 @@
 package model;
 
 /**
- * 
  * An interface that defines the position of an element in the radar.
  */
 public interface RadarPosition {
