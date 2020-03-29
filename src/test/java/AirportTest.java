@@ -1,5 +1,7 @@
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import model.Airport;
 import model.AirportImpl;
@@ -28,9 +30,9 @@ public class AirportTest {
 
         Vor vor1 = new VorImpl("alfa", positionVor1);
         Vor vor2 = new VorImpl("bravo", positionVor2);
-        List<Vor> vorList = new LinkedList<>();
-        vorList.add(vor1);
-        vorList.add(vor2);
+        Set<Vor> vorSet = new HashSet<>();
+        vorSet.add(vor1);
+        vorSet.add(vor2);
 
         RunwayEnd runwayEnd18 = new RunwayEndImpl("18", position18);
         RunwayEnd runwayEnd36 = new RunwayEndImpl("36", position36);
@@ -43,7 +45,7 @@ public class AirportTest {
         runwayList.add(runway1836);
         runwayList.add(runway927);
 
-        this.airport = new AirportImpl("LIRF", "Roma Fiumicino", vorList, runwayList, parkingPosition);
+        this.airport = new AirportImpl("LIRF", "Roma Fiumicino", vorSet, runwayList, parkingPosition);
         System.out.println(airport.toString());
     }
 
@@ -58,6 +60,23 @@ public class AirportTest {
         Runway runway119 = new RunwayImpl(runwayEnd1, runwayEnd19);
         this.airport.addRunway(runway119);
 
-        System.out.println(airport.toString());
+    }
+
+    @org.junit.Test
+    public void addNewVorTest() {
+        RadarPosition positionNewVor = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
+        Vor newVor = new VorImpl("charlie", positionNewVor);
+
+        this.airport.addVor(newVor);
+        System.out.println("\n\n" + this.airport);
+    }
+
+    @org.junit.Test
+    public void alreadyPresentVorTest() {
+        RadarPosition positionNewVor = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
+        Vor newVor = new VorImpl("alfa", positionNewVor);
+
+        this.airport.addVor(newVor);
+        System.out.println("\n\n" + this.airport);
     }
 }
