@@ -5,6 +5,6 @@ public final class Launcher {
     }
 
     public static void main(final String[] args) {
-        ViewImpl.launch(args);
+        ViewImpl.main(args);
     }
 }

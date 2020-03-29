@@ -30,6 +30,7 @@ public class ViewImpl extends Application implements View {
 
         this.changeScene(sceneFactory.loadMenu());
         this.setStageResolution();
+        primaryStage.show();
     }
 
     /**
@@ -62,6 +63,10 @@ public class ViewImpl extends Application implements View {
 
     @Override
     public void radarUpdate(final Set<Plane> planes) {
-        //TODO
+        // TODO
+    }
+
+    public static void main(final String[] args) {
+        launch(args);
     }
 }
