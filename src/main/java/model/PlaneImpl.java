@@ -53,6 +53,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     private final int planeId;
     private final String companyName;
     private final Action planeAction;
+    private boolean actionWasPerformed;
     private final Comparator<? super RunwayEnd> sortByDistance = (run1, run2) -> {
         double diff = run1.getPosition().distanceFrom(this.getPosition())
                 - run2.getPosition().distanceFrom(this.getPosition());
@@ -72,6 +73,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
         this.planeId = planeId;
         this.companyName = companyName;
         this.planeAction = planeAction;
+        this.actionWasPerformed = false;
     }
 
     /**
@@ -127,6 +129,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     @Override
     public void land(final Airport airport) throws OperationNotAvailableException {
         Objects.requireNonNull(airport);
+        this.checkIfTrueAndThrow(this.actionWasPerformed, "The plane has already performed the action.");
         this.checkIfTrueAndThrow(!this.planeAction.equals(Action.LAND), "The plane is not supposed to land.");
         this.checkIfTrueAndThrow(airport.getActiveRunways().isEmpty(), "No active runway found.");
         this.checkIfTrueAndThrow(!this.isLandingPossible(), "Speed or altitude of the plane are too high.");
@@ -137,7 +140,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
         this.setAltitude(0);
         this.setSpeed(new SpeedImpl(0.0));
         this.setPosition(airport.getParkingPosition());
-
+        this.actionWasPerformed = true;
     }
 
     /**
@@ -195,6 +198,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     public void takeOff(final Airport airport) throws OperationNotAvailableException {
         //I check if there are any runways available.
         Objects.requireNonNull(airport);
+        this.checkIfTrueAndThrow(this.actionWasPerformed, "The plane has already performed the action.");
         this.checkIfTrueAndThrow(!this.planeAction.equals(Action.TAKEOFF), "The plane is not supposed to take off.");
         this.checkIfTrueAndThrow(airport.getActiveRunways().isEmpty(), "No active runway found.");
         //I set up the plane in order to let it take off.
@@ -206,6 +210,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
         this.setDirection(this.getPosition().computeDirectionToTargetPosition(targetRunwayEnd.getPosition()));
         this.setTargetSpeed(TAKEOFF_SPEED);
         this.setTargetAltitude(TAKEOFF_ALTITUDE);
+        this.actionWasPerformed = true;
     }
 
     /**
@@ -214,6 +219,14 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
     @Override
     public Action getPlaneAction() {
         return this.planeAction;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isActionPerformed() {
+        return this.actionWasPerformed;
     }
 
     /**
@@ -261,5 +274,4 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
         result += "Action -> " + this.planeAction + "\n";
         return result + super.toString();
     }
-
 }

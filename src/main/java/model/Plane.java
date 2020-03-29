@@ -65,4 +65,13 @@ public interface Plane extends DynamicElement {
      * @return the action to perform.
      */
     Action getPlaneAction();
+
+    /**
+     * 
+     * Method that returns whether the {@link Action} of the plane was already performed or not 
+     * (i.e. if a {@link Plane} already landed, the method will return true)
+     * 
+     * @return if the main action of the plane has already been performed.
+     */
+    boolean isActionPerformed();
 }
