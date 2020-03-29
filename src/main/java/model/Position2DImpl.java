@@ -55,4 +55,12 @@ public class Position2DImpl implements Position2D {
         this.y = this.y + yOffset;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "X: "  + this.getX() + " Y: " + this.getY();
+    }
+
 }
