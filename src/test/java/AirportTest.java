@@ -14,8 +14,9 @@ import model.Vor;
 import model.VorImpl;
 
 public class AirportTest {
+    private Airport airport;
 
-    @org.junit.Test
+    @org.junit.Before
     public void initializationTest() {
         RadarPosition position18 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition position36 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
@@ -42,7 +43,21 @@ public class AirportTest {
         runwayList.add(runway1836);
         runwayList.add(runway927);
 
-        Airport airport = new AirportImpl("LIRF", "Roma Fiumicino", vorList, runwayList, parkingPosition);
+        this.airport = new AirportImpl("LIRF", "Roma Fiumicino", vorList, runwayList, parkingPosition);
+        System.out.println(airport.toString());
+    }
+
+    @org.junit.Test
+    public void addNewRunwayTest() {
+        RadarPosition position1 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
+        RadarPosition position19 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
+
+        RunwayEnd runwayEnd1 = new RunwayEndImpl("1", position1);
+        RunwayEnd runwayEnd19 = new RunwayEndImpl("19", position19);
+
+        Runway runway119 = new RunwayImpl(runwayEnd1, runwayEnd19);
+        this.airport.addRunway(runway119);
+
         System.out.println(airport.toString());
     }
 }

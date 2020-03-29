@@ -181,7 +181,8 @@ public class AirportImpl implements Airport {
     @Override
     public String toString() {
         return "Airport name: " + this.airportName + "\nAirport id: " + this.airportId + "\nRunways list: "
-                + this.runwayList + "\nVor list: " + this.vorList + "\nParking position: " + this.parkingPosition.getPosition();
+                + this.runwayList + "\nVor list: " + this.vorList + "\nParking position: "
+                + this.parkingPosition.getPosition();
 
     }
 }
