@@ -98,15 +98,6 @@ public class AirportImpl implements Airport {
      */
     @Override
     public Optional<Vor> getVorById(final String vorId) {
-        Optional<Vor> vor = this.isVorPresent(vorId);
-        if (vor.isPresent()) {
-            return vor;
-        }
-
-        return Optional.empty();
-    }
-
-    private Optional<Vor> isVorPresent(final String vorId) {
         return this.vorSet.stream().filter(x -> x.getId().equals(vorId)).findAny();
     }
 

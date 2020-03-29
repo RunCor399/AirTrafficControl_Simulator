@@ -1,6 +1,9 @@
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import model.Airport;
@@ -46,7 +49,7 @@ public class AirportTest {
         runwayList.add(runway927);
 
         this.airport = new AirportImpl("LIRF", "Roma Fiumicino", vorSet, runwayList, parkingPosition);
-        System.out.println(airport.toString());
+        System.out.println(airport.toString() + "\n\n");
     }
 
     @org.junit.Test
@@ -68,7 +71,7 @@ public class AirportTest {
         Vor newVor = new VorImpl("charlie", positionNewVor);
 
         this.airport.addVor(newVor);
-        System.out.println("\n\n" + this.airport);
+        System.out.println(this.airport + "\n\n");
     }
 
     @org.junit.Test
@@ -77,6 +80,17 @@ public class AirportTest {
         Vor newVor = new VorImpl("alfa", positionNewVor);
 
         this.airport.addVor(newVor);
-        System.out.println("\n\n" + this.airport);
+        System.out.println(this.airport + "\n\n");
+    }
+
+    @org.junit.Test
+    public void findVorByIdTest() {
+        Optional<Vor> vorById = this.airport.getVorById("bravo");
+        System.out.println(vorById.get().getId() + "\n\n");
+    }
+
+    @org.junit.Test
+    public void findVorErrorTest() {
+        assertEquals(Optional.empty(), this.airport.getVorById("delta"));
     }
 }
