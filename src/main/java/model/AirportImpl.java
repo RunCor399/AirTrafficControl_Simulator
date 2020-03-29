@@ -76,10 +76,6 @@ public class AirportImpl implements Airport {
     @Override
     public void addVor(final Vor newVor) {
         Objects.requireNonNull(newVor);
-        if (this.isVorAlreadyInList(newVor)) {
-            throw new IllegalStateException();
-        }
-
         this.vorSet.add(newVor);
     }
 
@@ -96,26 +92,7 @@ public class AirportImpl implements Airport {
      */
     @Override
     public Optional<Vor> getVorById(final String vorId) {
-        Optional<Vor> vor = this.isVorPresent(vorId);
-        if (vor.isPresent()) {
-            return vor;
-        }
-
-        return Optional.empty();
-    }
-
-    private boolean isVorAlreadyInList(final Vor newVor) {
-        return this.vorSet.contains(newVor);
-    }
-
-    private Optional<Vor> isVorPresent(final String vorId) {
-        for (Vor vor : this.vorSet) {
-            if (vor.getId().equals(vorId)) {
-                return Optional.of(vor);
-            }
-        }
-
-        return Optional.empty();
+        return this.vorSet.stream().filter(x -> x.getId().equals(vorId)).findAny();
     }
 
     /**
@@ -164,7 +141,7 @@ public class AirportImpl implements Airport {
     private Optional<List<Runway>> computeActiveRunways() {
         List<Runway> activeRunwayList = new LinkedList<>();
 
-        for (Runway runway : this.runwayList) {
+        for (final Runway runway : this.runwayList) {
             if (runway.getRunwayStatus().isPresent()) {
                 activeRunwayList.add(runway);
             }
@@ -175,5 +152,16 @@ public class AirportImpl implements Airport {
         }
 
         return Optional.of(activeRunwayList);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "Airport name: " + this.airportName + "\nAirport id: " + this.airportId + "\nRunways list: "
+                + this.runwayList + "\nVor list: " + this.vorSet + "\nParking position: "
+                + this.parkingPosition.getPosition();
+
     }
 }
