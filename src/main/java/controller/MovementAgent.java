@@ -1,6 +1,9 @@
 package controller;
 
+import java.util.Iterator;
+
 import model.Model;
+import model.Plane;
 import view.View;
 
 public class MovementAgent extends AbstractAgent {
@@ -33,5 +36,15 @@ public class MovementAgent extends AbstractAgent {
     private void updatePlanesPositionAndView() {
         this.getModel().computeAllPlanePositions();
         this.view.radarUpdate(this.getModel().getAllPlanes());
+    }
+
+    private void removeOutboundPlanes() {
+        Iterator<Plane> planeIt = this.getModel().getAllPlanes().iterator();
+
+       /* while (planeIt.hasNext()) {
+            if(()!planeIt.next().getPosition().isWithinRadar()) && ()) {
+                planeIt.next().r
+            }
+        }*/
     }
 }
