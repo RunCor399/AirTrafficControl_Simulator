@@ -2,6 +2,10 @@ package model;
 
 import java.util.Objects;
 
+/**
+ * An implementation of {@link RadarPosition}.
+ * 
+ */
 public class RadarPositionImpl implements RadarPosition {
     /**
      * The X coordinate bound.
@@ -62,7 +66,7 @@ public class RadarPositionImpl implements RadarPosition {
      */
     @Override
     public boolean isWithinRadar(final Position2D position) {
-        return ((Math.abs(position.getX()) <= X_BOUND) && (Math.abs(position.getY())) <= Y_BOUND);
+        return ((Math.abs(this.elementPosition.getX()) <= X_BOUND) && (Math.abs(this.elementPosition.getY())) <= Y_BOUND);
     }
 
     /**

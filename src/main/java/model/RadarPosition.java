@@ -1,7 +1,6 @@
 package model;
 
 /**
- * 
  * An interface that defines the position of an element in the radar.
  */
 public interface RadarPosition {
@@ -29,8 +28,6 @@ public interface RadarPosition {
 
     /**
      * Controls if a plane is inside the radar bounds.
-     * 
-     * @param position
      * 
      * @return true if a plane is inside the radar bounds.
      */

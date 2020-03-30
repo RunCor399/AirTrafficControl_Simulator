@@ -12,30 +12,22 @@ import model.RadarPositionImpl;
  * the border of the radar or close to the airport.
  *
  */
-public class RandomizerAgent extends Thread {
+public class RandomizerAgent extends AbstractAgent {
 
     private static final long DELTA_TIME = 500;
     private static final int MILLIS_TO_SEC = 1000;
     private static final int MAX_WAIT = 30;
     private static final int MIN_WAIT = 16;
     private static final double NO_VALUE = -1;
-    private static final int INITIAL_MULTIPLIER = 1;
 
     private final Random random;
-    private final Model model;
-    private volatile boolean stop;
-    private volatile boolean pause;
-    private volatile int multiplier;
     private double actualWaitTime;
     private double timeWaited;
     private final RandomPlaneFactory planeFactory;
 
     public RandomizerAgent(final Model model) {
-        this.model = model;
+        super(model);
         this.random = new Random();
-        this.pause = false;
-        this.stop = false;
-        this.multiplier = INITIAL_MULTIPLIER;
         this.actualWaitTime = NO_VALUE;
         this.timeWaited = NO_VALUE;
         this.planeFactory = new RandomPlaneFactoryImpl(RadarPositionImpl.X_BOUND, RadarPositionImpl.Y_BOUND);
@@ -47,14 +39,14 @@ public class RandomizerAgent extends Thread {
      */
     @Override
     public void run() {
-        while (!this.stop) {
+        while (!this.isStopped()) {
             try {
                 synchronized (this) {
-                    if (this.pause) {
+                    if (this.isPaused()) {
                         this.wait();
                     }
                 }
-                sleep(DELTA_TIME / this.multiplier);
+                sleep(DELTA_TIME / this.getMultiplier());
                 this.timeWaited = this.timeWaited + ((double) DELTA_TIME / MILLIS_TO_SEC);
                 if (this.timeWaited >= this.actualWaitTime) {
                     this.computeNewWaitTime();
@@ -80,52 +72,13 @@ public class RandomizerAgent extends Thread {
      */
     private void createNewPlane() {
         Plane newPlane = this.random.nextBoolean() ? this.planeFactory.randomLandingPlane()
-                : this.planeFactory.randomStillPlane(this.model.getAirport().getParkingPosition());
-        this.model.addPlane(newPlane);
+                : this.planeFactory.randomStillPlane(this.getModel().getAirport().getParkingPosition());
+        this.getModel().addPlane(newPlane);
 //DEBUG CODE
 //        System.out.println(newPlane);
 //        System.out.println("Position -> x: " + newPlane.getPosition().getPosition().getX());
 //        System.out.println("y: " + newPlane.getPosition().getPosition().getY());
-//        System.out.println(this.model.getAllPlanes().size());
-    }
-
-    /**
-     * 
-     * Method to set the multiplier of the update frequency.
-     * 
-     * @param multiplier the frequency multiplier.
-     */
-    public void setMultiplier(final int multiplier) {
-        if (multiplier < 1) {
-            throw new IllegalArgumentException();
-        }
-        this.multiplier = multiplier;
-    }
-
-    /**
-     * Method that stops the thread.
-     */
-    public void stopThread() {
-        this.stop = true;
-        interrupt();
-    }
-
-    /**
-     * Method that resumes the thread.
-     */
-    public synchronized void resumeThread() {
-        if (this.pause) {
-            this.pause = false;
-            this.notify();
-        }
-    }
-
-    /**
-     * Method that temporarily pauses the current thread.
-     */
-    public void pauseThread() {
-        this.pause = true;
-        interrupt();
+//        System.out.println(this.getModel().getAllPlanes().size());
     }
 
 }

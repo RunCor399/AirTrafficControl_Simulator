@@ -1,5 +1,7 @@
 package view;
 
+import java.util.Set;
+
 import controller.Controller;
 import controller.ControllerImpl;
 import javafx.application.Application;
@@ -7,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import model.Plane;
 import utilities.Pair;
 import view.sceneController.SceneController;
 
@@ -22,7 +25,7 @@ public class ViewImpl extends Application implements View {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        this.controller = new ControllerImpl();
+        this.controller = new ControllerImpl(this);
         this.sceneFactory = new SceneFactoryImpl(controller, this);
 
         this.changeScene(sceneFactory.loadMenu());
@@ -35,7 +38,8 @@ public class ViewImpl extends Application implements View {
     @Override
     public void changeScene(final Pair<SceneController, Parent> sceneContext) {
         this.sceneController = sceneContext.getX();
-        this.primaryStage.setScene(new Scene(sceneContext.getY(), this.primaryStage.getWidth(), this.primaryStage.getHeight()));
+        this.primaryStage
+                .setScene(new Scene(sceneContext.getY(), this.primaryStage.getWidth(), this.primaryStage.getHeight()));
     }
 
     private Pair<Double, Double> computeScreenResolution() {
@@ -54,5 +58,10 @@ public class ViewImpl extends Application implements View {
     @Override
     public SceneFactory getSceneFactory() {
         return this.sceneFactory;
+    }
+
+    @Override
+    public void radarUpdate(final Set<Plane> planes) {
+        //TODO
     }
 }
