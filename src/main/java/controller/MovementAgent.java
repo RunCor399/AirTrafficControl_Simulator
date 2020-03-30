@@ -41,10 +41,11 @@ public class MovementAgent extends AbstractAgent {
     private void removeOutboundPlanes() {
         Iterator<Plane> planeIt = this.getModel().getAllPlanes().iterator();
 
-       /* while (planeIt.hasNext()) {
-            if(()!planeIt.next().getPosition().isWithinRadar()) && ()) {
-                planeIt.next().r
+        while (planeIt.hasNext()) {
+            if ((planeIt.next().getPlaneAction().equals(Plane.Action.LAND))
+                    && (!planeIt.next().getPosition().isWithinRadar()) && (planeIt.next().isActionPerformed())) {
+                //TODO
             }
-        }*/
+        }
     }
 }
