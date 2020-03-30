@@ -7,6 +7,9 @@ import controller.ControllerImpl;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.Plane;
@@ -60,8 +63,27 @@ public class ViewImpl extends Application implements View {
         return this.sceneFactory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void radarUpdate(final Set<Plane> planes) {
-        //TODO
+        // TODO
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetGame(final String reason) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setHeaderText("HAI PERSO!");
+        alert.setContentText(reason);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.OK) {
+            //TODO reset the entire game
+            System.out.println("output");
+        }
     }
 }
