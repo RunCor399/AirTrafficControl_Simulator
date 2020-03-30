@@ -77,12 +77,6 @@ public class AirportImpl implements Airport {
     public void addVor(final Vor newVor) {
         Objects.requireNonNull(newVor);
         this.vorSet.add(newVor);
-     /*   if (this.isVorAlreadyInList(newVor)) {
-            System.out.println("already in");
-            throw new IllegalStateException();
-        }
-        System.out.println("added " + newVor.getId());
-        this.vorSet.add(newVor);*/
     }
 
     /**

@@ -23,8 +23,8 @@ public class MovementAgent extends AbstractAgent {
                         this.wait();
                     }
                 }
-              sleep(DELTA_TIME / this.getMultiplier());
-              this.updatePlanesPositionAndView();
+                sleep(DELTA_TIME / this.getMultiplier());
+                this.updatePlanesPositionAndView();
             } catch (InterruptedException exception) {
             }
         }

@@ -93,6 +93,7 @@ public class MovementControllerImpl extends AbstractSceneController implements S
      */
     private void initializeVorList() {
         Optional<Set<Vor>> vorSetOpt = getController().getActualAirport().getVorList();
+
         this.vorChoiceBox.getItems().add("none");
 
         if (vorSetOpt.isPresent()) {
