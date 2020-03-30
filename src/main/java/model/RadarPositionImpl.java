@@ -62,7 +62,7 @@ public class RadarPositionImpl implements RadarPosition {
      * {@inheritDoc}
      */
     @Override
-    public boolean isWithinRadar() {
+    public synchronized boolean isWithinRadar() {
         return ((Math.abs(this.elementPosition.getX()) <= X_BOUND)
                 && (Math.abs(this.elementPosition.getY())) <= Y_BOUND);
     }
