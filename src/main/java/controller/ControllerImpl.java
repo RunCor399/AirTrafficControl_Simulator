@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -14,7 +13,6 @@ import model.Runway;
 import model.Speed;
 import model.Vor;
 import model.exceptions.OperationNotAvailableException;
-import utilities.Pair;
 
 /**
  * 
@@ -111,31 +109,8 @@ public class ControllerImpl implements Controller {
     /**
      * {@inheritDoc}
      */
-    @Override
-    public List<Pair<String, Boolean>> getListRunwayEnds() {
-        List<Pair<String, Boolean>> list = new LinkedList<>();
-        Objects.requireNonNull(this.model.getAirport().getRunways().get());
-        for (Runway r : this.model.getAirport().getRunways().get()) {
-            list.add(new Pair<>(r.getRunwayEnds().getX().toString(), r.getRunwayEnds().getX().getStatus()));
-            list.add(new Pair<>(r.getRunwayEnds().getY().toString(), r.getRunwayEnds().getY().getStatus()));
-        }
-        return list;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public Airport getActualAirport() {
         return this.model.getAirport();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-
-    public void changeStatusRunwayEnd(final String runwayEnd) {
-        this.model.getAirport().setActiveRunways(runwayEnd);
     }
 
     /**
@@ -171,6 +146,32 @@ public class ControllerImpl implements Controller {
         } else {
             this.planeRandomizer.start();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Runway> getAirportRunways() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void changeRunwayEndStatus(final String runwayEnd) {
+        // TODO Auto-generated method stub
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getRunwayEndStatus(final String runwayEnd) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

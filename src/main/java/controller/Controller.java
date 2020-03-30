@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 
 import model.Direction;
+import model.Runway;
 import model.Speed;
 import utilities.Pair;
 import model.Airport;
@@ -61,20 +62,6 @@ public interface Controller {
     void land();
 
     /**
-     * Method that returns the list of runwayEnds and their status.
-     * 
-     * @return List of runwayEnds and their status
-     */
-    List<Pair<String, Boolean>> getListRunwayEnds();
-
-    /**
-     * Method that change the status of a runwayEnd.
-     * 
-     * @param runwayEnd to change
-     */
-    void changeStatusRunwayEnd(String runwayEnd);
-
-    /**
      * method that returns current airport.
      * 
      * @return current airport
@@ -104,4 +91,26 @@ public interface Controller {
      * started yet, it will start.
      */
     void startThreads();
+
+    /**
+     * Method that returns the list of the runways.
+     * 
+     * @return List of runways
+     */
+    List<Runway> getAirportRunways();
+
+    /**
+     * Method that changes the status of a ruwnayEnd.
+     * 
+     * @param runwayEnd
+     */
+    void changeRunwayEndStatus(String runwayEnd);
+
+    /**
+     * Method that returns the status of a runwayEnd.
+     * 
+     * @param runwayEnd
+     * @return Boolean status of runwayEnd
+     */
+    boolean getRunwayEndStatus(String runwayEnd);
 }
