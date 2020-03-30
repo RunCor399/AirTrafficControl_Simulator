@@ -6,10 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import controller.RandomPlaneFactoryImpl;
 import model.Airport;
 import model.AirportImpl;
 import model.DirectionImpl;
@@ -51,7 +49,7 @@ public class PlaneTest {
         Vor vor = new VorImpl("1", new RadarPositionImpl(new Position2DImpl(0.0, 0.0)));
         Runway run = new RunwayImpl(r1, r2);
         Runway run2 = new RunwayImpl(r3, r4);
-        this.airport = new AirportImpl("1", "airportName", List.of(vor), Arrays.asList(run, run2),
+        this.airport = new AirportImpl("1", "airportName", Set.of(vor), Arrays.asList(run, run2),
                 new RadarPositionImpl(new Position2DImpl(0.0, 1.0)));
         this.plane = new PlaneImpl(3, "ALI", Action.LAND, new RadarPositionImpl(new Position2DImpl(-1000.0, 0.0)),
                 new SpeedImpl(100.0), 200, new DirectionImpl(0));

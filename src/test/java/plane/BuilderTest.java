@@ -10,8 +10,17 @@ import model.Position2DImpl;
 import model.RadarPositionImpl;
 import model.SpeedImpl;
 
+/**
+ * 
+ * Test class used to check if the {@link PlaneBuilder} works as expected.
+ *
+ */
 public class BuilderTest {
 
+    /**
+     * Testing the creation of a {@link Plane}.
+     * There should be no errors.
+     */
     @org.junit.Test
     public void testCreation() {
         PlaneBuilder builder = new PlaneBuilderImpl(20, "ALI");
@@ -32,6 +41,10 @@ public class BuilderTest {
         Assert.assertTrue(plane.getSpeed().getAsKnots() == 200.0);
     }
 
+    /**
+     * Testing the creation of a {@link Plane} twice with the same builder.
+     * {@link IllegalStateException} should be thrown.
+     */
     @org.junit.Test(expected = IllegalStateException.class)
     public void testDoubleCreation() {
         PlaneBuilder builder = new PlaneBuilderImpl(15, "RYA");
@@ -45,6 +58,10 @@ public class BuilderTest {
         System.out.println(plane);
     }
 
+    /**
+     * Testing the creation of a {@link Plane} without all the necessary values.
+     * {@link IllegalStateException} should be thrown.
+     */
     @org.junit.Test(expected = IllegalStateException.class)
     public void testIncompleteCreation() {
         PlaneBuilder builder = new PlaneBuilderImpl(55, "IIA");
