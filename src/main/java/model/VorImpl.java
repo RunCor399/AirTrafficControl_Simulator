@@ -8,7 +8,7 @@ import java.util.Objects;
  */
 
 public class VorImpl extends AbstractRadarElement implements Vor {
-    //need to modify
+    // need to modify
     private static final long serialVersionUID = 1234;
     private final String vorId;
 
@@ -30,6 +30,14 @@ public class VorImpl extends AbstractRadarElement implements Vor {
      */
     @Override
     public String getId() {
+        return this.vorId;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
         return this.vorId;
     }
 }
