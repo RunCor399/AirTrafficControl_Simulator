@@ -38,18 +38,15 @@ public class RadarPositionImpl implements RadarPosition {
 
     /**
      * {@inheritDoc}
-     */
-    @Override
-    public void setPosition(final Position2D position) {
-        Objects.requireNonNull(position);
-        if (!isWithinRadar(position)) {
-            /* TODO modify exception */
-            throw new IllegalStateException();
-        }
-
-        this.elementPosition = position;
-
-    }
+     *//* !!!!COULD BE REMOVED !!!!
+        * @Override public void setPosition(final Position2D position) {
+        * Objects.requireNonNull(position); if (!isWithinRadar(position)) { TODO modify
+        * exception throw new IllegalStateException(); }
+        * 
+        * this.elementPosition = position;
+        * 
+        * }
+        */
 
     /**
      * {@inheritDoc}
@@ -65,8 +62,9 @@ public class RadarPositionImpl implements RadarPosition {
      * {@inheritDoc}
      */
     @Override
-    public boolean isWithinRadar(final Position2D position) {
-        return ((Math.abs(this.elementPosition.getX()) <= X_BOUND) && (Math.abs(this.elementPosition.getY())) <= Y_BOUND);
+    public synchronized boolean isWithinRadar() {
+        return ((Math.abs(this.elementPosition.getX()) <= X_BOUND)
+                && (Math.abs(this.elementPosition.getY())) <= Y_BOUND);
     }
 
     /**

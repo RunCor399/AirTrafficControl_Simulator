@@ -1,29 +1,15 @@
 package controller;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import model.Airport;
-import model.AirportImpl;
 import model.Direction;
-import model.DirectionImpl;
 import model.Model;
 import model.ModelImpl;
 import model.Plane;
-import model.PlaneImpl;
-import model.Position2DImpl;
 import model.RadarPositionImpl;
-import model.Runway;
-import model.RunwayEnd;
-import model.RunwayEndImpl;
-import model.RunwayImpl;
 import model.Speed;
-import model.SpeedImpl;
 import model.Vor;
-import model.VorImpl;
-import model.Plane.Action;
 import model.exceptions.OperationNotAvailableException;
 import utilities.Pair;
 import view.View;
@@ -183,6 +169,16 @@ public class ControllerImpl implements Controller {
     @Override
     public Pair<Double, Double> getRadarDimension() {
         return new Pair<>(RadarPositionImpl.X_BOUND, RadarPositionImpl.Y_BOUND);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetGameContext() {
+        this.stopThreads();
+        this.model.removeAllPlanes();
+        this.getActualAirport().deactivateAllRunways();
     }
 
 }

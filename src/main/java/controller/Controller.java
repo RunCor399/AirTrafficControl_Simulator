@@ -91,10 +91,17 @@ public interface Controller {
     void startThreads();
 
     /**
-     * Method that returns the X and Y bounds of the radar.
-     * This method is useful to correctly represent the radar.
+     * Method that returns the X and Y bounds of the radar. This method is useful to
+     * correctly represent the radar.
      * 
      * @return a {@link Pair} containing the X and Y bounds.
      */
     Pair<Double, Double> getRadarDimension();
+
+    /**
+     * Method that resets the game deleting all current planes and deactivating
+     * every runway.
+     */
+    void resetGameContext();
+
 }
