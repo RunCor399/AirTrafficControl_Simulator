@@ -1,12 +1,12 @@
 package view.sceneController;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
+import javafx.fxml.FXML;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -92,11 +92,12 @@ public class MovementControllerImpl extends AbstractSceneController implements S
      * method that initializes vor's choice box with all the vor's of an airport.
      */
     private void initializeVorList() {
-        Optional<List<Vor>> vorListOpt = getController().getActualAirport().getVorList();
+        Optional<Set<Vor>> vorSetOpt = getController().getActualAirport().getVorList();
+
         this.vorChoiceBox.getItems().add("none");
 
-        if (vorListOpt.isPresent()) {
-            for (Vor elem : vorListOpt.get()) {
+        if (vorSetOpt.isPresent()) {
+            for (Vor elem : vorSetOpt.get()) {
                 this.vorChoiceBox.getItems().add(elem.getId());
             }
         }
@@ -168,5 +169,4 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     public void landPressed() {
         this.getController().land();
     }
-
 }
