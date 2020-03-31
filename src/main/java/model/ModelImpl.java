@@ -87,4 +87,12 @@ public class ModelImpl implements Model {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeAllPlanes() {
+        this.planes.clear();
+    }
+
 }
