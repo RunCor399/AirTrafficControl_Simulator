@@ -5,6 +5,7 @@ import java.util.Set;
 import controller.Controller;
 import controller.ControllerImpl;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -77,15 +78,17 @@ public class ViewImpl extends Application implements View {
      */
     @Override
     public void resetGame(final String reason) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setHeaderText("HAI PERSO!");
-        alert.setContentText(reason);
-        alert.showAndWait();
+        Platform.runLater(() -> {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setHeaderText("HAI PERSO!");
+            alert.setContentText(reason);
+            alert.showAndWait();
 
-        if (alert.getResult() == ButtonType.OK) {
-            this.controller.resetGameContext();
-            this.changeScene(sceneFactory.loadMenu());
-        }
+            if (alert.getResult() == ButtonType.OK) {
+                this.controller.resetGameContext();
+                this.changeScene(sceneFactory.loadMenu());
+            }
+        });
     }
 
     public static void main(final String[] args) {
