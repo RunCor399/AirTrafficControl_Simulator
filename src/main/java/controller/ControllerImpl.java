@@ -166,9 +166,8 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public List<Runway> getAirportRunways() {
-        // TODO Auto-generated method stub
-        return null;
+    public Optional<List<Runway>> getAirportRunways() {
+        return this.model.getAirport().getRunways();
     }
 
     /**
@@ -176,7 +175,7 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void changeRunwayEndStatus(final String runwayEnd) {
-        // TODO Auto-generated method stub
+        this.model.getAirport().setActiveRunways(runwayEnd);
     }
 
     /**
@@ -184,8 +183,12 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public boolean getRunwayEndStatus(final String runwayEnd) {
-        // TODO Auto-generated method stub
-        return false;
+        for (Runway r : this.model.getAirport().getRunways().get()) {
+            if (r.checkRunwayEnd(runwayEnd)) {
+                return r.getRunwayEnds().getX().toString().equals(runwayEnd) ? r.getRunwayEnds().getX().getStatus() : r.getRunwayEnds().getY().getStatus();
+            }
+        }
+        throw new IllegalArgumentException();
     }
 
 }

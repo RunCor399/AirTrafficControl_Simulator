@@ -55,6 +55,5 @@ public class RunwayController extends AbstractSceneController implements SceneCo
      */
     private void updateRunwayStatus() {
         //TODO
-        runwayEnd1.setSelected(true);
     }
 }

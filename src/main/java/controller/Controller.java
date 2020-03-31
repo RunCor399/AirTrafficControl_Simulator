@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import model.Direction;
 import model.Runway;
@@ -97,7 +98,7 @@ public interface Controller {
      * 
      * @return List of runways
      */
-    List<Runway> getAirportRunways();
+    Optional<List<Runway>> getAirportRunways();
 
     /**
      * Method that changes the status of a ruwnayEnd.
