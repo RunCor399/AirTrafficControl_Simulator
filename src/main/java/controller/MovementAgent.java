@@ -57,6 +57,7 @@ public class MovementAgent extends AbstractAgent {
             Plane currentPlane = planeIt.next();
             this.removeOutboundPlanes(currentPlane);
             this.removeInboundPlanes(currentPlane);
+            this.checkNotLandedPlanes(currentPlane);
         }
     }
 
@@ -82,6 +83,19 @@ public class MovementAgent extends AbstractAgent {
     private void removeInboundPlanes(final Plane plane) {
         if ((plane.getPlaneAction().equals(Plane.Action.LAND)) && (plane.isActionPerformed())) {
             this.getModel().removePlaneById(plane.getAirplaneId());
+        }
+    }
+
+    /**
+     * Methods that checks if a plane that has two land was sent outside of radar
+     * boundaries.
+     * In that case user loses and is redirected to Main Menu.
+     * 
+     * @param plane
+     */
+    private void checkNotLandedPlanes(final Plane plane) {
+        if ((plane.getPlaneAction().equals(Plane.Action.LAND)) && (!plane.getPosition().isWithinRadar())) {
+            this.view.resetGame("Un aereo che doveva atterrare è finito fuori dai limiti del radar");
         }
     }
 }

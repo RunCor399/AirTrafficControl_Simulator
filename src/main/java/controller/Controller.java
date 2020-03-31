@@ -88,4 +88,10 @@ public interface Controller {
      * started yet, it will start.
      */
     void startThreads();
+
+    /**
+     * Method that resets the game deleting all current planes and deactivating
+     * every runway.
+     */
+    void resetGameContext();
 }

@@ -82,8 +82,8 @@ public class ViewImpl extends Application implements View {
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.OK) {
-            //TODO reset the entire game
-            System.out.println("output");
+            this.controller.resetGameContext();
+            this.changeScene(sceneFactory.loadMenu());
         }
     }
 }
