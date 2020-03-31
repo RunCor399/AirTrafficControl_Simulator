@@ -162,4 +162,14 @@ public class ControllerImpl implements Controller {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetGameContext() {
+        this.stopThreads();
+        this.model.removeAllPlanes();
+        this.getActualAirport().deactivateAllRunways();
+    }
+
 }
