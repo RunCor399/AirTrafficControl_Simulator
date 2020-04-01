@@ -84,10 +84,7 @@ public class ViewImpl extends Application implements View {
             alert.setContentText(reason);
             alert.showAndWait();
 
-            if (alert.getResult() == ButtonType.OK) {
-                this.controller.resetGameContext();
-                this.changeScene(sceneFactory.loadMenu());
-            }
+            this.changeScene(sceneFactory.loadMenu());
         });
     }
 

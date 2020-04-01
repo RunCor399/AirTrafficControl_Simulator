@@ -30,7 +30,7 @@ public class ControllerImpl implements Controller {
         this.view = view;
         this.currentSelectedPlane = null;
         this.planeRandomizer = new RandomizerAgent(this.model);
-        this.movementAgent = new MovementAgent(this.model, this.view);
+        this.movementAgent = new MovementAgent(this.model, this.view, this);
     }
 
     /**
@@ -125,7 +125,7 @@ public class ControllerImpl implements Controller {
         this.planeRandomizer.stopThread();
         this.movementAgent.stopThread();
         this.planeRandomizer = new RandomizerAgent(this.model);
-        this.movementAgent = new MovementAgent(this.model, this.view);
+        this.movementAgent = new MovementAgent(this.model, this.view, this);
     }
 
     /**
@@ -169,6 +169,7 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void resetGameContext() {
+        //maybe pause
         this.stopThreads();
         this.model.removeAllPlanes();
         this.getActualAirport().deactivateAllRunways();
