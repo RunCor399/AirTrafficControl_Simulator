@@ -124,6 +124,8 @@ public class ControllerImpl implements Controller {
     public void stopThreads() {
         this.planeRandomizer.stopThread();
         this.movementAgent.stopThread();
+        this.planeRandomizer = new RandomizerAgent(this.model);
+        this.movementAgent = new MovementAgent(this.model, this.view);
     }
 
     /**
