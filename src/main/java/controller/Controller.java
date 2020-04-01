@@ -68,6 +68,7 @@ public interface Controller {
 
     /**
      * Method that stops all the threads of the application.
+     * It also initializes them in order to be able to start threads again.
      */
     void stopThreads();
 

@@ -31,15 +31,13 @@ public class SceneFactoryImpl implements SceneFactory {
      */
 
     private Pair<SceneController, Parent> loadScene(final String fileName) {
-        String slash = System.getProperty("file.separator");
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("."  + slash + "layout"  + slash +  fileName + ".fxml"));
-        Parent parent = (Parent) fxmlLoader.load();
-        SceneController sc = fxmlLoader.getController();
-        sc.setParameters(this.controller, this.view);
-        Pair<SceneController, Parent> p = new Pair<>(sc, parent);
-        return p;
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/layouts/" + fileName + ".fxml"));
+            Parent parent = (Parent) fxmlLoader.load();
+            SceneController sc = fxmlLoader.getController();
+            sc.setParameters(this.controller, this.view);
+            Pair<SceneController, Parent> p = new Pair<>(sc, parent);
+            return p;
         } catch (IOException e) {
             System.out.print("File not found");
         }
@@ -60,7 +58,7 @@ public class SceneFactoryImpl implements SceneFactory {
     @Override
     public Pair<SceneController, Parent> loadGame() {
 
-        return loadScene("Game");
+        return loadScene("RadarLayout");
     }
 
     /**
