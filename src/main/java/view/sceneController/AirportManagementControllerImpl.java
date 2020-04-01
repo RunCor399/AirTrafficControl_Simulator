@@ -1,9 +1,13 @@
 package view.sceneController;
 
 
+import java.io.IOException;
+
 import controller.Controller;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
+import model.Runway;
 import view.View;
 
 public class AirportManagementControllerImpl extends AbstractSceneController implements SceneController {
@@ -12,20 +16,24 @@ public class AirportManagementControllerImpl extends AbstractSceneController imp
     private GridPane gridPane;
 
     /**
-     * Constructor of a AirportManagementController.
-     */
-    public AirportManagementControllerImpl() {
-        super();
-        //TODO
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public void setParameters(final Controller controller, final View view) {
         super.setParameters(controller, view);
-        //TODO
+        int i = 0;
+        for (Runway r : this.getController().getAirportRunways().get()) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/layouts/RunwayGUI.fxml"));
+                SceneController runwayController = new RunwayController(r);
+                runwayController.setParameters(controller, view);
+                fxmlLoader.setController(runwayController);
+                this.gridPane.add(fxmlLoader.load(), 0, i);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            i++;
+        }
     }
 
 }
