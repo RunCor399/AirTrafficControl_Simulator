@@ -27,6 +27,7 @@ public class RunwayController extends AbstractSceneController implements SceneCo
     @FXML
     private Pane statusRunway;
 
+    @FXML
     public final void initialize() {
         //TODO
     }
@@ -47,13 +48,19 @@ public class RunwayController extends AbstractSceneController implements SceneCo
      * @param runwayEnd
      */
     public void changeRunwayEndStatus(final String runwayEnd) {
-        //TODO
+        this.getController().changeRunwayEndStatus(runwayEnd);
+        this.updateRunwayStatus();
     }
 
     /**
      * Method that updates the status of the runway after changed status.
      */
     private void updateRunwayStatus() {
-        //TODO
+        this.runwayEnd1.setSelected(this.getController().getRunwayEndStatus(this.runwayNum1.getText()));
+        this.runwayEnd2.setSelected(this.getController().getRunwayEndStatus(this.runwayNum2.getText()));
+        if (!this.runwayEnd1.isSelected() && !this.runwayEnd2.isSelected()) {
+            this.statusRunway.setStyle("-fx-background-color: #FF0000"); //RED
+        }
+        this.statusRunway.setStyle("-fx-background-color: #2EFE2E"); //GREEN
     }
 }
