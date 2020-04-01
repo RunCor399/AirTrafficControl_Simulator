@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import model.Airport;
@@ -8,6 +9,7 @@ import model.Model;
 import model.ModelImpl;
 import model.Plane;
 import model.RadarPositionImpl;
+import model.Runway;
 import model.Speed;
 import model.Vor;
 import model.exceptions.OperationNotAvailableException;
@@ -31,7 +33,7 @@ public class ControllerImpl implements Controller {
         this.view = view;
         this.currentSelectedPlane = null;
         this.planeRandomizer = new RandomizerAgent(this.model);
-        this.movementAgent = new MovementAgent(this.model, this.view);
+        this.movementAgent = new MovementAgent(this.model, this.view, this);
     }
 
     /**
@@ -113,7 +115,6 @@ public class ControllerImpl implements Controller {
     /**
      * {@inheritDoc}
      */
-    @Override
     public Airport getActualAirport() {
         return this.model.getAirport();
     }
@@ -121,12 +122,11 @@ public class ControllerImpl implements Controller {
     /**
      * {@inheritDoc}
      */
-    @Override
     public void stopThreads() {
         this.planeRandomizer.stopThread();
         this.movementAgent.stopThread();
         this.planeRandomizer = new RandomizerAgent(this.model);
-        this.movementAgent = new MovementAgent(this.model, this.view);
+        this.movementAgent = new MovementAgent(this.model, this.view, this);
     }
 
     /**
@@ -176,8 +176,37 @@ public class ControllerImpl implements Controller {
     /**
      * {@inheritDoc}
      */
+    public Optional<List<Runway>> getAirportRunways() {
+        return this.model.getAirport().getRunways();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void changeRunwayEndStatus(final String runwayEnd) {
+        this.model.getAirport().setActiveRunways(runwayEnd);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getRunwayEndStatus(final String runwayEnd) {
+        for (Runway r : this.model.getAirport().getRunways().get()) {
+            if (r.checkRunwayEnd(runwayEnd)) {
+                return r.getRunwayEnds().getX().getNumRunwayEnd().equals(runwayEnd) ? r.getRunwayEnds().getX().getStatus() : r.getRunwayEnds().getY().getStatus();
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void resetGameContext() {
+        //maybe pause
         this.stopThreads();
         this.model.removeAllPlanes();
         this.getActualAirport().deactivateAllRunways();

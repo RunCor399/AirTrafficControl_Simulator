@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.sceneController.RunwayController">
+   <children>
+      <Pane fx:id="statusRunway" layoutX="159.0" layoutY="83.0" prefHeight="256.0" prefWidth="77.0" style="-fx-background-color: #2EFE2E;" />
+      <CheckBox fx:id="runwayEnd1" layoutX="119.0" layoutY="84.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="11.0" scaleX="1.5" scaleY="1.5" />
+      <CheckBox fx:id="runwayEnd2" layoutX="119.0" layoutY="317.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="11.0" scaleX="1.5" scaleY="1.5" />
+      <Label fx:id="runwayId" alignment="CENTER" contentDisplay="CENTER" layoutX="56.0" layoutY="14.0" prefHeight="46.0" prefWidth="130.0" text="Runway ID" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Line endY="185.0" layoutX="127.0" layoutY="131.0" startY="-24.0" />
+      <Label fx:id="runwayNum1" layoutX="20.0" layoutY="83.0" text="RunwayEnd">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="runwayNum2" layoutX="20.0" layoutY="316.0" text="RunwayEnd">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

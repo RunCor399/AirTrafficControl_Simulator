@@ -8,10 +8,12 @@ import view.View;
 
 public class MovementAgent extends AbstractAgent {
     private final View view;
+    private final Controller controller;
 
-    public MovementAgent(final Model model, final View view) {
+    public MovementAgent(final Model model, final View view, final Controller controller) {
         super(model);
         this.view = view;
+        this.controller = controller;
     }
 
     /**
@@ -95,6 +97,7 @@ public class MovementAgent extends AbstractAgent {
      */
     private void checkNotLandedPlanes(final Plane plane) {
         if ((plane.getPlaneAction().equals(Plane.Action.LAND)) && (!plane.getPosition().isWithinRadar())) {
+            this.controller.resetGameContext();
             this.view.resetGame("Un aereo che doveva atterrare è finito fuori dai limiti del radar");
         }
     }

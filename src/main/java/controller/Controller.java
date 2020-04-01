@@ -1,9 +1,13 @@
 package controller;
 
-import model.Airport;
+import java.util.List;
+import java.util.Optional;
+
 import model.Direction;
+import model.Runway;
 import model.Speed;
 import utilities.Pair;
+import model.Airport;
 
 /**
  * 
@@ -92,12 +96,36 @@ public interface Controller {
     void startThreads();
 
     /**
+<<<<<<< HEAD
      * Method that returns the X and Y bounds of the radar. This method is useful to
      * correctly represent the radar.
      * 
      * @return a {@link Pair} containing the X and Y bounds.
      */
     Pair<Double, Double> getRadarDimension();
+
+    /**
+     * Method that returns the list of the runways.
+     * 
+     * @return List of runways
+     */
+    Optional<List<Runway>> getAirportRunways();
+
+    /**
+     * Method that changes the status of a ruwnayEnd.
+     * 
+     * @param runwayEnd
+     */
+    void changeRunwayEndStatus(String runwayEnd);
+
+    /**
+     * Method that returns the status of a runwayEnd.
+     * 
+     * @param runwayEnd
+     * @return Boolean status of runwayEnd
+     */
+    boolean getRunwayEndStatus(String runwayEnd);
+
 
     /**
      * Method that resets the game deleting all current planes and deactivating
