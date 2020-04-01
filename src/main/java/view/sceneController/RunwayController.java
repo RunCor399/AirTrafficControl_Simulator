@@ -1,7 +1,10 @@
 package view.sceneController;
 
 import java.awt.Label;
+import java.util.Objects;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Pane;
@@ -29,7 +32,22 @@ public class RunwayController extends AbstractSceneController implements SceneCo
 
     @FXML
     public final void initialize() {
-        //TODO
+
+        this.runwayEnd1.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(final ObservableValue<? extends Boolean> observable, final Boolean oldValue, 
+                    final Boolean newValue) {
+                changeRunwayEndStatus(runwayNum1.getText());
+            }
+        });
+
+        this.runwayEnd2.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(final ObservableValue<? extends Boolean> observable, final Boolean oldValue, 
+                    final Boolean newValue) {
+                changeRunwayEndStatus(runwayNum2.getText());
+            }
+        });
     }
 
     /**
@@ -39,7 +57,11 @@ public class RunwayController extends AbstractSceneController implements SceneCo
      */
     public RunwayController(final Runway runway) {
         super();
-        //TODO
+        Objects.nonNull(runway);
+        this.runwayNum1.setText(runway.getRunwayEnds().getX().getNumRunwayEnd());
+        this.runwayNum1.setText(runway.getRunwayEnds().getY().getNumRunwayEnd());
+        this.runwayId.setText(this.runwayNum1.getText() + " - " + this.runwayNum2.getText());
+        this.updateRunwayStatus();
     }
 
     /**

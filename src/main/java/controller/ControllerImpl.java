@@ -185,7 +185,7 @@ public class ControllerImpl implements Controller {
     public boolean getRunwayEndStatus(final String runwayEnd) {
         for (Runway r : this.model.getAirport().getRunways().get()) {
             if (r.checkRunwayEnd(runwayEnd)) {
-                return r.getRunwayEnds().getX().toString().equals(runwayEnd) ? r.getRunwayEnds().getX().getStatus() : r.getRunwayEnds().getY().getStatus();
+                return r.getRunwayEnds().getX().getNumRunwayEnd().equals(runwayEnd) ? r.getRunwayEnds().getX().getStatus() : r.getRunwayEnds().getY().getStatus();
             }
         }
         throw new IllegalArgumentException();
