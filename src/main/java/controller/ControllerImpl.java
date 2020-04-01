@@ -191,4 +191,14 @@ public class ControllerImpl implements Controller {
         throw new IllegalArgumentException();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetGameContext() {
+        this.stopThreads();
+        this.model.removeAllPlanes();
+        this.getActualAirport().deactivateAllRunways();
+    }
+
 }

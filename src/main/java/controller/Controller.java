@@ -114,4 +114,10 @@ public interface Controller {
      * @return Boolean status of runwayEnd
      */
     boolean getRunwayEndStatus(String runwayEnd);
+
+    /**
+     * Method that resets the game deleting all current planes and deactivating
+     * every runway.
+     */
+    void resetGameContext();
 }

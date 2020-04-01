@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -163,5 +164,17 @@ public class AirportImpl implements Airport {
                 + this.runwayList + "\nVor list: " + this.vorSet + "\nParking position: "
                 + this.parkingPosition.getPosition();
 
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deactivateAllRunways() {
+        Iterator<Runway> runwayIt = this.runwayList.iterator();
+
+        while (runwayIt.hasNext()) {
+            runwayIt.next().deactivateBothRunwayEnds();
+        }
     }
 }

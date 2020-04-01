@@ -5,8 +5,12 @@ import java.util.Set;
 import controller.Controller;
 import controller.ControllerImpl;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.Plane;
@@ -30,6 +34,7 @@ public class ViewImpl extends Application implements View {
 
         this.changeScene(sceneFactory.loadMenu());
         this.setStageResolution();
+        primaryStage.show();
     }
 
     /**
@@ -60,8 +65,33 @@ public class ViewImpl extends Application implements View {
         return this.sceneFactory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void radarUpdate(final Set<Plane> planes) {
-        //TODO
+        // TODO
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetGame(final String reason) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setHeaderText("HAI PERSO!");
+            alert.setContentText(reason);
+            alert.showAndWait();
+
+            if (alert.getResult() == ButtonType.OK) {
+                this.controller.resetGameContext();
+                this.changeScene(sceneFactory.loadMenu());
+            }
+        });
+    }
+
+    public static void main(final String[] args) {
+        launch(args);
     }
 }

@@ -82,4 +82,10 @@ public interface Airport {
      */
     void addRunway(Runway newRunway);
 
+    /**
+     * method that deactivates all the runways of the airport.
+     * 
+     */
+    void deactivateAllRunways();
+
 }

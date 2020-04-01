@@ -55,4 +55,9 @@ public interface Runway {
      */
     Pair<RunwayEnd, RunwayEnd> getRunwayEnds();
 
+    /**
+     * Method that deactivates both runway ends.
+     */
+    void deactivateBothRunwayEnds();
+
 }

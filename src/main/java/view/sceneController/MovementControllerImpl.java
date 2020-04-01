@@ -4,9 +4,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import javafx.fxml.FXML;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -169,5 +169,4 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     public void landPressed() {
         this.getController().land();
     }
-
 }
