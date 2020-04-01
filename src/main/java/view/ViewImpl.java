@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.Plane;
@@ -34,7 +33,8 @@ public class ViewImpl extends Application implements View {
 
         this.changeScene(sceneFactory.loadMenu());
         this.setStageResolution();
-        primaryStage.show();
+        this.primaryStage.setOnCloseRequest((event) -> this.controller.stopThreads());
+        this.primaryStage.show();
     }
 
     /**

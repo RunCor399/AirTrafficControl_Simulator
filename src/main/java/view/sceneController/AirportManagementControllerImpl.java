@@ -22,12 +22,13 @@ public class AirportManagementControllerImpl extends AbstractSceneController imp
     public void setParameters(final Controller controller, final View view) {
         super.setParameters(controller, view);
         int i = 0;
-        for (Runway r : this.getController().getAirportRunways().get()) {
+        for (Runway runway : this.getController().getAirportRunways().get()) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/layouts/RunwayGUI.fxml"));
-                SceneController runwayController = new RunwayController(r);
+                RunwayController runwayController = new RunwayController();
                 runwayController.setParameters(controller, view);
                 fxmlLoader.setController(runwayController);
+                runwayController.initializeRunwayLayout(runway);
                 this.gridPane.add(fxmlLoader.load(), 0, i);
             } catch (IOException e) {
                 e.printStackTrace();
