@@ -51,7 +51,7 @@ public class ControllerImpl implements Controller {
         Vor vor = new VorImpl("1", new RadarPositionImpl(new Position2DImpl(0.0, 0.0)));
         Runway run = new RunwayImpl(r1, r2);
         Runway run2 = new RunwayImpl(r3, r4);
-        this.model.setAirport(new AirportImpl("1", "airportName", Set.of(vor), Arrays.asList(run),
+        this.model.setAirport(new AirportImpl("1", "airportName", Set.of(vor), Arrays.asList(run, run2),
                 new RadarPositionImpl(new Position2DImpl(0.0, 1.0))));
     }
 
