@@ -44,6 +44,8 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
     private Pane radarPane;
     @FXML
     private SceneController airportGUIController;
+    @FXML
+    private SceneController movementGUIController;
 
     public final void initialize() {
         this.timeWarpSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -67,6 +69,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
     public void setParameters(final Controller controller, final View view) {
         super.setParameters(controller, view);
         this.airportGUIController.setParameters(controller, view);
+        this.movementGUIController.setParameters(controller, view);
     }
 
     /**

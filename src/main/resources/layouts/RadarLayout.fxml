@@ -57,7 +57,7 @@
       </BorderPane>
    </center>
    <left>
-      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <fx:include fx:id="movementGUI" source="movementLayout.fxml"/>
    </left>
    <right>
       <fx:include fx:id="airportGUI" source="AirportGUI.fxml"/>

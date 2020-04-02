@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,7 +35,7 @@ public class ModelImpl implements Model {
      */
     @Override
     public synchronized Set<Plane> getAllPlanes() {
-        return this.planes;
+        return Collections.unmodifiableSet(this.planes);
     }
 
     /**
