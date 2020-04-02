@@ -14,6 +14,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.Plane;
 import utilities.Pair;
+import view.sceneController.RadarController;
 import view.sceneController.SceneController;
 
 public class ViewImpl extends Application implements View {
@@ -70,7 +71,9 @@ public class ViewImpl extends Application implements View {
      */
     @Override
     public void radarUpdate(final Set<Plane> planes) {
-        // TODO
+        if (this.sceneController instanceof RadarController) {
+            ((RadarController) this.sceneController).updatePlanes(planes);
+        }
     }
 
     /**
