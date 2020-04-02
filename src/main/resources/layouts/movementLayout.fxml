@@ -21,20 +21,7 @@
             <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="350.0">
                <children>
                   <Text layoutX="170.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Direction" />
-<<<<<<< HEAD
                   <Spinner fx:id="directionSpinner" amountToStepBy="1" editable="true" layoutX="144.0" layoutY="33.0" max="359" min="0" prefHeight="25.0" prefWidth="119.0" />
-                  <Slider fx:id="sliderAltitudeValue" blockIncrement="100.0" layoutX="298.0" layoutY="31.0" max="12000.0" min="2000.0" orientation="VERTICAL" prefHeight="133.0" prefWidth="24.0" showTickMarks="true" value="2000.0" />
-                  <Text layoutX="289.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Altitude" />
-                  <Slider fx:id="sliderSpeedValue" layoutX="14.0" layoutY="33.0" majorTickUnit="50.0" max="300.0" min="120.0" prefHeight="14.0" prefWidth="116.0" showTickMarks="true" value="210.0" />
-                  <Label layoutX="55.0" layoutY="8.0" text="Speed" />
-                  <Label fx:id="speedLabel" layoutX="58.0" layoutY="58.0" text="Label" />
-                  <Label fx:id="altitudeLabel" layoutX="293.0" layoutY="164.0" prefHeight="17.0" prefWidth="33.0" text="Label" />
-                  <ChoiceBox fx:id="vorChoiceBox" layoutX="142.0" layoutY="132.0" prefHeight="25.0" prefWidth="124.0" />
-                  <Label layoutX="169.0" layoutY="101.0" text="VOR Selector" />
-                  <Button fx:id="takeoffButton" layoutX="44.0" layoutY="97.0" mnemonicParsing="false" onAction="#executeTakeoff" text="Takeoff" />
-                  <Button fx:id="landButton" layoutX="51.0" layoutY="132.0" mnemonicParsing="false" onAction="#executeLanding" text="Land" />
-=======
-                  <Spinner fx:id="directionSpinner" amountToStepBy="1" editable="true" layoutX="144.0" layoutY="33.0" max="359" min="0" onInputMethodTextChanged="#getNewDirection" prefHeight="25.0" prefWidth="119.0" />
                   <Slider fx:id="altitudeSlider" blockIncrement="100.0" layoutX="287.0" layoutY="31.0" max="12000.0" min="2000.0" orientation="VERTICAL" prefHeight="133.0" prefWidth="24.0" showTickMarks="true" value="2000.0" />
                   <Text layoutX="278.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Altitude" />
                   <Slider fx:id="speedSlider" layoutX="14.0" layoutY="33.0" majorTickUnit="50.0" max="300.0" min="120.0" prefHeight="14.0" prefWidth="116.0" showTickMarks="true" value="210.0" />
