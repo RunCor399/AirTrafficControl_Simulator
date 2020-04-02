@@ -1,12 +1,12 @@
 package view.sceneController;
 
-import java.awt.Label;
 import java.util.Objects;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.Runway;
 
@@ -58,7 +58,7 @@ public class RunwayController extends AbstractSceneController implements SceneCo
     public void initializeRunwayLayout(final Runway runway) {
         Objects.nonNull(runway);
         this.runwayNum1.setText(runway.getRunwayEnds().getX().getNumRunwayEnd());
-        this.runwayNum1.setText(runway.getRunwayEnds().getY().getNumRunwayEnd());
+        this.runwayNum2.setText(runway.getRunwayEnds().getY().getNumRunwayEnd());
         this.runwayId.setText(this.runwayNum1.getText() + " - " + this.runwayNum2.getText());
         this.updateRunwayStatus();
     }

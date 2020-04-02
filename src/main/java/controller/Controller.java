@@ -96,7 +96,6 @@ public interface Controller {
     void startThreads();
 
     /**
-<<<<<<< HEAD
      * Method that returns the X and Y bounds of the radar. This method is useful to
      * correctly represent the radar.
      * 

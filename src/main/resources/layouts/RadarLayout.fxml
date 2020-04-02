@@ -60,6 +60,6 @@
       <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </left>
    <right>
-      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <fx:include fx:id="airportGUI" source="AirportGUI.fxml"/>
    </right>
 </BorderPane>
