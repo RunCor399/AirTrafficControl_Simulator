@@ -3,16 +3,17 @@ package controller;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import model.Airport;
 import model.Direction;
 import model.Model;
 import model.ModelImpl;
 import model.Plane;
+import model.RadarPositionImpl;
 import model.Runway;
 import model.Speed;
 import model.Vor;
 import model.exceptions.OperationNotAvailableException;
+import utilities.Pair;
 import view.View;
 
 /**
@@ -160,7 +161,7 @@ public class ControllerImpl implements Controller {
         if (this.movementAgent.isAlive()) {
             this.movementAgent.resumeThread();
         } else {
-            this.movementAgent.resumeThread();
+            this.movementAgent.start();
         }
     }
 
@@ -168,6 +169,13 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
+    public Pair<Double, Double> getRadarDimension() {
+        return new Pair<>(RadarPositionImpl.X_BOUND, RadarPositionImpl.Y_BOUND);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public Optional<List<Runway>> getAirportRunways() {
         return this.model.getAirport().getRunways();
     }

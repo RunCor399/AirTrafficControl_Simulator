@@ -39,7 +39,7 @@ public class SceneFactoryImpl implements SceneFactory {
             Pair<SceneController, Parent> p = new Pair<>(sc, parent);
             return p;
         } catch (IOException e) {
-            System.out.print("File not found");
+            e.printStackTrace();
         }
         return null;
     }
@@ -49,7 +49,7 @@ public class SceneFactoryImpl implements SceneFactory {
      */
     @Override
     public Pair<SceneController, Parent> loadMenu() {
-        return loadScene("Menu");
+        return loadScene("MenuLayout");
     }
 
     /**
@@ -57,7 +57,6 @@ public class SceneFactoryImpl implements SceneFactory {
      */
     @Override
     public Pair<SceneController, Parent> loadGame() {
-
         return loadScene("RadarLayout");
     }
 

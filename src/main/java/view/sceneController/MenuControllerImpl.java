@@ -19,6 +19,7 @@ public class MenuControllerImpl extends AbstractSceneController implements Scene
      */
     public void switchToGameScenery() {
         this.getView().changeScene(this.getView().getSceneFactory().loadGame());
+        this.getController().startThreads();
     }
 
     /**
