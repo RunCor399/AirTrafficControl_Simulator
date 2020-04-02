@@ -82,12 +82,11 @@ public class ViewImpl extends Application implements View {
     @Override
     public void windowAlert(final String header, final String text) {
         Platform.runLater(() -> {
-
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setHeaderText(header);
+            alert.setContentText(text);
+            alert.showAndWait();
         });
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setHeaderText(header);
-        alert.setContentText(text);
-        alert.showAndWait();
     }
 
     public static void main(final String[] args) {
