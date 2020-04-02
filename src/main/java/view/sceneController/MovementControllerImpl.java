@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import controller.Controller;
 import javafx.fxml.FXML;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,6 +18,7 @@ import model.DirectionImpl;
 import model.Speed;
 import model.SpeedImpl;
 import model.Vor;
+import view.View;
 
 public class MovementControllerImpl extends AbstractSceneController implements SceneController {
 
@@ -83,9 +85,17 @@ public class MovementControllerImpl extends AbstractSceneController implements S
             }
         });
 
-        this.initializeVorList();
         this.speedLabel.setText("210");
         this.altitudeLabel.setText("7000");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setParameters(final Controller controller, final View view) {
+        super.setParameters(controller, view);
+        this.initializeVorList();
     }
 
     /**
