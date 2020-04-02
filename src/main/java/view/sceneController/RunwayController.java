@@ -51,12 +51,11 @@ public class RunwayController extends AbstractSceneController implements SceneCo
     }
 
     /**
-     * Constructor of the runwayController that initialize the runwayEnd.
+     * Method that initializes the current runway view.
      * 
      * @param runway
      */
-    public RunwayController(final Runway runway) {
-        super();
+    public void initializeRunwayLayout(final Runway runway) {
         Objects.nonNull(runway);
         this.runwayNum1.setText(runway.getRunwayEnds().getX().getNumRunwayEnd());
         this.runwayNum1.setText(runway.getRunwayEnds().getY().getNumRunwayEnd());
@@ -77,6 +76,7 @@ public class RunwayController extends AbstractSceneController implements SceneCo
     /**
      * Method that updates the status of the runway after changed status.
      */
+    //TODO: use this method only when initializing
     private void updateRunwayStatus() {
         this.runwayEnd1.setSelected(this.getController().getRunwayEndStatus(this.runwayNum1.getText()));
         this.runwayEnd2.setSelected(this.getController().getRunwayEndStatus(this.runwayNum2.getText()));
