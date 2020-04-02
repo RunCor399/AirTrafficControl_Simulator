@@ -1,6 +1,7 @@
 package controller;
 
-import java.util.Iterator;
+//import java.util.Iterator;
+import java.util.Set;
 
 import javafx.application.Platform;
 import model.Model;
@@ -54,13 +55,20 @@ public class MovementAgent extends AbstractAgent {
      * 
      */
     private void updateUnderControlPlanes() {
-        Iterator<Plane> planeIt = this.getModel().getAllPlanes().iterator();
+        /*
+         * Iterator<Plane> planeIt = this.getModel().getAllPlanes().iterator();
+         * 
+         * while (planeIt.hasNext()) { Plane currentPlane = planeIt.next();
+         * this.removeOutboundPlanes(currentPlane);
+         * this.removeInboundPlanes(currentPlane);
+         * this.checkNotLandedPlanes(currentPlane); }
+         */
+        Set<Plane> planesSet = this.getModel().getAllPlanes();
 
-        while (planeIt.hasNext()) {
-            Plane currentPlane = planeIt.next();
-            this.removeOutboundPlanes(currentPlane);
-            this.removeInboundPlanes(currentPlane);
-            this.checkNotLandedPlanes(currentPlane);
+        for (Plane plane : planesSet) {
+            this.removeOutboundPlanes(plane);
+            this.removeInboundPlanes(plane);
+            this.checkNotLandedPlanes(plane);
         }
     }
 
