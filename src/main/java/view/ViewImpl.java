@@ -71,6 +71,7 @@ public class ViewImpl extends Application implements View {
     @Override
     public void radarUpdate(final Set<Plane> planes) {
         // TODO
+        //this.sceneController.updatePlanes(planes);
     }
 
     /**
