@@ -1,14 +1,19 @@
 package controller;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
+import model.Airport;
 import model.Direction;
 import model.Model;
 import model.ModelImpl;
 import model.Plane;
+import model.Runway;
 import model.Speed;
 import model.Vor;
 import model.exceptions.OperationNotAvailableException;
+import view.View;
 
 /**
  * 
@@ -17,11 +22,17 @@ import model.exceptions.OperationNotAvailableException;
  */
 public class ControllerImpl implements Controller {
     private Model model;
+    private View view;
     private Plane currentSelectedPlane;
+    private RandomizerAgent planeRandomizer;
+    private MovementAgent movementAgent;
 
-    public ControllerImpl() {
+    public ControllerImpl(final View view) {
         this.model = new ModelImpl();
+        this.view = view;
         this.currentSelectedPlane = null;
+        this.planeRandomizer = new RandomizerAgent(this.model);
+        this.movementAgent = new MovementAgent(this.model, this.view, this);
     }
 
     /**
@@ -64,9 +75,14 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public void goToVor(final Vor targetVor) {
-        Objects.requireNonNull(targetVor);
-        this.currentSelectedPlane.setTargetPosition(targetVor.getPosition());
+    public void goToVor(final String vorId) {
+        Objects.requireNonNull(vorId);
+        Optional<Vor> vor = this.getActualAirport().getVorById(vorId);
+        if (vor.isEmpty()) {
+            throw new IllegalStateException();
+        }
+
+        this.currentSelectedPlane.setTargetPosition(vor.get().getPosition());
     }
 
     /**
@@ -93,6 +109,99 @@ public class ControllerImpl implements Controller {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Airport getActualAirport() {
+        return this.model.getAirport();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void stopThreads() {
+        this.planeRandomizer.stopThread();
+        this.movementAgent.stopThread();
+        this.planeRandomizer = new RandomizerAgent(this.model);
+        this.movementAgent = new MovementAgent(this.model, this.view, this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void pauseThreads() {
+        this.planeRandomizer.pauseThread();
+        this.movementAgent.pauseThread();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setSimulationRate(final int rate) {
+        this.planeRandomizer.setMultiplier(rate);
+        this.movementAgent.setMultiplier(rate);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void startThreads() {
+        if (this.planeRandomizer.isAlive()) {
+            this.planeRandomizer.resumeThread();
+        } else {
+            this.planeRandomizer.start();
+        }
+
+        if (this.movementAgent.isAlive()) {
+            this.movementAgent.resumeThread();
+        } else {
+            this.movementAgent.resumeThread();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<List<Runway>> getAirportRunways() {
+        return this.model.getAirport().getRunways();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void changeRunwayEndStatus(final String runwayEnd) {
+        this.model.getAirport().setActiveRunways(runwayEnd);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean getRunwayEndStatus(final String runwayEnd) {
+        for (Runway r : this.model.getAirport().getRunways().get()) {
+            if (r.checkRunwayEnd(runwayEnd)) {
+                return r.getRunwayEnds().getX().getNumRunwayEnd().equals(runwayEnd) ? r.getRunwayEnds().getX().getStatus() : r.getRunwayEnds().getY().getStatus();
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetGameContext() {
+        //maybe pause
+        this.stopThreads();
+        this.model.removeAllPlanes();
+        this.getActualAirport().deactivateAllRunways();
     }
 
 }

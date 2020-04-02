@@ -2,15 +2,15 @@ package model;
 
 /**
  * 
- * An interface that define the direction of use of a Runway.
+ * An interface that defines the direction of use of a Runway.
  *
  */
 public interface RunwayEnd extends RadarElement {
 
     /**
-     * This method change the status of a runwayEnd.
+     * This method changes the status of a runwayEnd.
      * 
-     * @param isActive Status of runwayEnd
+     * @param isActive
      */
     void changeStatus(boolean isActive);
 
@@ -29,7 +29,7 @@ public interface RunwayEnd extends RadarElement {
     String getNumRunwayEnd();
 
     /**
-     * Method that return runwayEnd heading.
+     * Method that returns runwayEnd heading.
      * 
      * @return runwayEnd heading
      */

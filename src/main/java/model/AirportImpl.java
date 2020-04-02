@@ -1,9 +1,12 @@
 package model;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * An implementation of {@link Airport}.
@@ -14,7 +17,7 @@ public class AirportImpl implements Airport {
     private final String airportId;
     private final String airportName;
     private final RadarPosition parkingPosition;
-    private List<Vor> vorList = new LinkedList<>();
+    private Set<Vor> vorSet = new HashSet<>();
     private List<Runway> runwayList = new LinkedList<>();
 
     /**
@@ -24,22 +27,22 @@ public class AirportImpl implements Airport {
      * 
      * @param airportName
      * 
-     * @param vorList
+     * @param vorSet
      * 
      * @param runwayList
      * 
      * @param parkingPosition
      */
-    public AirportImpl(final String airportId, final String airportName, final List<Vor> vorList,
+    public AirportImpl(final String airportId, final String airportName, final Set<Vor> vorSet,
             final List<Runway> runwayList, final RadarPosition parkingPosition) {
         Objects.requireNonNull(airportId);
         Objects.requireNonNull(airportName);
-        Objects.requireNonNull(vorList);
+        Objects.requireNonNull(vorSet);
         Objects.requireNonNull(runwayList);
         Objects.requireNonNull(parkingPosition);
         this.airportId = airportId;
         this.airportName = airportName;
-        this.vorList = vorList;
+        this.vorSet = vorSet;
         this.runwayList = runwayList;
         this.parkingPosition = parkingPosition;
     }
@@ -74,19 +77,15 @@ public class AirportImpl implements Airport {
     @Override
     public void addVor(final Vor newVor) {
         Objects.requireNonNull(newVor);
-        if (this.isVorAlreadyInList(newVor)) {
-            throw new IllegalStateException();
-        }
-
-        this.vorList.add(newVor);
+        this.vorSet.add(newVor);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<List<Vor>> getVorList() {
-        return this.vorList.isEmpty() ? Optional.empty() : Optional.of(this.vorList);
+    public Optional<Set<Vor>> getVorList() {
+        return this.vorSet.isEmpty() ? Optional.empty() : Optional.of(this.vorSet);
     }
 
     /**
@@ -94,26 +93,7 @@ public class AirportImpl implements Airport {
      */
     @Override
     public Optional<Vor> getVorById(final String vorId) {
-        Optional<Vor> vor = this.isVorPresent(vorId);
-        if (vor.isPresent()) {
-            return vor;
-        }
-
-        return Optional.empty();
-    }
-
-    private boolean isVorAlreadyInList(final Vor newVor) {
-        return this.vorList.contains(newVor);
-    }
-
-    private Optional<Vor> isVorPresent(final String vorId) {
-        for (Vor vor : this.vorList) {
-            if (vor.getId().equals(vorId)) {
-                return Optional.of(vor);
-            }
-        }
-
-        return Optional.empty();
+        return this.vorSet.stream().filter(x -> x.getId().equals(vorId)).findAny();
     }
 
     /**
@@ -162,7 +142,7 @@ public class AirportImpl implements Airport {
     private Optional<List<Runway>> computeActiveRunways() {
         List<Runway> activeRunwayList = new LinkedList<>();
 
-        for (Runway runway : this.runwayList) {
+        for (final Runway runway : this.runwayList) {
             if (runway.getRunwayStatus().isPresent()) {
                 activeRunwayList.add(runway);
             }
@@ -173,5 +153,28 @@ public class AirportImpl implements Airport {
         }
 
         return Optional.of(activeRunwayList);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "Airport name: " + this.airportName + "\nAirport id: " + this.airportId + "\nRunways list: "
+                + this.runwayList + "\nVor list: " + this.vorSet + "\nParking position: "
+                + this.parkingPosition.getPosition();
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deactivateAllRunways() {
+        Iterator<Runway> runwayIt = this.runwayList.iterator();
+
+        while (runwayIt.hasNext()) {
+            runwayIt.next().deactivateBothRunwayEnds();
+        }
     }
 }

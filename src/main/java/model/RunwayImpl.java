@@ -90,4 +90,21 @@ public class RunwayImpl implements Runway {
     public Pair<RunwayEnd, RunwayEnd> getRunwayEnds() {
         return this.runwayends;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return this.runwayends.getX().getNumRunwayEnd() + " " + this.runwayends.getY().getNumRunwayEnd();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void deactivateBothRunwayEnds() {
+        this.runwayends.getX().changeStatus(false);
+        this.runwayends.getY().changeStatus(false);
+    }
 }

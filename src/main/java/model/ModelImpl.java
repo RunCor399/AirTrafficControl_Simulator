@@ -33,7 +33,7 @@ public class ModelImpl implements Model {
      * {@inheritDoc}
      */
     @Override
-    public Set<Plane> getAllPlanes() {
+    public synchronized Set<Plane> getAllPlanes() {
         return this.planes;
     }
 
@@ -41,7 +41,7 @@ public class ModelImpl implements Model {
      * {@inheritDoc}
      */
     @Override
-    public Plane getPlaneById(final int id) {
+    public synchronized Plane getPlaneById(final int id) {
         Plane p = null;
         for (Plane tmp : this.planes) {
             if (tmp.getAirplaneId() == id) {
@@ -55,7 +55,7 @@ public class ModelImpl implements Model {
      * {@inheritDoc}
      */
     @Override
-    public void addPlane(final Plane plane) {
+    public synchronized void addPlane(final Plane plane) {
         this.planes.add(plane);
 
     }
@@ -72,7 +72,7 @@ public class ModelImpl implements Model {
      * {@inheritDoc}
      */
     @Override
-    public void removePlaneById(final int id) {
+    public synchronized void removePlaneById(final int id) {
         Plane p = getPlaneById(id);
         planes.remove(p);
     }
@@ -81,10 +81,18 @@ public class ModelImpl implements Model {
      * {@inheritDoc}
      */
     @Override
-    public void computeAllPlanePositions() {
+    public synchronized void computeAllPlanePositions() {
         for (Plane tmp : this.planes) {
             tmp.computeNewPosition();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void removeAllPlanes() {
+        this.planes.clear();
     }
 
 }

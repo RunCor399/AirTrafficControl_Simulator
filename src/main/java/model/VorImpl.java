@@ -7,22 +7,22 @@ import java.util.Objects;
  * 
  */
 
-public class VorImpl implements Vor {
+public class VorImpl extends AbstractRadarElement implements Vor {
+    // need to modify
+    private static final long serialVersionUID = 1234;
     private final String vorId;
-    private final RadarPosition vorPosition;
 
     /**
      * Constructor of a VOR.
      * 
-     * @param vorId
-     * 
      * @param vorPosition
+     * 
+     * @param vorId
      */
     public VorImpl(final String vorId, final RadarPosition vorPosition) {
+        super(vorPosition);
         Objects.requireNonNull(vorId);
-        Objects.requireNonNull(vorPosition);
         this.vorId = vorId;
-        this.vorPosition = vorPosition;
     }
 
     /**
@@ -37,8 +37,7 @@ public class VorImpl implements Vor {
      * {@inheritDoc}
      */
     @Override
-    public RadarPosition getPosition() {
-        return this.vorPosition;
+    public String toString() {
+        return this.vorId;
     }
-
 }

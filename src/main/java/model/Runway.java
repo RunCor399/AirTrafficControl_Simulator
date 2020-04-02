@@ -6,7 +6,7 @@ import utilities.Pair;
 
 /**
  * 
- * An interface that models runway in airport.
+ * An interface that models a runway in an airport.
  *
  */
 public interface Runway {
@@ -49,10 +49,15 @@ public interface Runway {
     boolean checkRunwayEnd(String numRunwayEnd);
 
     /**
-     * Method that return a pair of runwayEnds.
+     * Method that returns a pair of runwayEnds.
      * 
      * @return pair of runwayEnds relative to a runway
      */
     Pair<RunwayEnd, RunwayEnd> getRunwayEnds();
+
+    /**
+     * Method that deactivates both runway ends.
+     */
+    void deactivateBothRunwayEnds();
 
 }

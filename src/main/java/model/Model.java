@@ -73,5 +73,10 @@ public interface Model {
      */
     void computeAllPlanePositions();
 
+    /**
+     * 
+     * method that removes all the planes.
+     */
+    void removeAllPlanes();
 
 }

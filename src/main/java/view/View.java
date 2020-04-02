@@ -1,6 +1,9 @@
 package view;
 
+import java.util.Set;
+
 import javafx.scene.Parent;
+import model.Plane;
 import utilities.Pair;
 import view.sceneController.SceneController;
 
@@ -22,7 +25,7 @@ public interface View {
      * 
      * @param planes
      */
-    // void radarUpdate(List<Plane> planes);
+    void radarUpdate(Set<Plane> planes);
 
     /**
      * method that returns SceneFactory.
@@ -30,4 +33,11 @@ public interface View {
      * @return SceneFactory
      */
     SceneFactory getSceneFactory();
+
+    /**
+     * method that resets the game when a user loses.
+     * 
+     * @param reason
+     */
+    void resetGame(String reason);
 }

@@ -2,9 +2,19 @@ package model;
 
 import java.util.Objects;
 
+/**
+ * An implementation of {@link RadarPosition}.
+ * 
+ */
 public class RadarPositionImpl implements RadarPosition {
-    private static final Double X_BOUND = 30000.0;
-    private static final Double Y_BOUND = 20000.0;
+    /**
+     * The X coordinate bound.
+     */
+    public static final Double X_BOUND = 30000.0;
+    /**
+     * The Y coordinate bound.
+     */
+    public static final Double Y_BOUND = 20000.0;
     private Position2D elementPosition;
 
     /**
@@ -28,18 +38,15 @@ public class RadarPositionImpl implements RadarPosition {
 
     /**
      * {@inheritDoc}
-     */
-    @Override
-    public void setPosition(final Position2D position) {
-        Objects.requireNonNull(position);
-        if (!isWithinRadar(position)) {
-            /* TODO modify exception */
-            throw new IllegalStateException();
-        }
-
-        this.elementPosition = position;
-
-    }
+     *//* !!!!COULD BE REMOVED !!!!
+        * @Override public void setPosition(final Position2D position) {
+        * Objects.requireNonNull(position); if (!isWithinRadar(position)) { TODO modify
+        * exception throw new IllegalStateException(); }
+        * 
+        * this.elementPosition = position;
+        * 
+        * }
+        */
 
     /**
      * {@inheritDoc}
@@ -55,8 +62,9 @@ public class RadarPositionImpl implements RadarPosition {
      * {@inheritDoc}
      */
     @Override
-    public boolean isWithinRadar(final Position2D position) {
-        return ((Math.abs(position.getX()) <= X_BOUND) && (Math.abs(position.getY())) <= Y_BOUND);
+    public synchronized boolean isWithinRadar() {
+        return ((Math.abs(this.elementPosition.getX()) <= X_BOUND)
+                && (Math.abs(this.elementPosition.getY())) <= Y_BOUND);
     }
 
     /**

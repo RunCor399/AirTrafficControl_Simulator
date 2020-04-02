@@ -1,12 +1,18 @@
 package view;
 
+import java.util.Set;
+
 import controller.Controller;
 import controller.ControllerImpl;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import model.Plane;
 import utilities.Pair;
 import view.sceneController.SceneController;
 
@@ -22,11 +28,13 @@ public class ViewImpl extends Application implements View {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        this.controller = new ControllerImpl();
+        this.controller = new ControllerImpl(this);
         this.sceneFactory = new SceneFactoryImpl(controller, this);
 
         this.changeScene(sceneFactory.loadMenu());
         this.setStageResolution();
+        this.primaryStage.setOnCloseRequest((event) -> this.controller.stopThreads());
+        this.primaryStage.show();
     }
 
     /**
@@ -35,7 +43,8 @@ public class ViewImpl extends Application implements View {
     @Override
     public void changeScene(final Pair<SceneController, Parent> sceneContext) {
         this.sceneController = sceneContext.getX();
-        this.primaryStage.setScene(new Scene(sceneContext.getY(), this.primaryStage.getWidth(), this.primaryStage.getHeight()));
+        this.primaryStage
+                .setScene(new Scene(sceneContext.getY(), this.primaryStage.getWidth(), this.primaryStage.getHeight()));
     }
 
     private Pair<Double, Double> computeScreenResolution() {
@@ -54,5 +63,32 @@ public class ViewImpl extends Application implements View {
     @Override
     public SceneFactory getSceneFactory() {
         return this.sceneFactory;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void radarUpdate(final Set<Plane> planes) {
+        // TODO
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void resetGame(final String reason) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setHeaderText("HAI PERSO!");
+            alert.setContentText(reason);
+            alert.showAndWait();
+
+            this.changeScene(sceneFactory.loadMenu());
+        });
+    }
+
+    public static void main(final String[] args) {
+        launch(args);
     }
 }
