@@ -1,6 +1,18 @@
 package view.sceneController;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+
 public class MenuControllerImpl extends AbstractSceneController implements SceneController {
+
+    @FXML
+    private Button gameButton;
+
+    @FXML
+    private Button tutorialButton;
+
+    @FXML
+    private Button quitButton;
 
     /**
      * Method that switches into game Scenery.
