@@ -77,15 +77,14 @@ public class ViewImpl extends Application implements View {
      * {@inheritDoc}
      */
     @Override
-    public void resetGame(final String reason) {
+    public void windowAlert(final String header, final String text) {
         Platform.runLater(() -> {
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setHeaderText("HAI PERSO!");
-            alert.setContentText(reason);
-            alert.showAndWait();
 
-            this.changeScene(sceneFactory.loadMenu());
         });
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setHeaderText(header);
+        alert.setContentText(text);
+        alert.showAndWait();
     }
 
     public static void main(final String[] args) {
