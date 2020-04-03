@@ -28,7 +28,7 @@ public abstract class AbstractRadarElement implements RadarElement, Serializable
      */
     @Override
     public RadarPosition getPosition() {
-        return this.position;
+        return new RadarPositionImpl(this.position.getPosition());
     }
     /**
      * {@inheritDoc}

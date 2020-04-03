@@ -33,7 +33,7 @@ public class RadarPositionImpl implements RadarPosition {
      */
     @Override
     public Position2D getPosition() {
-        return this.elementPosition;
+        return new Position2DImpl(elementPosition.getX(), elementPosition.getY());
     }
 
     /**
@@ -52,10 +52,12 @@ public class RadarPositionImpl implements RadarPosition {
      * {@inheritDoc}
      */
     @Override
-    public void sumPosition(final Position2D offsetPosition) {
+    public RadarPosition sumPosition(final Position2D offsetPosition) {
         Objects.requireNonNull(offsetPosition);
-        this.elementPosition.addX(offsetPosition.getX());
-        this.elementPosition.addY(offsetPosition.getY());
+        Position2D finalPosition = this.getPosition();
+        finalPosition.addX(offsetPosition.getX());
+        finalPosition.addY(offsetPosition.getY());
+        return new RadarPositionImpl(finalPosition);
     }
 
     /**

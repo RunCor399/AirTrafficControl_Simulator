@@ -222,7 +222,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
         this.computeActualSpeed();
         this.computeActualDirection();
         this.computeActualAltitude();
-        this.getPosition().sumPosition(this.getPositionDelta());
+        this.setPosition(this.getPosition().sumPosition(this.getPositionDelta()));
         /* DEBUG !!! */
         System.out.println(this);
         System.out.println("Position -> x: " + this.getPosition().getPosition().getX());

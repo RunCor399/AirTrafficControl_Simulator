@@ -8,7 +8,7 @@ public interface RadarElement {
     /**
      * Gets the position of a radar elements.
      * 
-     * @return RadarPosition of an object.
+     * @return a defensive copy of the RadarPosition of an object.
      */
     RadarPosition getPosition();
     /**
