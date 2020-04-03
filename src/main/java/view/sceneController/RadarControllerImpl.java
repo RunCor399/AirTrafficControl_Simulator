@@ -119,7 +119,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
 
         private static final int TEXT_DIMENSION = 30;
         private static final int VOR_DIM = 12;
-        private static final double EXTENSION_VALUE = 4000;
+        private static final double EXTENSION_VALUE = 3000;
         private static final double DASHES_VALUE = 8;
         private static final double LINE_LENGHT = 20;
         private static final double PLANE_DIM = 8;
@@ -249,9 +249,9 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
                 double yPosition = this.computeY(planePosition.getY());
                 radarContext.strokeRect(xPosition - (PLANE_DIM / 2), yPosition - (PLANE_DIM / 2), PLANE_DIM, PLANE_DIM);
                 this.drawGuideline(xPosition, yPosition, plane.getDirection());
-                radarContext.fillText(plane.getCompanyName() + " " + plane.getAirplaneId() + "\n" 
-                        + plane.getSpeed().getAsKnots().intValue() + " kt " + (int) plane.getAltitude() + " ft",
-                        xPosition + LINE_LENGHT, yPosition + LINE_LENGHT);
+                radarContext.fillText(plane.getCompanyName() + " " + plane.getAirplaneId() + "  " 
+                        + (int) plane.getDirection().getAsDegrees()  + "°\n" + plane.getSpeed().getAsKnots().intValue()
+                        + " kt " + (int) plane.getAltitude() + " ft", xPosition + LINE_LENGHT, yPosition + LINE_LENGHT);
             }
         }
 
