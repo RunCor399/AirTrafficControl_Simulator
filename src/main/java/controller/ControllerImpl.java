@@ -53,6 +53,9 @@ public class ControllerImpl implements Controller {
         Runway run2 = new RunwayImpl(r3, r4);
         this.model.setAirport(new AirportImpl("1", "airportName", Set.of(vor), Arrays.asList(run, run2),
                 new RadarPositionImpl(new Position2DImpl(0.0, 1.0))));
+        Plane plane = new RandomPlaneFactoryImpl(30000, 20000).randomStillPlane(this.getActualAirport().getParkingPosition());
+        this.model.addPlane(plane);
+        this.currentSelectedPlane = plane;
     }
 
     /**
@@ -69,8 +72,6 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void setPlaneSpeed(final Speed targetSpeed) {
-        //TODO
-        //ADD METHOD THAT CHECKS IF THE PLANE IS STILL IN THE SET OF PLANES, HAS TO BE CALLED IN EACH MODIFIER, takeoff and land too
         Objects.requireNonNull(targetSpeed);
         this.currentSelectedPlane.setTargetSpeed(targetSpeed);
     }
