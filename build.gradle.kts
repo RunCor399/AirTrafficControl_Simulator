@@ -36,5 +36,5 @@ tasks.withType<Test> {
 }
 
 application {
-    mainClassName = "application.Launcher"
+    mainClassName = "view.Launcher"
 }
