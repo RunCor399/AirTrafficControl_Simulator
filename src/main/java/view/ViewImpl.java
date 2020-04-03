@@ -29,6 +29,7 @@ public class ViewImpl extends Application implements View {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
+        this.primaryStage.setMaximized(true);
         this.controller = new ControllerImpl(this);
         this.sceneFactory = new SceneFactoryImpl(controller, this);
 
