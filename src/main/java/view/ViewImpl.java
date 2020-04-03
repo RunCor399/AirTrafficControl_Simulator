@@ -29,6 +29,7 @@ public class ViewImpl extends Application implements View {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
+        this.primaryStage.setMaximized(true);
         this.controller = new ControllerImpl(this);
         this.sceneFactory = new SceneFactoryImpl(controller, this);
 
@@ -83,6 +84,7 @@ public class ViewImpl extends Application implements View {
     public void windowAlert(final String header, final String text) {
         Platform.runLater(() -> {
             Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("");
             alert.setHeaderText(header);
             alert.setContentText(text);
             alert.showAndWait();
