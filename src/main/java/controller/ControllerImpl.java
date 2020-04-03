@@ -44,16 +44,16 @@ public class ControllerImpl implements Controller {
         this.planeRandomizer = new RandomizerAgent(this.model);
         this.movementAgent = new MovementAgent(this.model, this.view, this);
         //DEBUG AIRPORT
-        RunwayEnd r1 = new RunwayEndImpl("20", new RadarPositionImpl(new Position2DImpl(0.0, 0.0)));
-        RunwayEnd r2 = new RunwayEndImpl("02", new RadarPositionImpl(new Position2DImpl(3000.0, 0.0)));
-        RunwayEnd r3 = new RunwayEndImpl("20", new RadarPositionImpl(new Position2DImpl(0.0, 200.0)));
-        RunwayEnd r4 = new RunwayEndImpl("02", new RadarPositionImpl(new Position2DImpl(3000.0, 200.0)));
+        RunwayEnd r1 = new RunwayEndImpl("18", new RadarPositionImpl(new Position2DImpl(0.0, 0.0)));
+        RunwayEnd r2 = new RunwayEndImpl("36", new RadarPositionImpl(new Position2DImpl(3000.0, 0.0)));
+        RunwayEnd r3 = new RunwayEndImpl("18", new RadarPositionImpl(new Position2DImpl(0.0, 200.0)));
+        RunwayEnd r4 = new RunwayEndImpl("36", new RadarPositionImpl(new Position2DImpl(3000.0, 200.0)));
         Vor vor = new VorImpl("1", new RadarPositionImpl(new Position2DImpl(0.0, 0.0)));
         Runway run = new RunwayImpl(r1, r2);
         Runway run2 = new RunwayImpl(r3, r4);
         this.model.setAirport(new AirportImpl("1", "airportName", Set.of(vor), Arrays.asList(run, run2),
                 new RadarPositionImpl(new Position2DImpl(0.0, 1.0))));
-        Plane plane = new RandomPlaneFactoryImpl(30000, 20000).randomStillPlane(this.getActualAirport().getParkingPosition());
+        Plane plane = new RandomPlaneFactoryImpl(30000, 20000).randomLandingPlane();
         this.model.addPlane(plane);
         this.currentSelectedPlane = plane;
     }
