@@ -83,6 +83,7 @@ public class ViewImpl extends Application implements View {
     public void windowAlert(final String header, final String text) {
         Platform.runLater(() -> {
             Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("");
             alert.setHeaderText(header);
             alert.setContentText(text);
             alert.showAndWait();
