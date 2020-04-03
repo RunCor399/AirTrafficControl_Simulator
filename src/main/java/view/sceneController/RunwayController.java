@@ -60,8 +60,9 @@ public class RunwayController extends AbstractSceneController implements SceneCo
         this.runwayEnd1.setSelected(this.getController().getRunwayEndStatus(this.runwayNum1.getText()));
         this.runwayEnd2.setSelected(this.getController().getRunwayEndStatus(this.runwayNum2.getText()));
         if (!this.runwayEnd1.isSelected() && !this.runwayEnd2.isSelected()) {
-            this.statusRunway.setStyle("-fx-background-color: #FF0000"); //RED
+            this.statusRunway.setStyle("-fx-background-color: #FF0000;"); //RED
+        } else {
+            this.statusRunway.setStyle("-fx-background-color: #2EFE2E;"); //GREEN
         }
-        this.statusRunway.setStyle("-fx-background-color: #2EFE2E"); //GREEN
     }
 }
