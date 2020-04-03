@@ -69,6 +69,8 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void setPlaneSpeed(final Speed targetSpeed) {
+        //TODO
+        //ADD METHOD THAT CHECKS IF THE PLANE IS STILL IN THE SET OF PLANES, HAS TO BE CALLED IN EACH MODIFIER, takeoff and land too
         Objects.requireNonNull(targetSpeed);
         this.currentSelectedPlane.setTargetSpeed(targetSpeed);
     }
