@@ -91,6 +91,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
 
     @FXML
     protected final void goToMenu(final ActionEvent e) {
+        this.getController().setSimulationRate(1);
         this.getController().pauseThreads();
         this.getView().changeScene(this.getView().getSceneFactory().loadMenu());
     }
