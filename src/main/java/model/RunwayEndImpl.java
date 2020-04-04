@@ -22,7 +22,7 @@ public class RunwayEndImpl extends AbstractRadarElement implements RunwayEnd {
         Objects.requireNonNull(numRunwayEnd);
         Objects.requireNonNull(runwayEndPosition);
 
-        if (ValueRange.of(MIN_RUNWAY_ID, MAX_RUNWAY_ID).isValidIntValue(Integer.parseInt(numRunwayEnd.substring(0, 1)))) {
+        if (!ValueRange.of(MIN_RUNWAY_ID, MAX_RUNWAY_ID).isValidIntValue(Integer.parseInt(numRunwayEnd.substring(0, 2)))) {
             throw new IllegalStateException();
         }
 
@@ -59,7 +59,7 @@ public class RunwayEndImpl extends AbstractRadarElement implements RunwayEnd {
      */
     @Override
     public Direction getRunwayEndHeading() {
-        return new DirectionImpl(Double.parseDouble(this.getNumRunwayEnd().substring(0, 1)) * 10);
+        return new DirectionImpl(Double.parseDouble(this.getNumRunwayEnd().substring(0, 2)) * 10);
     }
 
 }
