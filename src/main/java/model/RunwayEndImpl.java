@@ -1,5 +1,6 @@
 package model;
 
+import java.time.temporal.ValueRange;
 import java.util.Objects;
 
 public class RunwayEndImpl extends AbstractRadarElement implements RunwayEnd {
@@ -21,8 +22,8 @@ public class RunwayEndImpl extends AbstractRadarElement implements RunwayEnd {
         Objects.requireNonNull(numRunwayEnd);
         Objects.requireNonNull(runwayEndPosition);
 
-        if ((Integer.parseInt(numRunwayEnd) > MAX_RUNWAY_ID) || (Integer.parseInt(numRunwayEnd) < MIN_RUNWAY_ID)) {
-            throw new IllegalStateException("illegal runway");
+        if (ValueRange.of(MIN_RUNWAY_ID, MAX_RUNWAY_ID).isValidIntValue(Integer.parseInt(numRunwayEnd.substring(0, 1)))) {
+            throw new IllegalStateException();
         }
 
         this.numRunwayEnd = numRunwayEnd;
@@ -58,7 +59,7 @@ public class RunwayEndImpl extends AbstractRadarElement implements RunwayEnd {
      */
     @Override
     public Direction getRunwayEndHeading() {
-        return new DirectionImpl(Double.parseDouble(this.getNumRunwayEnd()) * 10);
+        return new DirectionImpl(Double.parseDouble(this.getNumRunwayEnd().substring(0, 1)) * 10);
     }
 
 }
