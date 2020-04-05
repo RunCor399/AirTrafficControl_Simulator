@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.junit.Assert;
+
 import model.Airport;
 import model.AirportImpl;
 import model.Position2DImpl;
@@ -55,11 +57,11 @@ public class AirportTest {
         runwayList.add(runway0927);
 
         this.airport = new AirportImpl("LIRF", "Roma Fiumicino", vorSet, runwayList, parkingPosition);
-       // System.out.println(airport.toString() + "\n\n");
     }
 
     /**
      * Test that adds a new {@link Runway} to the current {@link Airport}.
+     * 
      */
     @org.junit.Test
     public void addNewRunwayTest() {
@@ -70,24 +72,28 @@ public class AirportTest {
         RunwayEnd runwayEnd19 = new RunwayEndImpl("19", position19);
 
         Runway runway0119 = new RunwayImpl(runwayEnd01, runwayEnd19);
-        //this.airport.addRunway(runway0119);
-
+        assertEquals(2, this.airport.getRunways().get().size());
+        this.airport.addRunway(runway0119);
+        assertEquals(3, this.airport.getRunways().get().size());
     }
 
     /**
      * Test that adds a new {@link Vor} to the current {@link Airport}.
+     * 
      */
     @org.junit.Test
     public void addNewVorTest() {
+        assertEquals(2, this.airport.getVorList().get().size());
         RadarPosition positionNewVor = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         Vor newVor = new VorImpl("charlie", positionNewVor);
 
         this.airport.addVor(newVor);
-        //System.out.println(this.airport + "\n\n");
+        assertEquals(3, this.airport.getVorList().get().size());
     }
 
     /**
-     * Test that checks if a {@link Vor} with same id to another can be added.
+     * Test that tries to add a {@link Vor} already present in vorSet.
+     * 
      */
     @org.junit.Test
     public void alreadyPresentVorTest() {
@@ -95,21 +101,32 @@ public class AirportTest {
         Vor newVor = new VorImpl("alfa", positionNewVor);
 
         this.airport.addVor(newVor);
-        System.out.println("Size: " + this.airport.getVorList().get().size());
-        System.out.println(this.airport + "\n\n");
+        assertEquals(2, this.airport.getVorList().get().size());
     }
 
+    /**
+     * Test that gets a {@link Vor} by its id.
+     * 
+     */
     @org.junit.Test
     public void findVorByIdTest() {
         Optional<Vor> vorById = this.airport.getVorById("bravo");
-        //System.out.println(vorById.get().getId() + "\n\n");
+        Assert.assertTrue(vorById.isPresent());
     }
 
+    /**
+     * Test that tries to get a {@link Vor} not in the vorSet.
+     * 
+     */
     @org.junit.Test
     public void findVorErrorTest() {
         assertEquals(Optional.empty(), this.airport.getVorById("delta"));
     }
 
+    /**
+     * Test of activation/deactivation of {@link Runway}.
+     * 
+     */
     @org.junit.Test
     public void activeRunwaysTest() {
         List<RunwayEnd> activeEndsList = new LinkedList<>();
@@ -124,7 +141,6 @@ public class AirportTest {
         }
         assertEquals(2, activeEndsList.size());
 
-        // Change active end test
         activeEndsList.clear();
         this.airport.setActiveRunways("9");
         for (final Runway runway : this.airport.getActiveRunways().get()) {

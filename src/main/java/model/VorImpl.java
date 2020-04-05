@@ -66,8 +66,8 @@ public class VorImpl extends AbstractRadarElement implements Vor {
         if (getClass() != object.getClass()) {
             return false;
         }
-        Vor vor = (Vor) object;
-        if (this.vorId.equals(vor.getId())) {
+        VorImpl vor = (VorImpl) object;
+        if (!this.vorId.equals(vor.getId())) {
             return false;
         }
         return true;
