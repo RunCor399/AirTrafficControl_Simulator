@@ -28,7 +28,7 @@ public class AirportTest {
         RadarPosition position18 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition position36 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition position27 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
-        RadarPosition position9 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
+        RadarPosition position09 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition positionVor1 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition positionVor2 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition parkingPosition = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
@@ -42,13 +42,13 @@ public class AirportTest {
         RunwayEnd runwayEnd18 = new RunwayEndImpl("18", position18);
         RunwayEnd runwayEnd36 = new RunwayEndImpl("36", position36);
         RunwayEnd runwayEnd27 = new RunwayEndImpl("27", position27);
-        RunwayEnd runwayEnd9 = new RunwayEndImpl("9", position9);
+        RunwayEnd runwayEnd09 = new RunwayEndImpl("09", position09);
 
         Runway runway1836 = new RunwayImpl(runwayEnd18, runwayEnd36);
-        Runway runway927 = new RunwayImpl(runwayEnd9, runwayEnd27);
+        Runway runway0927 = new RunwayImpl(runwayEnd09, runwayEnd27);
         List<Runway> runwayList = new LinkedList<>();
         runwayList.add(runway1836);
-        runwayList.add(runway927);
+        runwayList.add(runway0927);
 
         this.airport = new AirportImpl("LIRF", "Roma Fiumicino", vorSet, runwayList, parkingPosition);
 
@@ -60,11 +60,11 @@ public class AirportTest {
         RadarPosition position1 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition position19 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
 
-        RunwayEnd runwayEnd1 = new RunwayEndImpl("1", position1);
+        RunwayEnd runwayEnd01 = new RunwayEndImpl("01", position1);
         RunwayEnd runwayEnd19 = new RunwayEndImpl("19", position19);
 
-        Runway runway119 = new RunwayImpl(runwayEnd1, runwayEnd19);
-        this.airport.addRunway(runway119);
+        Runway runway0119 = new RunwayImpl(runwayEnd01, runwayEnd19);
+        this.airport.addRunway(runway0119);
 
     }
 
