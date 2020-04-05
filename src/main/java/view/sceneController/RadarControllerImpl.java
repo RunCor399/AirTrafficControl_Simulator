@@ -1,6 +1,7 @@
 package view.sceneController;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import controller.Controller;
 import javafx.application.Platform;
@@ -77,14 +78,20 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
      */
     @Override
     public void updatePlanes(final Set<Plane> planes) {
+        Set<Plane> drawablePlanes = planes.stream()
+                .filter(plane -> plane.getPlaneAction().equals(Plane.Action.LAND)
+                        || (plane.getPlaneAction().equals(Plane.Action.TAKEOFF) && plane.isActionPerformed()))
+                .collect(Collectors.toSet());
+        System.out.println(planes.size() + "  " + drawablePlanes.size());
         Platform.runLater(() -> {
-            this.drawer.cachedPlanes = planes;
+            this.drawer.cachedPlanes = drawablePlanes;
             this.drawer.drawPlanes();
         });
     }
 
     @FXML
     protected final void goToMenu(final ActionEvent e) {
+        this.getController().setSimulationRate(1);
         this.getController().pauseThreads();
         this.getView().changeScene(this.getView().getSceneFactory().loadMenu());
     }
@@ -113,7 +120,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
 
         private static final int TEXT_DIMENSION = 30;
         private static final int VOR_DIM = 12;
-        private static final double EXTENSION_VALUE = 2000;
+        private static final double EXTENSION_VALUE = 3000;
         private static final double DASHES_VALUE = 8;
         private static final double LINE_LENGHT = 20;
         private static final double PLANE_DIM = 8;
@@ -199,6 +206,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
                 Position2D first = ends.getX().getPosition();
                 Position2D second = ends.getY().getPosition();
                 this.drawRunwayExtension(ends);
+                airportContext.setLineWidth(2);
                 airportContext.strokeLine(this.computeX(first.getX()), this.computeY(first.getY()),
                         this.computeX(second.getX()), this.computeY(second.getY()));
             }
@@ -218,6 +226,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
          */
         private void drawRunwayExtension(final Pair<RadarPosition, RadarPosition> ends) {
             Direction extensionDir = ends.getX().computeDirectionToTargetPosition(ends.getY());
+            airportContext.setLineWidth(1);
             double xExt1 = this.computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getX());
             double yExt1 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getY());
             extensionDir.sum(flatAngle);
@@ -233,17 +242,17 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
          */
         private void drawPlanes() {
             this.clearRadar();
-            radarContext.setStroke(Color.ORANGE);
             radarContext.setFill(Color.WHITESMOKE);
             for (Plane plane : this.cachedPlanes) {
+                radarContext.setStroke(plane.getPlaneAction().equals(Plane.Action.TAKEOFF) ? Color.CYAN : Color.ORANGE);
                 Position2D planePosition = plane.getPosition().getPosition();
                 double xPosition = this.computeX(planePosition.getX());
                 double yPosition = this.computeY(planePosition.getY());
                 radarContext.strokeRect(xPosition - (PLANE_DIM / 2), yPosition - (PLANE_DIM / 2), PLANE_DIM, PLANE_DIM);
                 this.drawGuideline(xPosition, yPosition, plane.getDirection());
-                radarContext.fillText(plane.getCompanyName() + " " + plane.getAirplaneId() + "\n" 
-                        + plane.getSpeed().getAsKnots().intValue() + " kt " + (int) plane.getAltitude() + " ft",
-                        xPosition + LINE_LENGHT, yPosition + LINE_LENGHT);
+                radarContext.fillText(plane.getCompanyName() + " " + plane.getAirplaneId() + "  " 
+                        + (int) plane.getDirection().getAsDegrees()  + "°\n" + plane.getSpeed().getAsKnots().intValue()
+                        + " kt " + (int) plane.getAltitude() + " ft", xPosition + LINE_LENGHT, yPosition + LINE_LENGHT);
             }
         }
 

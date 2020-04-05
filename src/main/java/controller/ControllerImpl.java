@@ -44,15 +44,21 @@ public class ControllerImpl implements Controller {
         this.planeRandomizer = new RandomizerAgent(this.model);
         this.movementAgent = new MovementAgent(this.model, this.view, this);
         //DEBUG AIRPORT
-        RunwayEnd r1 = new RunwayEndImpl("20", new RadarPositionImpl(new Position2DImpl(0.0, 0.0)));
-        RunwayEnd r2 = new RunwayEndImpl("02", new RadarPositionImpl(new Position2DImpl(60.0, 0.0)));
-        RunwayEnd r3 = new RunwayEndImpl("20", new RadarPositionImpl(new Position2DImpl(0.0, 60.0)));
-        RunwayEnd r4 = new RunwayEndImpl("02", new RadarPositionImpl(new Position2DImpl(200.0, 60.0)));
+        RunwayEnd r1 = new RunwayEndImpl("18L", new RadarPositionImpl(new Position2DImpl(0.0, 0.0)));
+        RunwayEnd r2 = new RunwayEndImpl("36L", new RadarPositionImpl(new Position2DImpl(3000.0, 0.0)));
+        RunwayEnd r3 = new RunwayEndImpl("18C", new RadarPositionImpl(new Position2DImpl(0.0, 200.0)));
+        RunwayEnd r4 = new RunwayEndImpl("36C", new RadarPositionImpl(new Position2DImpl(3000.0, 200.0)));
+        RunwayEnd r5 = new RunwayEndImpl("18R", new RadarPositionImpl(new Position2DImpl(0.0, 400.0)));
+        RunwayEnd r6 = new RunwayEndImpl("36R", new RadarPositionImpl(new Position2DImpl(3000.0, 400.0)));
         Vor vor = new VorImpl("1", new RadarPositionImpl(new Position2DImpl(0.0, 0.0)));
         Runway run = new RunwayImpl(r1, r2);
         Runway run2 = new RunwayImpl(r3, r4);
-        this.model.setAirport(new AirportImpl("1", "airportName", Set.of(vor), Arrays.asList(run, run2),
+        Runway run3 = new RunwayImpl(r5, r6);
+        this.model.setAirport(new AirportImpl("1", "airportName", Set.of(vor), Arrays.asList(run, run2, run3),
                 new RadarPositionImpl(new Position2DImpl(0.0, 1.0))));
+        Plane plane = new RandomPlaneFactoryImpl(30000, 20000).randomLandingPlane();
+        this.model.addPlane(plane);
+        this.currentSelectedPlane = plane;
     }
 
     /**
@@ -113,8 +119,7 @@ public class ControllerImpl implements Controller {
         try {
             this.currentSelectedPlane.takeOff(this.model.getAirport());
         } catch (OperationNotAvailableException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            this.view.windowAlert("OPERATION NOT POSSIBLE", e.getMessage());
         }
     }
 
@@ -126,8 +131,7 @@ public class ControllerImpl implements Controller {
         try {
             this.currentSelectedPlane.land(this.model.getAirport());
         } catch (OperationNotAvailableException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            this.view.windowAlert("OPERATION NOT POSSIBLE", e.getMessage());
         }
     }
 

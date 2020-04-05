@@ -43,10 +43,9 @@ public class ModelImpl implements Model {
      */
     @Override
     public synchronized Plane getPlaneById(final int id) {
-        Plane p = null;
-        for (Plane tmp : this.planes) {
-            if (tmp.getAirplaneId() == id) {
-                 return p;
+        for (Plane plane: this.planes) {
+            if (plane.getAirplaneId() == id) {
+                 return plane;
             }
         }
         throw new  IllegalStateException();
@@ -75,6 +74,7 @@ public class ModelImpl implements Model {
     @Override
     public synchronized void removePlaneById(final int id) {
         Plane p = getPlaneById(id);
+        System.out.println(p.getAirplaneId() + "TROVATOOO");
         planes.remove(p);
     }
 

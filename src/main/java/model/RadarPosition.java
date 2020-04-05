@@ -23,8 +23,9 @@ public interface RadarPosition {
      * Updates the position of an object inside the radar.
      * 
      * @param positionOffset
+     * @return the new {@link RadarPosition}
      */
-    void sumPosition(Position2D positionOffset);
+    RadarPosition sumPosition(Position2D positionOffset);
 
     /**
      * Controls if a plane is inside the radar bounds.

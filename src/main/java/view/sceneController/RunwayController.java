@@ -2,8 +2,6 @@ package view.sceneController;
 
 import java.util.Objects;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -62,8 +60,9 @@ public class RunwayController extends AbstractSceneController implements SceneCo
         this.runwayEnd1.setSelected(this.getController().getRunwayEndStatus(this.runwayNum1.getText()));
         this.runwayEnd2.setSelected(this.getController().getRunwayEndStatus(this.runwayNum2.getText()));
         if (!this.runwayEnd1.isSelected() && !this.runwayEnd2.isSelected()) {
-            this.statusRunway.setStyle("-fx-background-color: #FF0000"); //RED
+            this.statusRunway.setStyle("-fx-background-color: #FF0000;"); //RED
+        } else {
+            this.statusRunway.setStyle("-fx-background-color: #2EFE2E;"); //GREEN
         }
-        this.statusRunway.setStyle("-fx-background-color: #2EFE2E"); //GREEN
     }
 }
