@@ -1,4 +1,5 @@
 package airport;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashSet;
@@ -27,7 +28,7 @@ public class AirportTest {
         RadarPosition position18 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition position36 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition position27 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
-        RadarPosition position9 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
+        RadarPosition position09 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition positionVor1 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition positionVor2 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition parkingPosition = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
@@ -41,16 +42,17 @@ public class AirportTest {
         RunwayEnd runwayEnd18 = new RunwayEndImpl("18", position18);
         RunwayEnd runwayEnd36 = new RunwayEndImpl("36", position36);
         RunwayEnd runwayEnd27 = new RunwayEndImpl("27", position27);
-        RunwayEnd runwayEnd9 = new RunwayEndImpl("9", position9);
+        RunwayEnd runwayEnd09 = new RunwayEndImpl("09", position09);
 
         Runway runway1836 = new RunwayImpl(runwayEnd18, runwayEnd36);
-        Runway runway927 = new RunwayImpl(runwayEnd9, runwayEnd27);
+        Runway runway0927 = new RunwayImpl(runwayEnd09, runwayEnd27);
         List<Runway> runwayList = new LinkedList<>();
         runwayList.add(runway1836);
-        runwayList.add(runway927);
+        runwayList.add(runway0927);
 
         this.airport = new AirportImpl("LIRF", "Roma Fiumicino", vorSet, runwayList, parkingPosition);
-        System.out.println(airport.toString() + "\n\n");
+
+        // System.out.println(airport.toString() + "\n\n");
     }
 
     @org.junit.Test
@@ -58,11 +60,11 @@ public class AirportTest {
         RadarPosition position1 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         RadarPosition position19 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
 
-        RunwayEnd runwayEnd1 = new RunwayEndImpl("1", position1);
+        RunwayEnd runwayEnd01 = new RunwayEndImpl("01", position1);
         RunwayEnd runwayEnd19 = new RunwayEndImpl("19", position19);
 
-        Runway runway119 = new RunwayImpl(runwayEnd1, runwayEnd19);
-        this.airport.addRunway(runway119);
+        Runway runway0119 = new RunwayImpl(runwayEnd01, runwayEnd19);
+        this.airport.addRunway(runway0119);
 
     }
 
@@ -72,7 +74,7 @@ public class AirportTest {
         Vor newVor = new VorImpl("charlie", positionNewVor);
 
         this.airport.addVor(newVor);
-        System.out.println(this.airport + "\n\n");
+        // System.out.println(this.airport + "\n\n");
     }
 
     @org.junit.Test
@@ -81,17 +83,44 @@ public class AirportTest {
         Vor newVor = new VorImpl("alfa", positionNewVor);
 
         this.airport.addVor(newVor);
-        System.out.println(this.airport + "\n\n");
+        // System.out.println(this.airport + "\n\n");
     }
 
     @org.junit.Test
     public void findVorByIdTest() {
         Optional<Vor> vorById = this.airport.getVorById("bravo");
-        System.out.println(vorById.get().getId() + "\n\n");
+        // System.out.println(vorById.get().getId() + "\n\n");
     }
 
     @org.junit.Test
     public void findVorErrorTest() {
         assertEquals(Optional.empty(), this.airport.getVorById("delta"));
+    }
+
+    @org.junit.Test
+    public void activeRunwaysTest() {
+        List<RunwayEnd> activeEndsList = new LinkedList<>();
+        // Activation Test
+        assertEquals(Optional.empty(), this.airport.getActiveRunways());
+        this.airport.setActiveRunways("18");
+        this.airport.setActiveRunways("27");
+        assertEquals(2, this.airport.getActiveRunways().get().size());
+
+        for (final Runway runway : this.airport.getActiveRunways().get()) {
+            activeEndsList.add(runway.getRunwayStatus().get());
+        }
+        assertEquals(2, activeEndsList.size());
+
+        // Change active end test
+        activeEndsList.clear();
+        this.airport.setActiveRunways("9");
+        for (final Runway runway : this.airport.getActiveRunways().get()) {
+            activeEndsList.add(runway.getRunwayStatus().get());
+        }
+        assertEquals(2, activeEndsList.size());
+        activeEndsList.clear();
+
+        this.airport.deactivateAllRunways();
+        assertEquals(Optional.empty(), this.airport.getActiveRunways());
     }
 }
