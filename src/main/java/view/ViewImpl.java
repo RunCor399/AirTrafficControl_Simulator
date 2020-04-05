@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import model.Plane;
@@ -30,6 +31,8 @@ public class ViewImpl extends Application implements View {
     public void start(final Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         this.primaryStage.setMaximized(true);
+        this.primaryStage.getIcons().add(new Image("images/windowIcon.png"));
+        this.primaryStage.setTitle("Simple ATC Simulator");
         this.controller = new ControllerImpl(this);
         this.sceneFactory = new SceneFactoryImpl(controller, this);
 
@@ -84,9 +87,10 @@ public class ViewImpl extends Application implements View {
     public void windowAlert(final String header, final String text) {
         Platform.runLater(() -> {
             Alert alert = new Alert(AlertType.ERROR);
-            alert.setTitle("");
+            alert.setTitle("Simple ATC");
             alert.setHeaderText(header);
             alert.setContentText(text);
+            alert.initOwner(this.primaryStage);
             alert.showAndWait();
         });
     }
