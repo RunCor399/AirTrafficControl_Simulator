@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="210.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.sceneController.AirportManagementControllerImpl">
+<ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="210.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.sceneController.AirportManagementControllerImpl">
    <content>
-      <GridPane fx:id="gridPane" prefHeight="1200.0" prefWidth="200.0">
+      <GridPane fx:id="gridPane" prefHeight="900.0" prefWidth="200.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
