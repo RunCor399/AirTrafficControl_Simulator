@@ -40,4 +40,36 @@ public class VorImpl extends AbstractRadarElement implements Vor {
     public String toString() {
         return this.vorId;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((vorId == null) ? 0 : vorId.hashCode());
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null) {
+            return false;
+        }
+        if (getClass() != object.getClass()) {
+            return false;
+        }
+        Vor vor = (Vor) object;
+        if (this.vorId.equals(vor.getId())) {
+            return false;
+        }
+        return true;
+    }
 }

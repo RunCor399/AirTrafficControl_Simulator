@@ -23,6 +23,10 @@ import model.VorImpl;
 public class AirportTest {
     private Airport airport;
 
+    /**
+     * Initialization of an {@link Airport} and of two different {@link Vor}.
+     * 
+     */
     @org.junit.Before
     public void initializationTest() {
         RadarPosition position18 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
@@ -51,10 +55,12 @@ public class AirportTest {
         runwayList.add(runway0927);
 
         this.airport = new AirportImpl("LIRF", "Roma Fiumicino", vorSet, runwayList, parkingPosition);
-
-        // System.out.println(airport.toString() + "\n\n");
+       // System.out.println(airport.toString() + "\n\n");
     }
 
+    /**
+     * Test that adds a new {@link Runway} to the current {@link Airport}.
+     */
     @org.junit.Test
     public void addNewRunwayTest() {
         RadarPosition position1 = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
@@ -64,32 +70,39 @@ public class AirportTest {
         RunwayEnd runwayEnd19 = new RunwayEndImpl("19", position19);
 
         Runway runway0119 = new RunwayImpl(runwayEnd01, runwayEnd19);
-        this.airport.addRunway(runway0119);
+        //this.airport.addRunway(runway0119);
 
     }
 
+    /**
+     * Test that adds a new {@link Vor} to the current {@link Airport}.
+     */
     @org.junit.Test
     public void addNewVorTest() {
         RadarPosition positionNewVor = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         Vor newVor = new VorImpl("charlie", positionNewVor);
 
         this.airport.addVor(newVor);
-        // System.out.println(this.airport + "\n\n");
+        //System.out.println(this.airport + "\n\n");
     }
 
+    /**
+     * Test that checks if a {@link Vor} with same id to another can be added.
+     */
     @org.junit.Test
     public void alreadyPresentVorTest() {
         RadarPosition positionNewVor = new RadarPositionImpl(new Position2DImpl(0.0, 0.0));
         Vor newVor = new VorImpl("alfa", positionNewVor);
 
         this.airport.addVor(newVor);
-        // System.out.println(this.airport + "\n\n");
+        System.out.println("Size: " + this.airport.getVorList().get().size());
+        System.out.println(this.airport + "\n\n");
     }
 
     @org.junit.Test
     public void findVorByIdTest() {
         Optional<Vor> vorById = this.airport.getVorById("bravo");
-        // System.out.println(vorById.get().getId() + "\n\n");
+        //System.out.println(vorById.get().getId() + "\n\n");
     }
 
     @org.junit.Test
@@ -100,7 +113,7 @@ public class AirportTest {
     @org.junit.Test
     public void activeRunwaysTest() {
         List<RunwayEnd> activeEndsList = new LinkedList<>();
-        // Activation Test
+
         assertEquals(Optional.empty(), this.airport.getActiveRunways());
         this.airport.setActiveRunways("18");
         this.airport.setActiveRunways("27");
