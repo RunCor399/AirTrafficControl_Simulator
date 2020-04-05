@@ -22,6 +22,11 @@ import model.RunwayImpl;
 import model.Vor;
 import model.VorImpl;
 
+/**
+ * Test class to check if operations onto the elements of a {@link Airport} works. 
+ * 
+ *
+ */
 public class AirportTest {
     private Airport airport;
 
