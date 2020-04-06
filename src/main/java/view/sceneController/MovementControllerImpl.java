@@ -13,7 +13,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-//import javafx.scene.control.Spinner;
 import model.Direction;
 import model.DirectionImpl;
 import model.Speed;
