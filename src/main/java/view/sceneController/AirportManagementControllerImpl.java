@@ -7,6 +7,7 @@ import controller.Controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import model.Runway;
 import view.View;
@@ -15,6 +16,9 @@ public class AirportManagementControllerImpl extends AbstractSceneController imp
 
     @FXML
     private GridPane gridPane;
+
+    @FXML
+    private ScrollPane scrollPane;
 
     /**
      * {@inheritDoc}
