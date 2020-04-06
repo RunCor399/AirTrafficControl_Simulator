@@ -3,7 +3,10 @@ package controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import model.Airport;
 import model.AirportImpl;
@@ -18,6 +21,7 @@ import model.VorImpl;
 
 public class AirportSelectionImpl {
     private final List<Airport> airportList = new ArrayList<>(); 
+    private final Controller controller;
 
     {
         RunwayEnd r1 = new RunwayEndImpl("33", new RadarPositionImpl(new Position2DImpl(-1212.0, 700.0)));
@@ -27,9 +31,26 @@ public class AirportSelectionImpl {
         this.airportList.add(new AirportImpl("BO", "Bologna", Set.of(vor), List.of(run),
                 new RadarPositionImpl(new Position2DImpl(0.0, 1.0))));
     }
+    public AirportSelectionImpl(final Controller controller) {
+        this.controller = controller;
+    }
 
     public final Map<String, String> getAllAirports() {
-        //TODO
-        return null;
+        return this.airportList.stream()
+                .collect(Collectors.toMap(airport -> airport.getId(), airport -> airport.getName()));
+    }
+
+    private Optional<Airport> getAirportById(final String id) {
+        return this.airportList.stream()
+                .filter(airport -> airport.getId().equals(id))
+                .findFirst();
+    }
+
+    public void setAirportById(final String id) {
+        Objects.requireNonNull(id);
+        Optional<Airport> found = this.getAirportById(id);
+        if (found.isPresent()) {
+            this.controller.setActualAirport(found.get());
+        }
     }
 }

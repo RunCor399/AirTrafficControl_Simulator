@@ -17,6 +17,13 @@ import model.Airport;
 public interface Controller {
 
     /**
+     * This method allows the switch to a specific{@link Airport}.
+     * 
+     * @param airport the airport we want to set.
+     */
+    void setActualAirport(Airport airport);
+
+    /**
      * method that selects a plane as target.
      * 
      * @param planeId
@@ -131,5 +138,7 @@ public interface Controller {
      * every runway.
      */
     void resetGameContext();
+
+    
 
 }
