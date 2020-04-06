@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -16,8 +15,7 @@
          <children>
             <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="350.0">
                <children>
-                  <Text layoutX="170.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Direction" />
-                  <Spinner fx:id="directionSpinner" amountToStepBy="1" editable="true" layoutX="144.0" layoutY="33.0" max="359" min="0" prefHeight="25.0" prefWidth="119.0" />
+                  <Text layoutX="175.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Direction" />
                   <Slider fx:id="altitudeSlider" blockIncrement="100.0" layoutX="287.0" layoutY="31.0" max="12000.0" min="2000.0" orientation="VERTICAL" prefHeight="133.0" prefWidth="24.0" showTickMarks="true" value="2000.0" />
                   <Text layoutX="278.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Altitude" />
                   <Slider fx:id="speedSlider" layoutX="14.0" layoutY="33.0" majorTickUnit="50.0" max="300.0" min="120.0" prefHeight="14.0" prefWidth="116.0" showTickMarks="true" value="210.0" />
@@ -30,6 +28,9 @@
                   <Button fx:id="landButton" layoutX="51.0" layoutY="132.0" mnemonicParsing="false" onAction="#landPressed" text="Land" />
                   <Label layoutX="87.0" layoutY="58.0" text="kt" />
                   <Label layoutX="317.0" layoutY="164.0" text="ft" />
+                  <Label fx:id="headingLabel" layoutX="187.0" layoutY="34.0" prefHeight="22.0" prefWidth="34.0" />
+                  <Button fx:id="increaseHeadingButton" layoutX="224.0" layoutY="33.0" mnemonicParsing="false" onAction="#increaseHeading" prefHeight="25.0" prefWidth="30.0" text="&gt;" />
+                  <Button fx:id="decreaseHeadingButton" layoutX="148.0" layoutY="33.0" mnemonicParsing="false" onAction="#decreaseHeading" prefHeight="25.0" prefWidth="27.0" text="&lt;" />
                </children>
             </Pane>
          </children>
