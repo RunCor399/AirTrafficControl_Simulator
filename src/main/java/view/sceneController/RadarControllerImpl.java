@@ -202,10 +202,10 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
             this.clearAirport();
             airportContext.setStroke(Color.FORESTGREEN);
             for (Runway runway : airport.getRunways().get()) {
+                this.drawRunwayExtension(runway);
                 Pair<RadarPosition, RadarPosition> ends = runway.getPosition();
                 Position2D first = ends.getX().getPosition();
                 Position2D second = ends.getY().getPosition();
-                this.drawRunwayExtension(ends);
                 airportContext.setLineWidth(2);
                 airportContext.strokeLine(this.computeX(first.getX()), this.computeY(first.getY()),
                         this.computeX(second.getX()), this.computeY(second.getY()));
@@ -219,7 +219,26 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
                 airportContext.fillText(vor.getId(), xPos + VOR_DIM, yPos + VOR_DIM);
             }
             this.drawCoordinates();
- 
+        }
+
+        /**
+         * Method that draws a dashed line that extends the specified runway (to make it more visible).
+         */
+        private void drawRunwayExtension(final Runway runway) {
+            Pair<RadarPosition, RadarPosition> ends = runway.getPosition();
+            Direction extensionDir = ends.getY().computeDirectionToTargetPosition(ends.getX());
+            airportContext.setLineWidth(1);
+            double xExt1 = this.computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getX());
+            double yExt1 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getY());
+            extensionDir.sum(flatAngle);
+            double xExt2 = this.computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getX());
+            double yExt2 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getY());
+            airportContext.setLineDashes(DASHES_VALUE);
+            airportContext.strokeLine(xExt1, yExt1, xExt2, yExt2);
+//            airportContext.setFont(new Font(12));
+//            airportContext.fillText(runway.getRunwayEnds().getX().getNumRunwayEnd(), xExt1, yExt1);
+//            airportContext.fillText(runway.getRunwayEnds().getY().getNumRunwayEnd(), xExt2, yExt2);
+            airportContext.setLineDashes(0);
         }
 
         /**
@@ -232,22 +251,6 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
             airportContext.fillText("180", this.computeX(-this.radarDimension.getX()) + COORD_DIM, this.computeY(0));
             airportContext.fillText("270", this.computeX(0), this.computeY(-this.radarDimension.getY()) - COORD_DIM);
             airportContext.fillText("0", this.computeX(this.radarDimension.getX()) - COORD_DIM, this.computeY(0));
-        }
-
-        /**
-         * Method that draws a dashed line that extends the specified runway (to make it more visible).
-         */
-        private void drawRunwayExtension(final Pair<RadarPosition, RadarPosition> ends) {
-            Direction extensionDir = ends.getX().computeDirectionToTargetPosition(ends.getY());
-            airportContext.setLineWidth(1);
-            double xExt1 = this.computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getX());
-            double yExt1 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getY());
-            extensionDir.sum(flatAngle);
-            double xExt2 = this.computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getX());
-            double yExt2 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getY());
-            airportContext.setLineDashes(DASHES_VALUE);
-            airportContext.strokeLine(xExt1, yExt1, xExt2, yExt2);
-            airportContext.setLineDashes(0);
         }
 
         /**
