@@ -8,7 +8,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
 
     private static final long serialVersionUID = 5949982404790725460L;
     private static final double NO_VALUE = -1;
-    private static final double TIME_QUANTUM = 0.5;
+    private static final double TIME_QUANTUM = 0.25;
     private static final double KMH_TO_MS = 3.6;
 
     private Speed speed;
@@ -223,10 +223,10 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
         this.computeActualDirection();
         this.computeActualAltitude();
         this.setPosition(this.getPosition().sumPosition(this.getPositionDelta()));
-        /* DEBUG !!! */
+        /* DEBUG !!! 
         System.out.println(this);
         System.out.println("Position -> x: " + this.getPosition().getPosition().getX());
-        System.out.println("y: " + this.getPosition().getPosition().getY());
+        System.out.println("y: " + this.getPosition().getPosition().getY());*/
     }
 
     /**

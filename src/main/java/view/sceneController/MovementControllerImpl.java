@@ -9,12 +9,10 @@ import javafx.fxml.FXML;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Spinner;
-import javafx.scene.layout.BorderPane;
 import model.Direction;
 import model.DirectionImpl;
 import model.Speed;
@@ -23,9 +21,11 @@ import model.Vor;
 import view.View;
 
 public class MovementControllerImpl extends AbstractSceneController implements SceneController {
+    private static final int MAX_HEADING = 359;
+    private static final int MIN_HEADING = 0;
+    private static final int MIN_DELTA = 1;
+    private static final int MAX_DELTA = 10;
 
-    @FXML
-    private BorderPane root;
 
     @FXML
     private Slider speedSlider;
@@ -46,24 +46,22 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     private Label altitudeLabel;
 
     @FXML
-    private Spinner<Double> directionSpinner;
-
-    @FXML
     private ChoiceBox<String> vorChoiceBox;
 
     @FXML
-    private ScrollPane scrollPane;
+    private Label headingLabel;
+
+    @FXML
+    private Button increaseHeadingButton;
+
+    @FXML
+    private Button decreaseHeadingButton;
+
+    @FXML
+    private CheckBox turnCheckBox;
 
     @FXML
     public final void initialize() {
-
-        this.directionSpinner.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
-                    final Number newValue) {
-                setCurrentHeading(new DirectionImpl(newValue.doubleValue()));
-            }
-        });
 
         this.speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -94,8 +92,8 @@ public class MovementControllerImpl extends AbstractSceneController implements S
         });
 
         this.speedLabel.setText("210");
-        this.altitudeLabel.setText("7000");
-
+        this.altitudeLabel.setText("2000");
+        this.headingLabel.setText("0");
     }
 
     /**
@@ -189,4 +187,53 @@ public class MovementControllerImpl extends AbstractSceneController implements S
         this.getController().land();
     }
 
+
+    /**
+     * method that increases heading label value.
+     */
+    @FXML
+    public void increaseHeading() {
+        Integer currentHeading = Integer.valueOf(this.headingLabel.getText());
+
+        if (this.turnCheckBox.isSelected()) {
+            if ((currentHeading + MAX_DELTA) > MAX_HEADING) {
+                this.headingLabel.setText(
+                        String.valueOf(MIN_HEADING + (MAX_DELTA - (MAX_HEADING - currentHeading) - MIN_DELTA)));
+            } else {
+                this.headingLabel.setText(String.valueOf(currentHeading + MAX_DELTA));
+            }
+        } else {
+            if (currentHeading == MAX_HEADING) {
+                this.headingLabel.setText(String.valueOf(MIN_HEADING));
+            } else {
+                this.headingLabel.setText(String.valueOf(currentHeading + MIN_DELTA));
+            }
+        }
+
+        this.setCurrentHeading(new DirectionImpl(Double.valueOf(this.headingLabel.getText())));
+    }
+
+    /**
+     * method that decreases heading label value.
+     */
+    @FXML
+    public void decreaseHeading() {
+        Integer currentHeading = Integer.valueOf(this.headingLabel.getText());
+
+        if (this.turnCheckBox.isSelected()) {
+            if ((currentHeading - MAX_DELTA) < MIN_HEADING) {
+                this.headingLabel.setText(String.valueOf(MAX_HEADING - (MAX_DELTA - currentHeading) + 1));
+            } else {
+                this.headingLabel.setText(String.valueOf(currentHeading - MAX_DELTA));
+            }
+        } else {
+            if ((currentHeading == MIN_HEADING)) {
+                this.headingLabel.setText(String.valueOf(MAX_HEADING));
+            } else {
+                this.headingLabel.setText(String.valueOf(currentHeading - MIN_DELTA));
+            }
+        }
+
+        this.setCurrentHeading(new DirectionImpl(Double.valueOf(this.headingLabel.getText())));
+    }
 }

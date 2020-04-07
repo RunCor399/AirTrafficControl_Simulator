@@ -31,6 +31,7 @@ public class ViewImpl extends Application implements View {
     public void start(final Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
         this.primaryStage.setMaximized(true);
+        this.primaryStage.setResizable(false);
         this.primaryStage.getIcons().add(new Image("images/windowIcon.png"));
         this.primaryStage.setTitle("Simple ATC Simulator");
         this.controller = new ControllerImpl(this);
