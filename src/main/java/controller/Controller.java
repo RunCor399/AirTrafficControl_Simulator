@@ -139,6 +139,12 @@ public interface Controller {
      */
     void resetGameContext();
 
-    
+    /**
+     * Method that returns the {@link AirportSelectionImpl}, which is used to manage the actual {@link Airport}
+     * in the model.
+     * 
+     * @return the {@link AirportSelectionImpl} of the application.
+     */
+    AirportSelectionImpl getAirportSelector();
 
 }

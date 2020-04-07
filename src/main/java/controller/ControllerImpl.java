@@ -39,6 +39,14 @@ public class ControllerImpl implements Controller {
         this.selector = new AirportSelectionImpl(this);
         this.selector.setAirportById("BO");
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AirportSelectionImpl getAirportSelector() {
+        return this.selector;
+    }
 
     /**
      * {@inheritDoc}

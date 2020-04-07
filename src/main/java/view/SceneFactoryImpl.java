@@ -56,6 +56,14 @@ public class SceneFactoryImpl implements SceneFactory {
      * {@inheritDoc}
      */
     @Override
+    public Pair<SceneController, Parent> loadAirportSelection() {
+        return loadScene("AirportSelectionLayout");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Pair<SceneController, Parent> loadGame() {
         return loadScene("RadarLayout");
     }
