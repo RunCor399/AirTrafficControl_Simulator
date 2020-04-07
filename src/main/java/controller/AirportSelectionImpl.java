@@ -20,7 +20,7 @@ import model.Vor;
 import model.VorImpl;
 
 public class AirportSelectionImpl {
-    private final List<Airport> airportList = new ArrayList<>(); 
+    private final List<Airport> airportList = new ArrayList<>();
     private final Controller controller;
 
     {
@@ -30,7 +30,17 @@ public class AirportSelectionImpl {
         Vor vor = new VorImpl("33", new RadarPositionImpl(new Position2DImpl(-200.0, 0.0)));
         this.airportList.add(new AirportImpl("BO", "Bologna", Set.of(vor), List.of(run),
                 new RadarPositionImpl(new Position2DImpl(0.0, 1.0))));
+
+        RunwayEnd r20 = new RunwayEndImpl("20", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
+        RunwayEnd r02 = new RunwayEndImpl("02", new RadarPositionImpl(new Position2DImpl(-1550.5, -564.3)));
+
+        RunwayEnd r34R = new RunwayEndImpl("34R", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
+        RunwayEnd r11L = new RunwayEndImpl("11L", new RadarPositionImpl(new Position2DImpl(1693.0, 3101.0)));
+
+        RunwayEnd r34L = new RunwayEndImpl("34L", new RadarPositionImpl(new Position2DImpl(-986.2, -2114.8)));
+        RunwayEnd r11R = new RunwayEndImpl("11R", new RadarPositionImpl(new Position2DImpl(-985.7, -2114.5)));
     }
+
     public AirportSelectionImpl(final Controller controller) {
         this.controller = controller;
     }
@@ -41,9 +51,7 @@ public class AirportSelectionImpl {
     }
 
     private Optional<Airport> getAirportById(final String id) {
-        return this.airportList.stream()
-                .filter(airport -> airport.getId().equals(id))
-                .findFirst();
+        return this.airportList.stream().filter(airport -> airport.getId().equals(id)).findFirst();
     }
 
     public void setAirportById(final String id) {
