@@ -11,8 +11,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
+import javafx.scene.layout.BorderPane;
 import model.Direction;
 import model.DirectionImpl;
 import model.Speed;
@@ -21,6 +23,9 @@ import model.Vor;
 import view.View;
 
 public class MovementControllerImpl extends AbstractSceneController implements SceneController {
+
+    @FXML
+    private BorderPane root;
 
     @FXML
     private Slider speedSlider;
@@ -45,6 +50,9 @@ public class MovementControllerImpl extends AbstractSceneController implements S
 
     @FXML
     private ChoiceBox<String> vorChoiceBox;
+
+    @FXML
+    private ScrollPane scrollPane;
 
     @FXML
     public final void initialize() {
@@ -87,6 +95,7 @@ public class MovementControllerImpl extends AbstractSceneController implements S
 
         this.speedLabel.setText("210");
         this.altitudeLabel.setText("7000");
+
     }
 
     /**
@@ -179,4 +188,5 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     public void landPressed() {
         this.getController().land();
     }
+
 }
