@@ -23,6 +23,14 @@ public class MenuControllerImpl extends AbstractSceneController implements Scene
     }
 
     /**
+     * Method that switches into game Scenery.
+     */
+    public void switchToAirportSelection() {
+        this.getView().changeScene(this.getView().getSceneFactory().loadAirportSelection());
+        this.getController().startThreads();
+    }
+
+    /**
      * Method that switches into tutorial Scenery.
      */
     public void switchToTutorialScenery() {
