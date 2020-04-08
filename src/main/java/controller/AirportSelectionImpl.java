@@ -33,13 +33,16 @@ public class AirportSelectionImpl {
 
         RunwayEnd r20 = new RunwayEndImpl("20", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
         RunwayEnd r02 = new RunwayEndImpl("02", new RadarPositionImpl(new Position2DImpl(-1550.5, -564.3)));
-
+        Runway runRoma1 = new RunwayImpl(r20, r02);
         RunwayEnd r11R = new RunwayEndImpl("11R", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
         RunwayEnd r29L = new RunwayEndImpl("29L", new RadarPositionImpl(new Position2DImpl(1693.0, 3101.0)));
-
+        Runway runRoma2 = new RunwayImpl(r11R, r29L);
         // correct this
         RunwayEnd r11L = new RunwayEndImpl("11L", new RadarPositionImpl(new Position2DImpl(-1550.5, -564.3)));
         RunwayEnd r29R = new RunwayEndImpl("29R", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
+        Runway runRoma3 = new RunwayImpl(r11L, r29R);
+        this.airportList.add(new AirportImpl("RO", "Roma", Set.of(vor), List.of(runRoma1, runRoma2, runRoma3),
+                new RadarPositionImpl(new Position2DImpl(0.0, 1.0))));
     }
 
     public AirportSelectionImpl(final Controller controller) {
