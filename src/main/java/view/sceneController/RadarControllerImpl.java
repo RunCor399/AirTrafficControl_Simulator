@@ -47,7 +47,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
     @FXML
     private SceneController airportGUIController;
     @FXML
-    private SceneController movementGUIController;
+    private MovementControllerImpl movementGUIController;
 
     public final void initialize() {
         this.timeWarpSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -86,6 +86,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
         Platform.runLater(() -> {
             this.drawer.cachedPlanes = drawablePlanes;
             this.drawer.drawPlanes();
+            this.movementGUIController.updateStrips(planes);
         });
     }
 
