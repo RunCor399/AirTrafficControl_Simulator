@@ -14,7 +14,7 @@ import utilities.Pair;
  * {@link DynamicElement}.
  *
  */
-public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializable {
+public class PlaneImpl extends AbstractCommandableElement implements Plane, Serializable {
 
     private static final long serialVersionUID = 5423657003954572219L;
     /**

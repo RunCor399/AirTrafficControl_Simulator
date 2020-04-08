@@ -8,7 +8,7 @@ import model.exceptions.OperationNotAvailableException;
  * a radar.
  *
  */
-public interface Plane extends DynamicElement {
+public interface Plane extends CommandableElement {
 
     /**
      * 
