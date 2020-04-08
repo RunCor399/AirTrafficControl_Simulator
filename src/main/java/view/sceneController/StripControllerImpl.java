@@ -25,7 +25,7 @@ public class StripControllerImpl extends AbstractSceneController {
                 System.out.print(strip.getPlaneId());
             }
         });
-
+        strip.setPickOnBounds(true);
         this.strips.getChildren().add(strip);
     }
 
@@ -35,6 +35,7 @@ public class StripControllerImpl extends AbstractSceneController {
             this.createStrip(p);
         }
         this.strips.setPrefSize(this.width, STRIP_HEIGHT);
+        this.strips.setPickOnBounds(false);
         return this.strips;
     }
 

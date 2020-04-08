@@ -12,9 +12,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import model.Direction;
 import model.DirectionImpl;
+import model.Plane;
 import model.Speed;
 import model.SpeedImpl;
 import model.Vor;
@@ -26,7 +28,7 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     private static final int MIN_DELTA = 1;
     private static final int MAX_DELTA = 10;
 
-
+    private StripControllerImpl stripController;
     @FXML
     private Slider speedSlider;
 
@@ -61,6 +63,9 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     private CheckBox turnCheckBox;
 
     @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
     public final void initialize() {
 
         this.speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -71,7 +76,6 @@ public class MovementControllerImpl extends AbstractSceneController implements S
                 setCurrentSpeed(new SpeedImpl((double) newValue.intValue()));
             }
         });
-
         this.altitudeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
@@ -97,12 +101,24 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     }
 
     /**
+     * This method is used to update the strips based on the set of {@link Plane} given as parameter.
+     * 
+     * @param planes the updated set of {@link Plane}
+     */
+    public void updateStrips(final Set<Plane> planes) {
+        this.stripController.updateStrip(planes);
+        this.scrollPane.setContent(this.stripController.getStrips());
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public void setParameters(final Controller controller, final View view) {
         super.setParameters(controller, view);
         this.initializeVorList();
+        this.stripController = new StripControllerImpl(this.scrollPane.getPrefWidth());
+        this.stripController.setParameters(controller, view);
     }
 
     /**

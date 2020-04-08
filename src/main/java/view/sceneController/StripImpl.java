@@ -3,7 +3,13 @@ package view.sceneController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import model.Plane;
 import model.Plane.Action;
@@ -13,6 +19,8 @@ public class StripImpl extends StackPane {
     private int height;
     static final int FONT_SIZE = 18;
     static final double PADDING_SIZE = 15;
+    static final double TOP_BORDER = 1.5;
+    static final double LEFT_BORDER = 3;
     private int id;
 
     public StripImpl(final int width, final int height, final Plane p) {
@@ -47,7 +55,6 @@ public class StripImpl extends StackPane {
         StackPane.setAlignment(speedLabel, Pos.TOP_CENTER);
         StackPane.setAlignment(altitudeLabel, Pos.TOP_RIGHT);
         StackPane.setAlignment(headingLabel, Pos.BOTTOM_RIGHT);
-        this.getOnMouseClicked();
         this.getChildren().addAll(idLabel, speedLabel, altitudeLabel, headingLabel, companyLabel);
         this.setPrefWidth(this.width);
         this.setMinHeight(this.height);
@@ -56,7 +63,8 @@ public class StripImpl extends StackPane {
         } else {
             this.setStyle("-fx-background-color: #67fffb;");
         }
-
+        this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
+                new BorderWidths(TOP_BORDER, LEFT_BORDER, TOP_BORDER, LEFT_BORDER))));
     }
 
     public final int getPlaneId() {
