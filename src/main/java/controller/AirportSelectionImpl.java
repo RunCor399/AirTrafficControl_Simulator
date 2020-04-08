@@ -34,11 +34,12 @@ public class AirportSelectionImpl {
         RunwayEnd r20 = new RunwayEndImpl("20", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
         RunwayEnd r02 = new RunwayEndImpl("02", new RadarPositionImpl(new Position2DImpl(-1550.5, -564.3)));
 
-        RunwayEnd r34R = new RunwayEndImpl("34R", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
-        RunwayEnd r11L = new RunwayEndImpl("11L", new RadarPositionImpl(new Position2DImpl(1693.0, 3101.0)));
+        RunwayEnd r11R = new RunwayEndImpl("11R", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
+        RunwayEnd r29L = new RunwayEndImpl("29L", new RadarPositionImpl(new Position2DImpl(1693.0, 3101.0)));
 
-        RunwayEnd r34L = new RunwayEndImpl("34L", new RadarPositionImpl(new Position2DImpl(-986.2, -2114.8)));
-        RunwayEnd r11R = new RunwayEndImpl("11R", new RadarPositionImpl(new Position2DImpl(-985.7, -2114.5)));
+        // correct this
+        RunwayEnd r11L = new RunwayEndImpl("11L", new RadarPositionImpl(new Position2DImpl(-1550.5, -564.3)));
+        RunwayEnd r29R = new RunwayEndImpl("29R", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
     }
 
     public AirportSelectionImpl(final Controller controller) {
