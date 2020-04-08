@@ -25,13 +25,17 @@ public class StripImpl extends StackPane {
         Label idLabel = new Label(Integer.toString(p.getAirplaneId()));
         idLabel.setFont(font1);
         idLabel.setPadding(pad);
-        Label speedLabel = new Label(p.getTargetSpeed().toString());
+        String targetSpeed = p.getTargetSpeed().isPresent() ? p.getTargetSpeed().get().getAsKnots().toString() : "None";
+        Label speedLabel = new Label(targetSpeed);
         speedLabel.setPadding(pad);
         speedLabel.setFont(font2);
         Label altitudeLabel = new Label(Double.toString(p.getTargetAltitute()));
         altitudeLabel.setPadding(pad);
         altitudeLabel.setFont(font2);
-        Label headingLabel = new Label(p.getTargetDirection().toString());
+        String targetDirection = p.getTargetDirection().isPresent()
+                ? Double.toString(p.getTargetDirection().get().getAsDegrees())
+                : "None";
+        Label headingLabel = new Label(targetDirection);
         headingLabel.setPadding(pad);
         headingLabel.setFont(font2);
         Label companyLabel = new Label(p.getCompanyName());
@@ -46,7 +50,7 @@ public class StripImpl extends StackPane {
         this.getOnMouseClicked();
         this.getChildren().addAll(idLabel, speedLabel, altitudeLabel, headingLabel, companyLabel);
         this.setPrefWidth(this.width);
-        this.setPrefHeight(this.height);
+        this.setMinHeight(this.height);
         if (p.getPlaneAction().equals(Action.LAND)) {
             this.setStyle("-fx-background-color: #ffc24f;");
         } else {

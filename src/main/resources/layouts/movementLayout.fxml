@@ -41,6 +41,6 @@
       </VBox>
    </bottom>
    <center>
-      <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="400.0"/>
+      <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="350.0"/>
    </center>
 </BorderPane>

@@ -30,6 +30,7 @@ public class StripControllerImpl extends AbstractSceneController {
     }
 
     public final VBox updateStrip(final Set<Plane> planes) {
+        this.strips.getChildren().clear();
         for (Plane p : planes) {
             this.createStrip(p);
         }
