@@ -23,6 +23,10 @@ public class StripImpl extends StackPane {
     static final double TOP_BORDER = 1.5;
     static final double LEFT_BORDER = 3;
     private int id;
+    private final Plane plane;
+    private final Label speedLabel;
+    private final Label altitudeLabel;
+    private final Label headingLabel;
 
     public StripImpl(final int width, final int height, final Plane p, final Button selectButton) {
         this.width = width;
@@ -34,17 +38,14 @@ public class StripImpl extends StackPane {
         Label idLabel = new Label(Integer.toString(p.getAirplaneId()));
         idLabel.setFont(font1);
         idLabel.setPadding(pad);
-        String targetSpeed = p.getTargetSpeed().isPresent() ? p.getTargetSpeed().get().getAsKnots().toString() : "None";
-        Label speedLabel = new Label(targetSpeed);
-        speedLabel.setPadding(pad);
-        speedLabel.setFont(font2);
-        Label altitudeLabel = new Label(Double.toString(p.getTargetAltitute()));
-        altitudeLabel.setPadding(pad);
-        altitudeLabel.setFont(font2);
-        String targetDirection = p.getTargetDirection().isPresent()
-                ? Double.toString(p.getTargetDirection().get().getAsDegrees())
-                : "None";
-        Label headingLabel = new Label(targetDirection);
+        this.plane = p;
+        this.speedLabel = new Label();
+        this.speedLabel.setPadding(pad);
+        this.speedLabel.setFont(font2);
+        this.altitudeLabel = new Label();
+        this.altitudeLabel.setPadding(pad);
+        this.altitudeLabel.setFont(font2);
+        this.headingLabel = new Label();
         headingLabel.setPadding(pad);
         headingLabel.setFont(font2);
         Label companyLabel = new Label(p.getCompanyName());
@@ -73,6 +74,31 @@ public class StripImpl extends StackPane {
         }
         this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
                 new BorderWidths(TOP_BORDER, LEFT_BORDER, TOP_BORDER, LEFT_BORDER))));
+        this.updateShownTargets();
+    }
+
+    private void setShownTargetSpeed() {
+        String targetSpeed = this.plane.getTargetSpeed().isPresent()
+                ? this.plane.getTargetSpeed().get().getAsKnots().toString()
+                : "None";
+        this.speedLabel.setText(targetSpeed);
+    }
+
+    private void setShownTargetAltitude() {
+        this.altitudeLabel.setText(Double.toString(this.plane.getTargetAltitute()));
+    }
+
+    private void setShownTargetDirection() {
+        String targetDirection = this.plane.getTargetDirection().isPresent()
+                ? Double.toString(this.plane.getTargetDirection().get().getAsDegrees())
+                : "None";
+        this.headingLabel.setText(targetDirection);
+    }
+
+    public void updateShownTargets() {
+        this.setShownTargetAltitude();
+        this.setShownTargetSpeed();
+        this.setShownTargetDirection();
     }
 
     public final int getPlaneId() {
