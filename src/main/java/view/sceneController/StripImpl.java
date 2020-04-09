@@ -27,6 +27,7 @@ public class StripImpl extends StackPane {
     private final Label speedLabel;
     private final Label altitudeLabel;
     private final Label headingLabel;
+    private final Label companyLabel;
 
     public StripImpl(final int width, final int height, final Plane p, final Button selectButton) {
         this.width = width;
@@ -48,13 +49,9 @@ public class StripImpl extends StackPane {
         this.headingLabel = new Label();
         headingLabel.setPadding(pad);
         headingLabel.setFont(font2);
-        Label companyLabel = new Label(p.getCompanyName());
-        companyLabel.setPadding(pad);
-        companyLabel.setFont(font1);
-        if (p.isSelected()) {
-            companyLabel.setStyle("-fx-background-color: #FF0000;");
-        }
-
+        this.companyLabel = new Label(p.getCompanyName());
+        this.companyLabel.setPadding(pad);
+        this.companyLabel.setFont(font1);
         selectButton.setPadding(pad);
 
         StackPane.setAlignment(idLabel, Pos.TOP_LEFT);
@@ -95,13 +92,25 @@ public class StripImpl extends StackPane {
         this.headingLabel.setText(targetDirection);
     }
 
+    public void setSelected() {
+        this.companyLabel.setStyle("-fx-background-color: #FF0000;");
+    }
+
+    public void setNotSelected() {
+        this.companyLabel.setStyle("-fx-background-color: BLACK;");
+    }
+
     public void updateShownTargets() {
         this.setShownTargetAltitude();
         this.setShownTargetSpeed();
         this.setShownTargetDirection();
     }
+    
+    public final Plane getPlane() {
+        return this.plane;
+    }
 
     public final int getPlaneId() {
-        return this.id;
+        return this.getPlane().getAirplaneId();
     }
 }
