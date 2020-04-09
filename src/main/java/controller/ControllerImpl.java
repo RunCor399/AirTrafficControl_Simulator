@@ -28,7 +28,7 @@ public class ControllerImpl implements Controller {
     private Plane currentSelectedPlane;
     private RandomizerAgent planeRandomizer;
     private MovementAgent movementAgent;
-    private AirportSelectionImpl selector;
+    private AirportSelection selector;
 
     public ControllerImpl(final View view) {
         this.model = new ModelImpl();
@@ -44,7 +44,7 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
-    public AirportSelectionImpl getAirportSelector() {
+    public AirportSelection getAirportSelector() {
         return this.selector;
     }
 

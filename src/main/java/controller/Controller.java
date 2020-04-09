@@ -145,6 +145,6 @@ public interface Controller {
      * 
      * @return the {@link AirportSelectionImpl} of the application.
      */
-    AirportSelectionImpl getAirportSelector();
+    AirportSelection getAirportSelector();
 
 }

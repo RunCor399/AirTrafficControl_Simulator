@@ -1,7 +1,6 @@
 package view.sceneController;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import controller.Controller;
 import javafx.event.ActionEvent;
@@ -25,9 +24,8 @@ public class AirportSelectorController extends AbstractSceneController {
     public void setParameters(final Controller controller, final View view) {
         super.setParameters(controller, view);
         this.airports = getController().getAirportSelector().getAllAirports();
-        this.selectionBox.getItems().addAll(this.airports.entrySet().stream()
-                .map(entry -> entry.getValue())
-                .collect(Collectors.toSet()));
+        this.selectionBox.getItems().addAll(this.airports.values());
+        this.selectionBox.setValue(this.airports.values().stream().findFirst().get());
     }
 
     /**
