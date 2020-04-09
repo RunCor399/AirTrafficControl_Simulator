@@ -102,10 +102,10 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     @Override
     public void computeNewPosition() {
         this.setPosition(this.getPosition().sumPosition(this.getPositionDelta()));
-        /* DEBUG !!! 
-        System.out.println(this);
-        System.out.println("Position -> x: " + this.getPosition().getPosition().getX());
-        System.out.println("y: " + this.getPosition().getPosition().getY());*/
+        /* DEBUG code. Remove the comment to print the element information on the console */
+//        System.out.println(this);
+//        System.out.println("Position -> x: " + this.getPosition().getPosition().getX());
+//        System.out.println("y: " + this.getPosition().getPosition().getY());
     }
 
     /**

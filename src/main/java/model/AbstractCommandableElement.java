@@ -207,7 +207,7 @@ public abstract class AbstractCommandableElement extends AbstractDynamicElement 
 
     /**
      * 
-     * Method to get the speed delta per second (expressed in speed per second).
+     * Method to get the speed delta per second (expressed in knots per second).
      * 
      * @return the speed delta per second.
      */
