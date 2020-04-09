@@ -1,5 +1,7 @@
 package view.sceneController;
 
+import java.util.Optional;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,8 +14,10 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import model.Direction;
 import model.Plane;
 import model.Plane.Action;
+import model.Speed;
 
 public class StripImpl extends StackPane {
     private int width;
@@ -73,31 +77,46 @@ public class StripImpl extends StackPane {
     }
 
     private void setShownTargetSpeed() {
-        String targetSpeed = this.plane.getTargetSpeed().isPresent()
-                ? this.plane.getTargetSpeed().get().getAsKnots().toString()
-                : "None";
-        this.speedLabel.setText(targetSpeed);
+        Optional<Speed> optTargetSpeed = this.plane.getTargetSpeed();
+        if (optTargetSpeed.isPresent()) {
+            this.speedLabel.setText(Double.toString(optTargetSpeed.get().getAsKnots()));
+        }
     }
 
     private void setShownTargetAltitude() {
-        this.altitudeLabel.setText(Double.toString(this.plane.getTargetAltitute()));
+        Double targetAltitude = this.plane.getTargetAltitute();
+        if (targetAltitude != -1) {
+            this.altitudeLabel.setText(Double.toString(this.plane.getTargetAltitute()));
+        }
     }
 
     private void setShownTargetDirection() {
-        String targetDirection = this.plane.getTargetDirection().isPresent()
-                ? Double.toString(this.plane.getTargetDirection().get().getAsDegrees())
-                : "None";
-        this.headingLabel.setText(targetDirection);
+        Optional<Direction> optTargetDirection = this.plane.getTargetDirection();
+        if (optTargetDirection.isPresent()) {
+            this.headingLabel.setText(Double.toString(optTargetDirection.get().getAsDegrees()));
+        }
     }
 
+    /**
+     * 
+     * Sets the background color of the label.
+     */
     public void setSelected() {
         this.companyLabel.setStyle("-fx-background-color: #FF0000;");
     }
 
+    /**
+     * Resets the background color of the label.
+     * 
+     */
     public void setNotSelected() {
         this.companyLabel.setStyle("-fx-background-color: none;");
     }
 
+    /**
+     * 
+     * Update speed, altitude and direction values.
+     */
     public void updateShownTargets() {
         this.setShownTargetAltitude();
         this.setShownTargetSpeed();
