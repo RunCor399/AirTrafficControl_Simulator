@@ -19,6 +19,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     private double targetAltitude;
     private Direction targetDirection;
     private RadarPosition targetPosition;
+    private boolean selected;
 
 // flags useful to avoid checking where to go every time new parameters are computed
     private boolean goUp;
@@ -43,6 +44,7 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
         this.goUp = false;
         this.goLeft = false;
         this.accelerate = false;
+        this.selected = false;
 
         this.directionDifference = NO_VALUE;
     }
@@ -115,8 +117,8 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
 
     /**
      * 
-     * Protected method to set the altitude internally.
-     * This method intent is to allow the subclasses to directly work with the element parameters.
+     * Protected method to set the altitude internally. This method intent is to
+     * allow the subclasses to directly work with the element parameters.
      * 
      * @param altitude the altitude to set.
      */
@@ -126,8 +128,8 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
 
     /**
      * 
-     * Protected method to set the internally.
-     * This method intent is to allow the subclasses to directly work with the element parameters.
+     * Protected method to set the internally. This method intent is to allow the
+     * subclasses to directly work with the element parameters.
      * 
      * @param speed the speed to set.
      */
@@ -138,8 +140,8 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
 
     /**
      * 
-     * Protected method to set the direction internally.
-     * This method intent is to allow the subclasses to directly work with the element parameters.
+     * Protected method to set the direction internally. This method intent is to
+     * allow the subclasses to directly work with the element parameters.
      * 
      * @param direction the direction to set.
      */
@@ -223,10 +225,11 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
         this.computeActualDirection();
         this.computeActualAltitude();
         this.setPosition(this.getPosition().sumPosition(this.getPositionDelta()));
-        /* DEBUG !!! 
-        System.out.println(this);
-        System.out.println("Position -> x: " + this.getPosition().getPosition().getX());
-        System.out.println("y: " + this.getPosition().getPosition().getY());*/
+        /*
+         * DEBUG !!! System.out.println(this); System.out.println("Position -> x: " +
+         * this.getPosition().getPosition().getX()); System.out.println("y: " +
+         * this.getPosition().getPosition().getY());
+         */
     }
 
     /**
@@ -338,6 +341,26 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
         double xMovement = TIME_QUANTUM * actualSpeed * Math.cos(actualDirection);
         double yMovement = TIME_QUANTUM * actualSpeed * Math.sin(actualDirection);
         return new Position2DImpl(xMovement, yMovement);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isSelected() {
+        return this.selected;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void changeSelect() {
+        if (this.selected) {
+            this.selected = false;
+        } else {
+            this.selected = true;
+        }
     }
 
     /**

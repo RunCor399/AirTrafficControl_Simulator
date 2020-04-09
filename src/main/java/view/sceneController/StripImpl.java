@@ -49,6 +49,10 @@ public class StripImpl extends StackPane {
         Label companyLabel = new Label(p.getCompanyName());
         companyLabel.setPadding(pad);
         companyLabel.setFont(font1);
+        if (p.isSelected()) {
+            System.out.println("selected");
+            companyLabel.setStyle("-fx-background-color: #FF0000;");
+        }
 
         StackPane.setAlignment(idLabel, Pos.TOP_LEFT);
         StackPane.setAlignment(companyLabel, Pos.BOTTOM_LEFT);

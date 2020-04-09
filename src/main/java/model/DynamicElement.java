@@ -99,4 +99,17 @@ public interface DynamicElement extends RadarElement {
      */
     void computeNewPosition();
 
+    /**
+     * Method that checks if a plane is selected or not.
+     * 
+     * @return true if the plane is selected, false otherwise
+     */
+    boolean isSelected();
+
+    /**
+     * Method that changes select status.
+     * 
+     */
+    void changeSelect();
+
 }
