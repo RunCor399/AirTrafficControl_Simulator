@@ -69,7 +69,6 @@ public class ControllerImpl implements Controller {
         Objects.requireNonNull(planeId);
         if (this.currentSelectedPlane != null) {
             this.currentSelectedPlane.changeSelect();
-            System.out.println("null first time");
         }
         this.currentSelectedPlane = this.model.getPlaneById(planeId);
         this.currentSelectedPlane.changeSelect();

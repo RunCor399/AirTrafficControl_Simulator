@@ -2,6 +2,7 @@ package view.sceneController;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -23,7 +24,7 @@ public class StripImpl extends StackPane {
     static final double LEFT_BORDER = 3;
     private int id;
 
-    public StripImpl(final int width, final int height, final Plane p) {
+    public StripImpl(final int width, final int height, final Plane p, final Button selectButton) {
         this.width = width;
         this.height = height;
         this.id = p.getAirplaneId();
@@ -50,16 +51,19 @@ public class StripImpl extends StackPane {
         companyLabel.setPadding(pad);
         companyLabel.setFont(font1);
         if (p.isSelected()) {
-            System.out.println("selected");
             companyLabel.setStyle("-fx-background-color: #FF0000;");
         }
+
+        selectButton.setPadding(pad);
 
         StackPane.setAlignment(idLabel, Pos.TOP_LEFT);
         StackPane.setAlignment(companyLabel, Pos.BOTTOM_LEFT);
         StackPane.setAlignment(speedLabel, Pos.TOP_CENTER);
         StackPane.setAlignment(altitudeLabel, Pos.TOP_RIGHT);
         StackPane.setAlignment(headingLabel, Pos.BOTTOM_RIGHT);
-        this.getChildren().addAll(idLabel, speedLabel, altitudeLabel, headingLabel, companyLabel);
+        StackPane.setAlignment(selectButton, Pos.BOTTOM_CENTER);
+
+        this.getChildren().addAll(idLabel, speedLabel, altitudeLabel, headingLabel, companyLabel, selectButton);
         this.setPrefWidth(this.width);
         this.setMinHeight(this.height);
         if (p.getPlaneAction().equals(Action.LAND)) {
