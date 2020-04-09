@@ -19,7 +19,7 @@ import model.RunwayImpl;
 import model.Vor;
 import model.VorImpl;
 
-public class AirportSelectionImpl {
+public class AirportSelectionImpl implements AirportSelection {
     private final List<Airport> airportList = new ArrayList<>();
     private final Controller controller;
 
@@ -27,21 +27,23 @@ public class AirportSelectionImpl {
         RunwayEnd r1 = new RunwayEndImpl("33", new RadarPositionImpl(new Position2DImpl(-1212.0, 700.0)));
         RunwayEnd r2 = new RunwayEndImpl("15", new RadarPositionImpl(new Position2DImpl(1212.0, -700.0)));
         Runway run = new RunwayImpl(r1, r2);
-        Vor vor = new VorImpl("33", new RadarPositionImpl(new Position2DImpl(-200.0, 0.0)));
-        this.airportList.add(new AirportImpl("BO", "Bologna", Set.of(vor), List.of(run),
+        Vor vorBO33 = new VorImpl("33", new RadarPositionImpl(new Position2DImpl(-5542.1, 3200.0)));
+        Vor vorBO15 = new VorImpl("15", new RadarPositionImpl(new Position2DImpl(5542.3, -3200.0)));
+        Vor vorBOUPR = new VorImpl("UPR", new RadarPositionImpl(new Position2DImpl(8000.0, 7000.0)));
+        Vor vorBODWR = new VorImpl("DWR", new RadarPositionImpl(new Position2DImpl(-8000.0, -7000.0)));
+        this.airportList.add(new AirportImpl("BO", "Bologna", Set.of(vorBO33, vorBO15, vorBOUPR, vorBODWR), List.of(run),
                 new RadarPositionImpl(new Position2DImpl(0.0, 1.0))));
 
         RunwayEnd r20 = new RunwayEndImpl("20", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
         RunwayEnd r02 = new RunwayEndImpl("02", new RadarPositionImpl(new Position2DImpl(-1550.5, -564.3)));
         Runway runRoma1 = new RunwayImpl(r20, r02);
         RunwayEnd r11R = new RunwayEndImpl("11R", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
-        RunwayEnd r29L = new RunwayEndImpl("29L", new RadarPositionImpl(new Position2DImpl(1693.0, 3101.0)));
+        RunwayEnd r29L = new RunwayEndImpl("29L", new RadarPositionImpl(new Position2DImpl(216.6, 4229.1)));
         Runway runRoma2 = new RunwayImpl(r11R, r29L);
-        // correct this
-        RunwayEnd r11L = new RunwayEndImpl("11L", new RadarPositionImpl(new Position2DImpl(-1550.5, -564.3)));
-        RunwayEnd r29R = new RunwayEndImpl("29R", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
+        RunwayEnd r11L = new RunwayEndImpl("11L", new RadarPositionImpl(new Position2DImpl(-883.6, -2396.7)));
+        RunwayEnd r29R = new RunwayEndImpl("29R", new RadarPositionImpl(new Position2DImpl(-2217.4, 1268.1)));
         Runway runRoma3 = new RunwayImpl(r11L, r29R);
-        this.airportList.add(new AirportImpl("RO", "Roma", Set.of(vor), List.of(runRoma1, runRoma2, runRoma3),
+        this.airportList.add(new AirportImpl("RO", "Roma", Set.of(vorBO33), List.of(runRoma1, runRoma2, runRoma3),
                 new RadarPositionImpl(new Position2DImpl(0.0, 1.0))));
     }
 
@@ -49,6 +51,10 @@ public class AirportSelectionImpl {
         this.controller = controller;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final Map<String, String> getAllAirports() {
         return this.airportList.stream()
                 .collect(Collectors.toMap(airport -> airport.getId(), airport -> airport.getName()));
@@ -58,6 +64,10 @@ public class AirportSelectionImpl {
         return this.airportList.stream().filter(airport -> airport.getId().equals(id)).findFirst();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setAirportById(final String id) {
         Objects.requireNonNull(id);
         Optional<Airport> found = this.getAirportById(id);
