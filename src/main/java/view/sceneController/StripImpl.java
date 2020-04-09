@@ -29,7 +29,7 @@ public class StripImpl extends StackPane {
     private final Label headingLabel;
     private final Label companyLabel;
 
-    public StripImpl(final int width, final int height, final Plane p, final Button selectButton) {
+    public StripImpl(final int width, final int height, final Plane p) {
         this.width = width;
         this.height = height;
         this.id = p.getAirplaneId();
@@ -52,16 +52,14 @@ public class StripImpl extends StackPane {
         this.companyLabel = new Label(p.getCompanyName());
         this.companyLabel.setPadding(pad);
         this.companyLabel.setFont(font1);
-        selectButton.setPadding(pad);
 
         StackPane.setAlignment(idLabel, Pos.TOP_LEFT);
         StackPane.setAlignment(companyLabel, Pos.BOTTOM_LEFT);
         StackPane.setAlignment(speedLabel, Pos.TOP_CENTER);
         StackPane.setAlignment(altitudeLabel, Pos.TOP_RIGHT);
         StackPane.setAlignment(headingLabel, Pos.BOTTOM_RIGHT);
-        StackPane.setAlignment(selectButton, Pos.BOTTOM_CENTER);
 
-        this.getChildren().addAll(idLabel, speedLabel, altitudeLabel, headingLabel, companyLabel, selectButton);
+        this.getChildren().addAll(idLabel, speedLabel, altitudeLabel, headingLabel, companyLabel);
         this.setPrefWidth(this.width);
         this.setMinHeight(this.height);
         if (p.getPlaneAction().equals(Action.LAND)) {
@@ -97,7 +95,7 @@ public class StripImpl extends StackPane {
     }
 
     public void setNotSelected() {
-        this.companyLabel.setStyle("-fx-background-color: BLACK;");
+        this.companyLabel.setStyle("-fx-background-color: none;");
     }
 
     public void updateShownTargets() {
@@ -105,7 +103,7 @@ public class StripImpl extends StackPane {
         this.setShownTargetSpeed();
         this.setShownTargetDirection();
     }
-    
+
     public final Plane getPlane() {
         return this.plane;
     }

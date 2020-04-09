@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import model.Plane;
 
@@ -26,9 +25,24 @@ public class StripControllerImpl extends AbstractSceneController {
     }
 
     public final void createStrip(final Plane p) {
-        Button selectButton = this.createButton(p.getAirplaneId());
-        StripImpl strip = new StripImpl(100, 100, p, selectButton);
+        final StripImpl strip = new StripImpl(100, 100, p);
+        strip.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(final MouseEvent event) {
+                getController().selectTargetPlane(p.getAirplaneId());
+                disableAllStrips();
+                strip.setSelected();
+            }
+        });
         this.strips.getChildren().add(strip);
+    }
+
+    private void disableAllStrips() {
+        for (Node node : this.strips.getChildren()) {
+            if (node instanceof StripImpl) {
+                ((StripImpl) node).setNotSelected();
+            }
+        }
     }
 
     public final void updateStrip(final Set<Plane> planes) {
@@ -50,29 +64,13 @@ public class StripControllerImpl extends AbstractSceneController {
 
     private void addMissingStrips(final Set<Plane> planes) {
         Set<Plane> containedPlanes = this.strips.getChildren().stream().filter(node -> node instanceof StripImpl)
-                .map(strip -> ((StripImpl) strip).getPlane()).collect(Collectors.toSet());
+                .map(strip -> ((StripImpl) strip).getPlane())
+                .collect(Collectors.toSet());
         for (Plane plane : planes) {
             if (!containedPlanes.contains(plane)) {
                 this.createStrip(plane);
             }
         }
-    }
-
-    /**
-     * 
-     * @param planeId
-     * @return
-     */
-    private Button createButton(final int planeId) {
-        Button selectButton = new Button("Seleziona");
-        selectButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(final ActionEvent event) {
-                getController().selectTargetPlane(planeId);
-            }
-        });
-
-        return selectButton;
     }
 
     public final VBox getStrips() {
