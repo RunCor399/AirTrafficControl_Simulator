@@ -73,7 +73,8 @@ public class StripImpl extends StackPane {
         }
         this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
                 new BorderWidths(TOP_BORDER, LEFT_BORDER, TOP_BORDER, LEFT_BORDER))));
-        this.updateShownTargets();
+        //this.updateShownTargets();
+        this.setInitialValues();
     }
 
     private void setShownTargetSpeed() {
@@ -129,5 +130,11 @@ public class StripImpl extends StackPane {
 
     public final int getPlaneId() {
         return this.getPlane().getAirplaneId();
+    }
+
+    private void setInitialValues() {
+        this.headingLabel.setText(Double.toString(this.plane.getDirection().getAsDegrees()));
+        this.speedLabel.setText(Double.toString(this.plane.getSpeed().getAsKnots()));
+        this.altitudeLabel.setText(Double.toString(this.plane.getAltitude()));
     }
 }
