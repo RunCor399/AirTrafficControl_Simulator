@@ -17,6 +17,7 @@ import javafx.scene.control.Slider;
 import model.Direction;
 import model.DirectionImpl;
 import model.Plane;
+import model.Plane.Action;
 import model.Speed;
 import model.SpeedImpl;
 import model.Vor;
@@ -95,9 +96,9 @@ public class MovementControllerImpl extends AbstractSceneController implements M
             }
         });
 
-        this.speedLabel.setText("210");
-        this.altitudeLabel.setText("2000");
-        this.headingLabel.setText("0");
+        // this.speedLabel.setText("210");
+        // this.altitudeLabel.setText("2000");
+        // this.headingLabel.setText("0");
     }
 
     /**
@@ -117,10 +118,17 @@ public class MovementControllerImpl extends AbstractSceneController implements M
         this.speedLabel.setText(Double.toString(plane.getSpeed().getAsKnots().intValue()));
         this.speedSlider.setValue(plane.getSpeed().getAsKnots().intValue());
 
-        this.altitudeLabel.setText(Double.toString((int) Math.round(plane.getAltitude())));
-        this.altitudeSlider.setValue((int) Math.round(plane.getAltitude()));
-
         this.headingLabel.setText(String.valueOf((int) plane.getDirection().getAsDegrees()));
+
+        this.altitudeLabel.setText(String.valueOf((int) plane.getAltitude()));
+        this.altitudeSlider.setValue((int) plane.getAltitude());
+
+        /*
+         * if (plane.getPlaneAction().equals(Action.TAKEOFF)) {
+         * this.altitudeLabel.setText(Double.toString((int)
+         * Math.round(plane.getAltitude()))); this.altitudeSlider.setValue((int)
+         * Math.round(plane.getAltitude())); }
+         */
     }
 
     /**
