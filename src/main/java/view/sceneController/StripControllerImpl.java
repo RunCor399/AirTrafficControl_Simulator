@@ -14,25 +14,27 @@ import model.Plane;
 
 public class StripControllerImpl extends AbstractSceneController {
 
+    private static final double STRIP_HEIGHT = 200;
     private VBox strips = new VBox();
     private double width;
-    static final double STRIP_HEIGHT = 200;
+    private final MovementController movementController;
 
-    public StripControllerImpl(final double width) {
+    public StripControllerImpl(final double width, final MovementController movementController) {
         this.width = width;
+        this.movementController = movementController;
         this.strips.setPrefSize(this.width, STRIP_HEIGHT);
         this.strips.setPickOnBounds(false);
     }
 
-    public final void createStrip(final Plane p) {
-        final StripImpl strip = new StripImpl(100, 100, p);
+    public final void createStrip(final Plane plane) {
+        final StripImpl strip = new StripImpl(100, 100, plane);
         strip.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(final MouseEvent event) {
-                getController().selectTargetPlane(p.getAirplaneId());
+                getController().selectTargetPlane(plane.getAirplaneId());
                 disableAllStrips();
                 strip.setSelected();
-                getView().updateMovementSelectors(p);
+                getMovementController().updateValues(plane);
             }
         });
         this.strips.getChildren().add(strip);
@@ -47,8 +49,7 @@ public class StripControllerImpl extends AbstractSceneController {
     }
 
     public final void updateStrip(final Set<Plane> planes) {
-        Iterator<Node> stripIterator = this.strips.getChildren().stream()
-                .filter(node -> node instanceof StripImpl)
+        Iterator<Node> stripIterator = this.strips.getChildren().stream().filter(node -> node instanceof StripImpl)
                 .iterator();
         List<Node> toBeRemoved = new LinkedList<>();
         while (stripIterator.hasNext()) {
@@ -65,8 +66,7 @@ public class StripControllerImpl extends AbstractSceneController {
 
     private void addMissingStrips(final Set<Plane> planes) {
         Set<Plane> containedPlanes = this.strips.getChildren().stream().filter(node -> node instanceof StripImpl)
-                .map(strip -> ((StripImpl) strip).getPlane())
-                .collect(Collectors.toSet());
+                .map(strip -> ((StripImpl) strip).getPlane()).collect(Collectors.toSet());
         for (Plane plane : planes) {
             if (!containedPlanes.contains(plane)) {
                 this.createStrip(plane);
@@ -76,6 +76,14 @@ public class StripControllerImpl extends AbstractSceneController {
 
     public final VBox getStrips() {
         return this.strips;
+    }
+
+    /**
+     * 
+     * @return movementController
+     */
+    public MovementController getMovementController() {
+        return this.movementController;
     }
 
 }

@@ -38,7 +38,7 @@ public abstract class AbstractCommandableElement extends AbstractDynamicElement 
      * {@inheritDoc}
      */
     @Override
-    public double getTargetAltitute() {
+    public double getTargetAltitude() {
         return this.targetAltitude;
     }
 

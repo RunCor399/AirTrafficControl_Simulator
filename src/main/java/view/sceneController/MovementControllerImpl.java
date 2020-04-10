@@ -22,7 +22,7 @@ import model.SpeedImpl;
 import model.Vor;
 import view.View;
 
-public class MovementControllerImpl extends AbstractSceneController implements SceneController {
+public class MovementControllerImpl extends AbstractSceneController implements MovementController {
     private static final int MAX_HEADING = 359;
     private static final int MIN_HEADING = 0;
     private static final int MIN_DELTA = 1;
@@ -101,23 +101,26 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     }
 
     /**
-     * This method is used to update the strips based on the set of {@link Plane}
-     * given as parameter.
-     * 
-     * @param planes the updated set of {@link Plane}
+     * {@inheritDoc}
      */
+    @Override
     public void updateStrips(final Set<Plane> planes) {
         this.stripController.updateStrip(planes);
         this.scrollPane.setContent(this.stripController.getStrips());
     }
 
-    public void updateValues(final Plane p) {
-        this.speedLabel.setText(Double.toString(p.getSpeed().getAsKnots().intValue()));
-        this.speedSlider.setValue(p.getSpeed().getAsKnots().intValue());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateValues(final Plane plane) {
+        this.speedLabel.setText(Double.toString(plane.getSpeed().getAsKnots().intValue()));
+        this.speedSlider.setValue(plane.getSpeed().getAsKnots().intValue());
 
-        this.altitudeLabel.setText(Double.toString(Math.round(p.getAltitude())));
-        this.altitudeSlider.setValue(Math.round(p.getAltitude()));
-        this.headingLabel.setText(Double.toString(Math.round(p.getDirection().getAsDegrees())));
+        this.altitudeLabel.setText(Double.toString((int) Math.round(plane.getAltitude())));
+        this.altitudeSlider.setValue((int) Math.round(plane.getAltitude()));
+
+        this.headingLabel.setText(String.valueOf((int) plane.getDirection().getAsDegrees()));
     }
 
     /**
@@ -127,7 +130,7 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     public void setParameters(final Controller controller, final View view) {
         super.setParameters(controller, view);
         this.initializeVorList();
-        this.stripController = new StripControllerImpl(this.scrollPane.getPrefWidth());
+        this.stripController = new StripControllerImpl(this.scrollPane.getPrefWidth(), this);
         this.stripController.setParameters(controller, view);
     }
 

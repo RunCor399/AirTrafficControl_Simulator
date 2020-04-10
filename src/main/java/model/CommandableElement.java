@@ -15,7 +15,7 @@ public interface CommandableElement extends DynamicElement {
      * 
      * @return the target altitude.
      */
-    double getTargetAltitute();
+    double getTargetAltitude();
 
     /**
      * Method that returns the target speed.
