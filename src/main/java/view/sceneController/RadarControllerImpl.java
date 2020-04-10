@@ -220,7 +220,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
                     Position2D position = vor.getPosition().getPosition();
                     double xPos = this.computeX(position.getX());
                     double yPos = this.computeY(position.getY());
-                    airportContext.fillOval(xPos, yPos, VOR_DIM, VOR_DIM);
+                    airportContext.fillOval(xPos - VOR_DIM / 2, yPos - VOR_DIM / 2, VOR_DIM, VOR_DIM);
                     airportContext.fillText(vor.getId(), xPos + VOR_DIM, yPos + VOR_DIM);
                 }
             }

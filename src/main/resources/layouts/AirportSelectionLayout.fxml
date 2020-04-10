@@ -41,7 +41,7 @@
             </Button>
          </children>
       </FlowPane>
-      <Label fx:id="lblLog" alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="341.0">
+      <Label fx:id="lblLog" alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="439.0">
          <font>
             <Font name="Comic Sans MS" size="14.0" />
          </font>
