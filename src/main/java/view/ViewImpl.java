@@ -95,6 +95,12 @@ public class ViewImpl extends Application implements View {
             alert.showAndWait();
         });
     }
+    
+    public void updateMovementSelectors(final Plane p) {
+        if (this.sceneController instanceof RadarController) {
+            ((RadarController) this.sceneController).callMovementGUIUpdate(p);
+        }
+    }
 
     public static void main(final String[] args) {
         launch(args);

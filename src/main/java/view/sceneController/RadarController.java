@@ -11,5 +11,10 @@ public interface RadarController extends SceneController {
      * @param planes the set of planes to draw in the radar.
      */
     void updatePlanes(Set<Plane> planes);
+    
+    /**
+     * 
+     */
+    void callMovementGUIUpdate(Plane p);
 
 }

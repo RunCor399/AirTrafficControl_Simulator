@@ -110,6 +110,13 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
         this.btnPause.setDisable(false);
         this.getController().startThreads();
     }
+    
+    /**
+     * 
+     */
+    public void callMovementGUIUpdate(final Plane p) {
+        this.movementGUIController.updateValues(p);
+    }
 
     /**
      * 

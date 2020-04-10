@@ -101,13 +101,23 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     }
 
     /**
-     * This method is used to update the strips based on the set of {@link Plane} given as parameter.
+     * This method is used to update the strips based on the set of {@link Plane}
+     * given as parameter.
      * 
      * @param planes the updated set of {@link Plane}
      */
     public void updateStrips(final Set<Plane> planes) {
         this.stripController.updateStrip(planes);
         this.scrollPane.setContent(this.stripController.getStrips());
+    }
+
+    public void updateValues(final Plane p) {
+        this.speedLabel.setText(Double.toString(p.getSpeed().getAsKnots().intValue()));
+        this.speedSlider.setValue(p.getSpeed().getAsKnots().intValue());
+
+        this.altitudeLabel.setText(Double.toString(Math.round(p.getAltitude())));
+        this.altitudeSlider.setValue(Math.round(p.getAltitude()));
+        this.headingLabel.setText(Double.toString(Math.round(p.getDirection().getAsDegrees())));
     }
 
     /**
@@ -202,7 +212,6 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     public void landPressed() {
         this.getController().land();
     }
-
 
     /**
      * method that increases heading label value.

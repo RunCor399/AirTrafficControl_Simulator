@@ -32,6 +32,7 @@ public class StripControllerImpl extends AbstractSceneController {
                 getController().selectTargetPlane(p.getAirplaneId());
                 disableAllStrips();
                 strip.setSelected();
+                getView().updateMovementSelectors(p);
             }
         });
         this.strips.getChildren().add(strip);

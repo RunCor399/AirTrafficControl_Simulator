@@ -41,4 +41,9 @@ public interface View {
      * @param text
      */
     void windowAlert(String header, String text);
+    
+    /**
+     * 
+     */
+    void updateMovementSelectors(Plane p);
 }
