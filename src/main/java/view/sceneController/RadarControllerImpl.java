@@ -127,6 +127,8 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
     private class AirportDrawer {
 
         private static final int COORD_DIM = 15;
+        private static final int AIRPORT_NAME_DIM = 22;
+        private static final int AIRPORT_NAME_POS = 40;
         private static final int VOR_DIM = 12;
         private static final double EXTENSION_VALUE = 3000;
         private static final double DASHES_VALUE = 8;
@@ -208,6 +210,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
          */
         private void drawAirport(final Airport airport) {
             this.clearAirport();
+            this.drawAirportName(airport.getName());
             airportContext.setStroke(Color.FORESTGREEN);
             for (Runway runway : airport.getRunways().get()) {
                 this.drawRunwayExtension(runway);
@@ -218,15 +221,23 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
                 airportContext.strokeLine(this.computeX(first.getX()), this.computeY(first.getY()),
                         this.computeX(second.getX()), this.computeY(second.getY()));
             }
-            airportContext.setFill(Color.WHITE);
-            for (Vor vor : airport.getVorList().get()) {
-                Position2D position = vor.getPosition().getPosition();
-                double xPos = this.computeX(position.getX());
-                double yPos = this.computeY(position.getY());
-                airportContext.fillOval(xPos, yPos, VOR_DIM, VOR_DIM);
-                airportContext.fillText(vor.getId(), xPos + VOR_DIM, yPos + VOR_DIM);
+            if (airport.getVorList().isPresent()) {
+                airportContext.setFill(Color.WHITE);
+                airportContext.setFont(new Font(VOR_DIM));
+                for (Vor vor : airport.getVorList().get()) {
+                    Position2D position = vor.getPosition().getPosition();
+                    double xPos = this.computeX(position.getX());
+                    double yPos = this.computeY(position.getY());
+                    airportContext.fillOval(xPos - VOR_DIM / 2, yPos - VOR_DIM / 2, VOR_DIM, VOR_DIM);
+                    airportContext.fillText(vor.getId(), xPos + VOR_DIM, yPos + VOR_DIM);
+                }
             }
             this.drawCoordinates();
+        }
+
+        private void drawAirportName(final String airportName) {
+            airportContext.setFont(new Font(AIRPORT_NAME_DIM));
+            airportContext.fillText(airportName, AIRPORT_NAME_POS, AIRPORT_NAME_POS);
         }
 
         /**
@@ -243,9 +254,9 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
             double yExt2 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getY());
             airportContext.setLineDashes(DASHES_VALUE);
             airportContext.strokeLine(xExt1, yExt1, xExt2, yExt2);
-//            airportContext.setFont(new Font(12));
-//            airportContext.fillText(runway.getRunwayEnds().getX().getNumRunwayEnd(), xExt1, yExt1);
-//            airportContext.fillText(runway.getRunwayEnds().getY().getNumRunwayEnd(), xExt2, yExt2);
+            airportContext.setFont(new Font(10));
+            airportContext.fillText(runway.getRunwayEnds().getX().getNumRunwayEnd(), xExt1, yExt1);
+            airportContext.fillText(runway.getRunwayEnds().getY().getNumRunwayEnd(), xExt2, yExt2);
             airportContext.setLineDashes(0);
         }
 
@@ -255,10 +266,10 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
         private void drawCoordinates() {
             airportContext.setFill(Color.WHITE);
             airportContext.setFont(new Font(COORD_DIM));
-            airportContext.fillText("90", this.computeX(0), this.computeY(this.radarDimension.getY()) + COORD_DIM);
-            airportContext.fillText("180", this.computeX(-this.radarDimension.getX()) + COORD_DIM, this.computeY(0));
-            airportContext.fillText("270", this.computeX(0), this.computeY(-this.radarDimension.getY()) - COORD_DIM);
-            airportContext.fillText("0", this.computeX(this.radarDimension.getX()) - COORD_DIM, this.computeY(0));
+            airportContext.fillText("90", radarPane.getWidth() / 2, COORD_DIM);
+            airportContext.fillText("180", COORD_DIM, radarPane.getHeight() / 2);
+            airportContext.fillText("270", radarPane.getWidth() / 2, radarPane.getHeight() - COORD_DIM);
+            airportContext.fillText("0", radarPane.getWidth() - COORD_DIM, radarPane.getHeight() / 2);
         }
 
         /**

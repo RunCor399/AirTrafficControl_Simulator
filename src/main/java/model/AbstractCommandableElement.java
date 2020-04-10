@@ -1,12 +1,14 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class AbstractCommandableElement extends AbstractDynamicElement implements CommandableElement {
+public abstract class AbstractCommandableElement extends AbstractDynamicElement implements CommandableElement, Serializable {
 
     private static final long serialVersionUID = -5883282891035535834L;
     private static final double NO_VALUE = -1;
+    private static final double MAX_DIFFERENCE = 0.01;
 
     private Speed targetSpeed;
     private double targetAltitude;
@@ -227,8 +229,13 @@ public abstract class AbstractCommandableElement extends AbstractDynamicElement 
     @Override
     public void computeNewPosition() {
         if (this.targetPosition != null) {
-            this.setOnlyTargetDirection(this.getPosition().computeDirectionToTargetPosition(targetPosition));
-            System.out.println("Target" + this.targetDirection.toString());
+            Direction newTargetDirection = this.getPosition().computeDirectionToTargetPosition(targetPosition);
+            if (this.getDirection().compareTo(newTargetDirection) > MAX_DIFFERENCE) {
+                this.setOnlyTargetDirection(newTargetDirection);
+                System.out.println("Target" + this.targetDirection.toString());
+            } else {
+                this.targetPosition = null;
+            }
         }
         this.computeActualSpeed();
         this.computeActualDirection();
