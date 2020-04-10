@@ -31,7 +31,8 @@ public class StripImpl extends StackPane {
     private final Label speedLabel;
     private final Label altitudeLabel;
     private final Label headingLabel;
-    private final Label companyLabel;
+    // private final Label companyLabel;
+    private final Label idLabel;
 
     public StripImpl(final int width, final int height, final Plane p) {
         this.width = width;
@@ -40,9 +41,9 @@ public class StripImpl extends StackPane {
         Insets pad = new Insets(PADDING_SIZE);
         Font font1 = new Font("Impact", FONT_SIZE);
         Font font2 = new Font("Comic Sans MS", FONT_SIZE);
-        Label idLabel = new Label(Integer.toString(p.getAirplaneId()));
-        idLabel.setFont(font1);
-        idLabel.setPadding(pad);
+        this.idLabel = new Label(p.getCompanyName() + Integer.toString(p.getAirplaneId()));
+        this.idLabel.setFont(font1);
+        this.idLabel.setPadding(pad);
         this.plane = p;
         this.speedLabel = new Label();
         this.speedLabel.setPadding(pad);
@@ -53,17 +54,17 @@ public class StripImpl extends StackPane {
         this.headingLabel = new Label();
         headingLabel.setPadding(pad);
         headingLabel.setFont(font2);
-        this.companyLabel = new Label(p.getCompanyName());
-        this.companyLabel.setPadding(pad);
-        this.companyLabel.setFont(font1);
+        // this.companyLabel = new Label(p.getCompanyName());
+        // this.companyLabel.setPadding(pad);
+        // this.companyLabel.setFont(font1);
 
         StackPane.setAlignment(idLabel, Pos.TOP_LEFT);
-        StackPane.setAlignment(companyLabel, Pos.BOTTOM_LEFT);
+        // StackPane.setAlignment(companyLabel, Pos.BOTTOM_LEFT);
         StackPane.setAlignment(speedLabel, Pos.TOP_CENTER);
         StackPane.setAlignment(altitudeLabel, Pos.TOP_RIGHT);
         StackPane.setAlignment(headingLabel, Pos.BOTTOM_RIGHT);
 
-        this.getChildren().addAll(idLabel, speedLabel, altitudeLabel, headingLabel, companyLabel);
+        this.getChildren().addAll(idLabel, speedLabel, altitudeLabel, headingLabel/* , companyLabel */);
         this.setPrefWidth(this.width);
         this.setMinHeight(this.height);
         if (p.getPlaneAction().equals(Action.LAND)) {
@@ -73,28 +74,28 @@ public class StripImpl extends StackPane {
         }
         this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY,
                 new BorderWidths(TOP_BORDER, LEFT_BORDER, TOP_BORDER, LEFT_BORDER))));
-        //this.updateShownTargets();
+        // this.updateShownTargets();
         this.setInitialValues();
     }
 
     private void setShownTargetSpeed() {
         Optional<Speed> optTargetSpeed = this.plane.getTargetSpeed();
         if (optTargetSpeed.isPresent()) {
-            this.speedLabel.setText(Double.toString(optTargetSpeed.get().getAsKnots()));
+            this.speedLabel.setText(Double.toString(optTargetSpeed.get().getAsKnots()) + " kt");
         }
     }
 
     private void setShownTargetAltitude() {
         Double targetAltitude = this.plane.getTargetAltitute();
         if (targetAltitude != -1) {
-            this.altitudeLabel.setText(Double.toString(this.plane.getTargetAltitute()));
+            this.altitudeLabel.setText(Double.toString(this.plane.getTargetAltitute()) + " ft");
         }
     }
 
     private void setShownTargetDirection() {
         Optional<Direction> optTargetDirection = this.plane.getTargetDirection();
         if (optTargetDirection.isPresent()) {
-            this.headingLabel.setText(Double.toString(optTargetDirection.get().getAsDegrees()));
+            this.headingLabel.setText(Double.toString(optTargetDirection.get().getAsDegrees()) + "°");
         }
     }
 
@@ -103,7 +104,8 @@ public class StripImpl extends StackPane {
      * Sets the background color of the label.
      */
     public void setSelected() {
-        this.companyLabel.setStyle("-fx-background-color: #FF0000;");
+        // this.companyLabel.setStyle("-fx-background-color: #FF0000;");
+        this.idLabel.setStyle("-fx-background-color: #FF0000;");
     }
 
     /**
@@ -111,7 +113,8 @@ public class StripImpl extends StackPane {
      * 
      */
     public void setNotSelected() {
-        this.companyLabel.setStyle("-fx-background-color: none;");
+        // this.companyLabel.setStyle("-fx-background-color: none;");
+        this.idLabel.setStyle("-fx-background-color: none;");
     }
 
     /**
@@ -133,8 +136,8 @@ public class StripImpl extends StackPane {
     }
 
     private void setInitialValues() {
-        this.headingLabel.setText(Double.toString(this.plane.getDirection().getAsDegrees()));
-        this.speedLabel.setText(Double.toString(this.plane.getSpeed().getAsKnots()));
-        this.altitudeLabel.setText(Double.toString(this.plane.getAltitude()));
+        this.headingLabel.setText(Double.toString(Math.round(this.plane.getDirection().getAsDegrees())) + "°");
+        this.speedLabel.setText(Double.toString(Math.round(this.plane.getSpeed().getAsKnots())) + " kt");
+        this.altitudeLabel.setText(Double.toString(Math.round(this.plane.getAltitude())) + " ft");
     }
 }
