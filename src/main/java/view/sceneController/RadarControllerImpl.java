@@ -1,6 +1,7 @@
 package view.sceneController;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import controller.Controller;
 import javafx.application.Platform;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import model.Airport;
 import model.Plane;
 import model.Position2D;
@@ -45,7 +47,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
     @FXML
     private SceneController airportGUIController;
     @FXML
-    private SceneController movementGUIController;
+    private MovementControllerImpl movementGUIController;
 
     public final void initialize() {
         this.timeWarpSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -77,14 +79,20 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
      */
     @Override
     public void updatePlanes(final Set<Plane> planes) {
+        Set<Plane> drawablePlanes = planes.stream()
+                .filter(plane -> plane.getPlaneAction().equals(Plane.Action.LAND)
+                        || (plane.getPlaneAction().equals(Plane.Action.TAKEOFF) && plane.isActionPerformed()))
+                .collect(Collectors.toSet());
         Platform.runLater(() -> {
-            this.drawer.cachedPlanes = planes;
+            this.drawer.cachedPlanes = drawablePlanes;
             this.drawer.drawPlanes();
+            this.movementGUIController.updateStrips(planes);
         });
     }
 
     @FXML
     protected final void goToMenu(final ActionEvent e) {
+        this.getController().setSimulationRate(1);
         this.getController().pauseThreads();
         this.getView().changeScene(this.getView().getSceneFactory().loadMenu());
     }
@@ -111,9 +119,11 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
      */
     private class AirportDrawer {
 
-        private static final int TEXT_DIMENSION = 30;
+        private static final int COORD_DIM = 15;
+        private static final int AIRPORT_NAME_DIM = 22;
+        private static final int AIRPORT_NAME_POS = 40;
         private static final int VOR_DIM = 12;
-        private static final double EXTENSION_VALUE = 2000;
+        private static final double EXTENSION_VALUE = 3000;
         private static final double DASHES_VALUE = 8;
         private static final double LINE_LENGHT = 20;
         private static final double PLANE_DIM = 8;
@@ -193,39 +203,66 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
          */
         private void drawAirport(final Airport airport) {
             this.clearAirport();
+            this.drawAirportName(airport.getName());
             airportContext.setStroke(Color.FORESTGREEN);
             for (Runway runway : airport.getRunways().get()) {
+                this.drawRunwayExtension(runway);
                 Pair<RadarPosition, RadarPosition> ends = runway.getPosition();
                 Position2D first = ends.getX().getPosition();
                 Position2D second = ends.getY().getPosition();
-                this.drawRunwayExtension(ends);
+                airportContext.setLineWidth(2);
                 airportContext.strokeLine(this.computeX(first.getX()), this.computeY(first.getY()),
                         this.computeX(second.getX()), this.computeY(second.getY()));
             }
-            airportContext.setFill(Color.WHITE);
-            for (Vor vor : airport.getVorList().get()) {
-                Position2D position = vor.getPosition().getPosition();
-                double xPos = this.computeX(position.getX());
-                double yPos = this.computeY(position.getY());
-                airportContext.fillOval(xPos, yPos, VOR_DIM, VOR_DIM);
-                airportContext.fillText(vor.getId(), xPos + VOR_DIM, yPos + VOR_DIM, TEXT_DIMENSION);
+            if (airport.getVorList().isPresent()) {
+                airportContext.setFill(Color.WHITE);
+                airportContext.setFont(new Font(VOR_DIM));
+                for (Vor vor : airport.getVorList().get()) {
+                    Position2D position = vor.getPosition().getPosition();
+                    double xPos = this.computeX(position.getX());
+                    double yPos = this.computeY(position.getY());
+                    airportContext.fillOval(xPos - VOR_DIM / 2, yPos - VOR_DIM / 2, VOR_DIM, VOR_DIM);
+                    airportContext.fillText(vor.getId(), xPos + VOR_DIM, yPos + VOR_DIM);
+                }
             }
- 
+            this.drawCoordinates();
+        }
+
+        private void drawAirportName(final String airportName) {
+            airportContext.setFont(new Font(AIRPORT_NAME_DIM));
+            airportContext.fillText(airportName, AIRPORT_NAME_POS, AIRPORT_NAME_POS);
         }
 
         /**
          * Method that draws a dashed line that extends the specified runway (to make it more visible).
          */
-        private void drawRunwayExtension(final Pair<RadarPosition, RadarPosition> ends) {
-            Direction extensionDir = ends.getX().computeDirectionToTargetPosition(ends.getY());
-            double xExt1 = this.computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getX());
-            double yExt1 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getY());
+        private void drawRunwayExtension(final Runway runway) {
+            Pair<RadarPosition, RadarPosition> ends = runway.getPosition();
+            Direction extensionDir = ends.getY().computeDirectionToTargetPosition(ends.getX());
+            airportContext.setLineWidth(1);
+            double xExt1 = this.computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getX());
+            double yExt1 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getY());
             extensionDir.sum(flatAngle);
-            double xExt2 = this.computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getX());
-            double yExt2 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getX().getPosition().getY());
+            double xExt2 = this.computeX((Math.cos(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getX());
+            double yExt2 = this.computeY((Math.sin(extensionDir.getAsRadians()) * EXTENSION_VALUE) + ends.getY().getPosition().getY());
             airportContext.setLineDashes(DASHES_VALUE);
             airportContext.strokeLine(xExt1, yExt1, xExt2, yExt2);
+            airportContext.setFont(new Font(10));
+            airportContext.fillText(runway.getRunwayEnds().getX().getNumRunwayEnd(), xExt1, yExt1);
+            airportContext.fillText(runway.getRunwayEnds().getY().getNumRunwayEnd(), xExt2, yExt2);
             airportContext.setLineDashes(0);
+        }
+
+        /**
+         * This method draws the coordinates in the radar in order to make it easier to orientate.
+         */
+        private void drawCoordinates() {
+            airportContext.setFill(Color.WHITE);
+            airportContext.setFont(new Font(COORD_DIM));
+            airportContext.fillText("90", radarPane.getWidth() / 2, COORD_DIM);
+            airportContext.fillText("180", COORD_DIM, radarPane.getHeight() / 2);
+            airportContext.fillText("270", radarPane.getWidth() / 2, radarPane.getHeight() - COORD_DIM);
+            airportContext.fillText("0", radarPane.getWidth() - COORD_DIM, radarPane.getHeight() / 2);
         }
 
         /**
@@ -233,17 +270,17 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
          */
         private void drawPlanes() {
             this.clearRadar();
-            radarContext.setStroke(Color.ORANGE);
             radarContext.setFill(Color.WHITESMOKE);
             for (Plane plane : this.cachedPlanes) {
+                radarContext.setStroke(plane.getPlaneAction().equals(Plane.Action.TAKEOFF) ? Color.CYAN : Color.ORANGE);
                 Position2D planePosition = plane.getPosition().getPosition();
                 double xPosition = this.computeX(planePosition.getX());
                 double yPosition = this.computeY(planePosition.getY());
                 radarContext.strokeRect(xPosition - (PLANE_DIM / 2), yPosition - (PLANE_DIM / 2), PLANE_DIM, PLANE_DIM);
                 this.drawGuideline(xPosition, yPosition, plane.getDirection());
-                radarContext.fillText(plane.getCompanyName() + " " + plane.getAirplaneId() + "\n" 
-                        + plane.getSpeed().getAsKnots().intValue() + " kt " + (int) plane.getAltitude() + " ft",
-                        xPosition + LINE_LENGHT, yPosition + LINE_LENGHT);
+                radarContext.fillText(plane.getCompanyName() + " " + plane.getAirplaneId() + "  " 
+                        + (int) plane.getDirection().getAsDegrees()  + "°\n" + plane.getSpeed().getAsKnots().intValue()
+                        + " kt " + (int) plane.getAltitude() + " ft", xPosition + LINE_LENGHT, yPosition + LINE_LENGHT);
             }
         }
 

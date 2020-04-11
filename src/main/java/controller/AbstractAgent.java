@@ -7,7 +7,7 @@ public abstract class AbstractAgent extends Thread {
     /**
      * delta time used in thread's sleep.
      */
-    protected static final long DELTA_TIME = 500;
+    protected static final long DELTA_TIME = 250;
     private static final int INITIAL_MULTIPLIER = 1;
 
     private final Model model;

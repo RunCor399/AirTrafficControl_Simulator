@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #99ddff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.sceneController.AirportSelectorController">
+   <children>
+      <Label text="Select an Airport from the box below:">
+         <font>
+            <Font name="Comic Sans MS" size="20.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+      </Label>
+      <ChoiceBox fx:id="selectionBox" prefHeight="30.0" prefWidth="185.0">
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+      </ChoiceBox>
+      <FlowPane alignment="CENTER" prefHeight="60.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="btnConfirm" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#confirmSelection" prefHeight="34.0" prefWidth="90.0" text="Confirm">
+               <FlowPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </FlowPane.margin>
+               <font>
+                  <Font name="Calibri Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnMenu" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backToMenu" prefHeight="34.0" prefWidth="90.0" text="Go Back">
+               <FlowPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </FlowPane.margin>
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </FlowPane>
+      <Label fx:id="lblLog" alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="439.0">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</VBox>

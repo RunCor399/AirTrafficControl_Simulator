@@ -1,26 +1,18 @@
 package controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 import model.Airport;
-import model.AirportImpl;
 import model.Direction;
 import model.Model;
 import model.ModelImpl;
 import model.Plane;
-import model.Position2DImpl;
 import model.RadarPositionImpl;
 import model.Runway;
-import model.RunwayEnd;
-import model.RunwayEndImpl;
-import model.RunwayImpl;
 import model.Speed;
 import model.Vor;
-import model.VorImpl;
 import model.exceptions.OperationNotAvailableException;
 import utilities.Pair;
 import view.View;
@@ -36,6 +28,7 @@ public class ControllerImpl implements Controller {
     private Plane currentSelectedPlane;
     private RandomizerAgent planeRandomizer;
     private MovementAgent movementAgent;
+    private AirportSelection selector;
 
     public ControllerImpl(final View view) {
         this.model = new ModelImpl();
@@ -43,16 +36,26 @@ public class ControllerImpl implements Controller {
         this.currentSelectedPlane = null;
         this.planeRandomizer = new RandomizerAgent(this.model);
         this.movementAgent = new MovementAgent(this.model, this.view, this);
-        //DEBUG AIRPORT
-        RunwayEnd r1 = new RunwayEndImpl("20", new RadarPositionImpl(new Position2DImpl(0.0, 0.0)));
-        RunwayEnd r2 = new RunwayEndImpl("02", new RadarPositionImpl(new Position2DImpl(60.0, 0.0)));
-        RunwayEnd r3 = new RunwayEndImpl("20", new RadarPositionImpl(new Position2DImpl(0.0, 60.0)));
-        RunwayEnd r4 = new RunwayEndImpl("02", new RadarPositionImpl(new Position2DImpl(200.0, 60.0)));
-        Vor vor = new VorImpl("1", new RadarPositionImpl(new Position2DImpl(0.0, 0.0)));
-        Runway run = new RunwayImpl(r1, r2);
-        Runway run2 = new RunwayImpl(r3, r4);
-        this.model.setAirport(new AirportImpl("1", "airportName", Set.of(vor), Arrays.asList(run, run2),
-                new RadarPositionImpl(new Position2DImpl(0.0, 1.0))));
+        this.selector = new AirportSelectionImpl(this);
+        this.selector.setAirportById("BO");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AirportSelection getAirportSelector() {
+        return this.selector;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setActualAirport(final Airport airport) {
+        Objects.requireNonNull(airport);
+        this.model.setAirport(airport);
+        this.resetGameContext();
     }
 
     /**
@@ -113,8 +116,7 @@ public class ControllerImpl implements Controller {
         try {
             this.currentSelectedPlane.takeOff(this.model.getAirport());
         } catch (OperationNotAvailableException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            this.view.windowAlert("OPERATION NOT POSSIBLE", e.getMessage());
         }
     }
 
@@ -126,8 +128,7 @@ public class ControllerImpl implements Controller {
         try {
             this.currentSelectedPlane.land(this.model.getAirport());
         } catch (OperationNotAvailableException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            this.view.windowAlert("OPERATION NOT POSSIBLE", e.getMessage());
         }
     }
 
