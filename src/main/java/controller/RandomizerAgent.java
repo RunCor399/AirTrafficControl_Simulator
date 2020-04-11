@@ -23,12 +23,14 @@ public class RandomizerAgent extends AbstractAgent {
     private double actualWaitTime;
     private double timeWaited;
     private final RandomPlaneFactory planeFactory;
+    private boolean firstPlane;
 
     public RandomizerAgent(final Model model) {
         super(model);
         this.random = new Random();
         this.actualWaitTime = NO_VALUE;
         this.timeWaited = NO_VALUE;
+        this.firstPlane = true;
         this.planeFactory = new RandomPlaneFactoryImpl(RadarPositionImpl.X_BOUND, RadarPositionImpl.Y_BOUND);
         this.setDaemon(true);
     }
@@ -45,12 +47,18 @@ public class RandomizerAgent extends AbstractAgent {
                         this.wait();
                     }
                 }
-                sleep(DELTA_TIME / this.getMultiplier());
-                this.timeWaited = this.timeWaited + ((double) DELTA_TIME / MILLIS_TO_SEC);
-                if (this.timeWaited >= this.actualWaitTime) {
-                    this.computeNewWaitTime();
+                if (!this.firstPlane) {
+                    sleep(DELTA_TIME / this.getMultiplier());
+                    this.timeWaited = this.timeWaited + ((double) DELTA_TIME / MILLIS_TO_SEC);
+                    if (this.timeWaited >= this.actualWaitTime) {
+                        this.computeNewWaitTime();
+                        this.createNewPlane();
+                    }
+                } else {
                     this.createNewPlane();
+                    this.firstPlane = false;
                 }
+
             } catch (InterruptedException e) {
             }
 
