@@ -28,8 +28,8 @@ public class AirportSelectionImpl implements AirportSelection {
         RunwayEnd r1 = new RunwayEndImpl("33", new RadarPositionImpl(new Position2DImpl(-1212.0, 700.0)));
         RunwayEnd r2 = new RunwayEndImpl("15", new RadarPositionImpl(new Position2DImpl(1212.0, -700.0)));
         Runway run = new RunwayImpl(r1, r2);
-        Vor vorBO33 = new VorImpl("33", new RadarPositionImpl(new Position2DImpl(-5542.1, 3200.0)));
-        Vor vorBO15 = new VorImpl("15", new RadarPositionImpl(new Position2DImpl(5542.3, -3200.0)));
+        Vor vorBO33 = new VorImpl("ILS33", new RadarPositionImpl(new Position2DImpl(-5542.1, 3200.0)));
+        Vor vorBO15 = new VorImpl("ILS15", new RadarPositionImpl(new Position2DImpl(5542.3, -3200.0)));
         Vor vorUPR = new VorImpl("UPR", new RadarPositionImpl(new Position2DImpl(15000.0, 13000.0)));
         Vor vorDWR = new VorImpl("DWR", new RadarPositionImpl(new Position2DImpl(-15000.0, -13000.0)));
         Vor vorLOL = new VorImpl("LOL", new RadarPositionImpl(new Position2DImpl(-21500.0, 11000.0)));
@@ -47,12 +47,12 @@ public class AirportSelectionImpl implements AirportSelection {
         RunwayEnd r11L = new RunwayEndImpl("11L", new RadarPositionImpl(new Position2DImpl(-883.6, -2396.7)));
         RunwayEnd r29R = new RunwayEndImpl("29R", new RadarPositionImpl(new Position2DImpl(-2217.4, 1268.1)));
         Runway runRoma3 = new RunwayImpl(r11L, r29R);
-        Vor vorRO20 = new VorImpl("20", new RadarPositionImpl(new Position2DImpl(6248.9, 2274.1)));
-        Vor vorRO02 = new VorImpl("02", new RadarPositionImpl(new Position2DImpl(-6248.3, -2274.0)));
-        Vor vorRO11R = new VorImpl("11R", new RadarPositionImpl(new Position2DImpl(3260.6, -4134.1)));
-        Vor vorRO29L = new VorImpl("29L", new RadarPositionImpl(new Position2DImpl(-1493.5, 8927.6)));
-        Vor vorRO11L = new VorImpl("11L", new RadarPositionImpl(new Position2DImpl(826.5, -7095.1)));
-        Vor vorRO29R = new VorImpl("29R", new RadarPositionImpl(new Position2DImpl(-3927.5, 5966.5)));
+        Vor vorRO20 = new VorImpl("ILS20", new RadarPositionImpl(new Position2DImpl(6248.9, 2274.1)));
+        Vor vorRO02 = new VorImpl("ILS02", new RadarPositionImpl(new Position2DImpl(-6248.3, -2274.0)));
+        Vor vorRO11R = new VorImpl("ILS11R", new RadarPositionImpl(new Position2DImpl(3260.6, -4134.1)));
+        Vor vorRO29L = new VorImpl("ILS29L", new RadarPositionImpl(new Position2DImpl(-1493.5, 8927.6)));
+        Vor vorRO11L = new VorImpl("ILS11L", new RadarPositionImpl(new Position2DImpl(826.5, -7095.1)));
+        Vor vorRO29R = new VorImpl("ILS29R", new RadarPositionImpl(new Position2DImpl(-3927.5, 5966.5)));
         Vor vorCAS = new VorImpl("CAS", new RadarPositionImpl(new Position2DImpl(-21000.0, 9000.0)));
         Vor vorLOS = new VorImpl("LOS", new RadarPositionImpl(new Position2DImpl(13500.0, -9500.0)));
         this.airportList.add(new AirportImpl("RO", "LIRF Fiumicino Roma",
@@ -67,8 +67,8 @@ public class AirportSelectionImpl implements AirportSelection {
         Runway r08L26R = new RunwayImpl(r08L, r26R);
         Runway r08R26L = new RunwayImpl(r08R, r26L);
 
-        Vor vor08R08L = new VorImpl("08", new RadarPositionImpl(new Position2DImpl(1562.8, 8863.3)));
-        Vor vor26R26L = new VorImpl("26", new RadarPositionImpl(new Position2DImpl(-1562.8, -8863.3)));
+        Vor vor08R08L = new VorImpl("ILS08", new RadarPositionImpl(new Position2DImpl(1562.8, 8863.3)));
+        Vor vor26R26L = new VorImpl("ILS26", new RadarPositionImpl(new Position2DImpl(-1562.8, -8863.3)));
         Vor vorARI = new VorImpl("ARI", new RadarPositionImpl(new Position2DImpl(-16000.0, -12500.0)));
         Vor vorTOP = new VorImpl("TOP", new RadarPositionImpl(new Position2DImpl(15000.0, 13000.0)));
         Vor vorRES = new VorImpl("RES", new RadarPositionImpl(new Position2DImpl(-14000.0, 6000.0)));
