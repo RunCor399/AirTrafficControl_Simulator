@@ -13,10 +13,10 @@
             <Font name="Comic Sans MS" size="20.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            <Insets bottom="50.0" left="20.0" right="20.0" top="20.0" />
          </VBox.margin>
       </Label>
-      <ChoiceBox fx:id="selectionBox" prefHeight="30.0" prefWidth="185.0">
+      <ChoiceBox fx:id="selectionBox" prefHeight="30.0" prefWidth="276.0">
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </VBox.margin>
@@ -25,7 +25,7 @@
          <children>
             <Button fx:id="btnConfirm" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#confirmSelection" prefHeight="34.0" prefWidth="90.0" text="Confirm">
                <FlowPane.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  <Insets bottom="20.0" left="20.0" right="40.0" top="20.0" />
                </FlowPane.margin>
                <font>
                   <Font name="Calibri Bold" size="18.0" />
@@ -33,7 +33,7 @@
             </Button>
             <Button fx:id="btnMenu" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" mnemonicParsing="false" onAction="#backToMenu" prefHeight="34.0" prefWidth="90.0" text="Go Back">
                <FlowPane.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                  <Insets bottom="20.0" left="40.0" right="20.0" top="20.0" />
                </FlowPane.margin>
                <font>
                   <Font name="Calibri" size="18.0" />
@@ -41,10 +41,13 @@
             </Button>
          </children>
       </FlowPane>
-      <Label fx:id="lblLog" alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="439.0">
+      <Label fx:id="lblLog" alignment="CENTER" contentDisplay="CENTER" prefHeight="21.0" prefWidth="578.0">
          <font>
             <Font name="Comic Sans MS" size="14.0" />
          </font>
+         <VBox.margin>
+            <Insets top="25.0" />
+         </VBox.margin>
       </Label>
    </children>
 </VBox>
