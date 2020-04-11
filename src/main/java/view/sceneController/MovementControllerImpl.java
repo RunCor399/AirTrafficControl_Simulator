@@ -95,10 +95,6 @@ public class MovementControllerImpl extends AbstractSceneController implements M
                 }
             }
         });
-
-        // this.speedLabel.setText("210");
-        // this.altitudeLabel.setText("2000");
-        // this.headingLabel.setText("0");
     }
 
     /**
@@ -115,20 +111,13 @@ public class MovementControllerImpl extends AbstractSceneController implements M
      */
     @Override
     public void updateValues(final Plane plane) {
-        this.speedLabel.setText(Double.toString(plane.getSpeed().getAsKnots().intValue()));
+        this.speedLabel.setText(String.valueOf(plane.getSpeed().getAsKnots().intValue()));
         this.speedSlider.setValue(plane.getSpeed().getAsKnots().intValue());
 
         this.headingLabel.setText(String.valueOf((int) plane.getDirection().getAsDegrees()));
 
         this.altitudeLabel.setText(String.valueOf((int) plane.getAltitude()));
         this.altitudeSlider.setValue((int) plane.getAltitude());
-
-        /*
-         * if (plane.getPlaneAction().equals(Action.TAKEOFF)) {
-         * this.altitudeLabel.setText(Double.toString((int)
-         * Math.round(plane.getAltitude()))); this.altitudeSlider.setValue((int)
-         * Math.round(plane.getAltitude())); }
-         */
     }
 
     /**
