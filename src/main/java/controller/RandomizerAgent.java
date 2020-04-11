@@ -15,20 +15,22 @@ import model.RadarPositionImpl;
 public class RandomizerAgent extends AbstractAgent {
 
     private static final int MILLIS_TO_SEC = 1000;
-    private static final int MAX_WAIT = 120;
-    private static final int MIN_WAIT = 60;
+    private static final int MAX_WAIT = 150;
+    private static final int MIN_WAIT = 90;
     private static final double NO_VALUE = -1;
 
     private final Random random;
     private double actualWaitTime;
     private double timeWaited;
     private final RandomPlaneFactory planeFactory;
+    private boolean firstPlane;
 
     public RandomizerAgent(final Model model) {
         super(model);
         this.random = new Random();
         this.actualWaitTime = NO_VALUE;
         this.timeWaited = NO_VALUE;
+        this.firstPlane = true;
         this.planeFactory = new RandomPlaneFactoryImpl(RadarPositionImpl.X_BOUND, RadarPositionImpl.Y_BOUND);
         this.setDaemon(true);
     }
@@ -45,12 +47,18 @@ public class RandomizerAgent extends AbstractAgent {
                         this.wait();
                     }
                 }
-                sleep(DELTA_TIME / this.getMultiplier());
-                this.timeWaited = this.timeWaited + ((double) DELTA_TIME / MILLIS_TO_SEC);
-                if (this.timeWaited >= this.actualWaitTime) {
-                    this.computeNewWaitTime();
+                if (!this.firstPlane) {
+                    sleep(DELTA_TIME / this.getMultiplier());
+                    this.timeWaited = this.timeWaited + ((double) DELTA_TIME / MILLIS_TO_SEC);
+                    if (this.timeWaited >= this.actualWaitTime) {
+                        this.computeNewWaitTime();
+                        this.createNewPlane();
+                    }
+                } else {
                     this.createNewPlane();
+                    this.firstPlane = false;
                 }
+
             } catch (InterruptedException e) {
             }
 

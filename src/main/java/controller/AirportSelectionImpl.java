@@ -24,17 +24,20 @@ public class AirportSelectionImpl implements AirportSelection {
     private final Controller controller;
 
     {
-        //Bologna
+        // Bologna
         RunwayEnd r1 = new RunwayEndImpl("33", new RadarPositionImpl(new Position2DImpl(-1212.0, 700.0)));
         RunwayEnd r2 = new RunwayEndImpl("15", new RadarPositionImpl(new Position2DImpl(1212.0, -700.0)));
         Runway run = new RunwayImpl(r1, r2);
         Vor vorBO33 = new VorImpl("33", new RadarPositionImpl(new Position2DImpl(-5542.1, 3200.0)));
         Vor vorBO15 = new VorImpl("15", new RadarPositionImpl(new Position2DImpl(5542.3, -3200.0)));
-        Vor vorUPR = new VorImpl("UPR", new RadarPositionImpl(new Position2DImpl(15000.0, -13000.0)));
+        Vor vorUPR = new VorImpl("UPR", new RadarPositionImpl(new Position2DImpl(15000.0, 13000.0)));
         Vor vorDWR = new VorImpl("DWR", new RadarPositionImpl(new Position2DImpl(-15000.0, -13000.0)));
-        this.airportList.add(new AirportImpl("BO", "Bologna", Set.of(vorBO33, vorBO15, vorUPR, vorDWR), List.of(run),
-                new RadarPositionImpl(new Position2DImpl(0.0, -100.0))));
-        //Fiumicino
+        Vor vorLOL = new VorImpl("LOL", new RadarPositionImpl(new Position2DImpl(-21500.0, 11000.0)));
+        Vor vorERI = new VorImpl("ERI", new RadarPositionImpl(new Position2DImpl(14500.0, -12000.0)));
+        this.airportList
+                .add(new AirportImpl("BO", "LIPE Guglielmo Marconi Bologna", Set.of(vorBO33, vorBO15, vorUPR, vorDWR, vorLOL, vorERI),
+                        List.of(run), new RadarPositionImpl(new Position2DImpl(0.0, -100.0))));
+        // Fiumicino
         RunwayEnd r20 = new RunwayEndImpl("20", new RadarPositionImpl(new Position2DImpl(1550.5, 564.3)));
         RunwayEnd r02 = new RunwayEndImpl("02", new RadarPositionImpl(new Position2DImpl(-1550.5, -564.3)));
         Runway runRoma1 = new RunwayImpl(r20, r02);
@@ -50,9 +53,31 @@ public class AirportSelectionImpl implements AirportSelection {
         Vor vorRO29L = new VorImpl("29L", new RadarPositionImpl(new Position2DImpl(-1493.5, 8927.6)));
         Vor vorRO11L = new VorImpl("11L", new RadarPositionImpl(new Position2DImpl(826.5, -7095.1)));
         Vor vorRO29R = new VorImpl("29R", new RadarPositionImpl(new Position2DImpl(-3927.5, 5966.5)));
-        this.airportList.add(new AirportImpl("RO", "Fiumicino", 
-                Set.of(vorRO20, vorRO02, vorRO11R, vorRO29L, vorRO11L, vorRO29R, vorUPR, vorDWR),
+        Vor vorCAS = new VorImpl("CAS", new RadarPositionImpl(new Position2DImpl(-21000.0, 9000.0)));
+        Vor vorLOS = new VorImpl("LOS", new RadarPositionImpl(new Position2DImpl(13500.0, -9500.0)));
+        this.airportList.add(new AirportImpl("RO", "LIRF Fiumicino Roma",
+                Set.of(vorRO20, vorRO02, vorRO11R, vorRO29L, vorRO11L, vorRO29R, vorUPR, vorDWR, vorCAS, vorLOS),
                 List.of(runRoma1, runRoma2, runRoma3), new RadarPositionImpl(new Position2DImpl(0.0, -100.0))));
+
+        // Malpensa
+        RunwayEnd r08L = new RunwayEndImpl("08L", new RadarPositionImpl(new Position2DImpl(936.6, 2320.4)));
+        RunwayEnd r08R = new RunwayEndImpl("08R", new RadarPositionImpl(new Position2DImpl(338.6, 1920.4)));
+        RunwayEnd r26L = new RunwayEndImpl("26L", new RadarPositionImpl(new Position2DImpl(-338.6, -1920.4)));
+        RunwayEnd r26R = new RunwayEndImpl("26R", new RadarPositionImpl(new Position2DImpl(261.4, -1520.4)));
+        Runway r08L26R = new RunwayImpl(r08L, r26R);
+        Runway r08R26L = new RunwayImpl(r08R, r26L);
+
+        Vor vor08R08L = new VorImpl("08", new RadarPositionImpl(new Position2DImpl(1562.8, 8863.3)));
+        Vor vor26R26L = new VorImpl("26", new RadarPositionImpl(new Position2DImpl(-1562.8, -8863.3)));
+        Vor vorARI = new VorImpl("ARI", new RadarPositionImpl(new Position2DImpl(-16000.0, -12500.0)));
+        Vor vorTOP = new VorImpl("TOP", new RadarPositionImpl(new Position2DImpl(15000.0, 13000.0)));
+        Vor vorRES = new VorImpl("RES", new RadarPositionImpl(new Position2DImpl(-14000.0, 6000.0)));
+        Vor vorSGS = new VorImpl("SGS", new RadarPositionImpl(new Position2DImpl(13500.0, -12000.0)));
+
+        this.airportList.add(new AirportImpl("MI", "LIMC Maplensa Milano",
+                Set.of(vor08R08L, vor26R26L, vorARI, vorTOP, vorRES, vorSGS), List.of(r08L26R, r08R26L),
+                new RadarPositionImpl(new Position2DImpl(0.0, -100.0))));
+
     }
 
     public AirportSelectionImpl(final Controller controller) {
