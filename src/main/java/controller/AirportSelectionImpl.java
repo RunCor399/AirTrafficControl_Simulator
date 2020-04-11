@@ -30,7 +30,7 @@ public class AirportSelectionImpl implements AirportSelection {
         Runway run = new RunwayImpl(r1, r2);
         Vor vorBO33 = new VorImpl("33", new RadarPositionImpl(new Position2DImpl(-5542.1, 3200.0)));
         Vor vorBO15 = new VorImpl("15", new RadarPositionImpl(new Position2DImpl(5542.3, -3200.0)));
-        Vor vorUPR = new VorImpl("UPR", new RadarPositionImpl(new Position2DImpl(15000.0, -13000.0)));
+        Vor vorUPR = new VorImpl("UPR", new RadarPositionImpl(new Position2DImpl(15000.0, 13000.0)));
         Vor vorDWR = new VorImpl("DWR", new RadarPositionImpl(new Position2DImpl(-15000.0, -13000.0)));
         this.airportList.add(new AirportImpl("BO", "Bologna", Set.of(vorBO33, vorBO15, vorUPR, vorDWR), List.of(run),
                 new RadarPositionImpl(new Position2DImpl(0.0, -100.0))));
