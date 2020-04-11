@@ -66,8 +66,11 @@ public class AirportSelectionImpl implements AirportSelection {
         Vor vor08R08L = new VorImpl("08", new RadarPositionImpl(new Position2DImpl(1562.8, 8863.3)));
         Vor vor26R26L = new VorImpl("26", new RadarPositionImpl(new Position2DImpl(-1562.8, -8863.3)));
         Vor vorARI = new VorImpl("ARI", new RadarPositionImpl(new Position2DImpl(-16000.0, -12500.0)));
+        Vor vorTOP = new VorImpl("TOP", new RadarPositionImpl(new Position2DImpl(15000.0, 13000.0)));
+        Vor vorRES = new VorImpl("RES", new RadarPositionImpl(new Position2DImpl(-14000.0, 6000.0)));
+        Vor vorSGS = new VorImpl("SGS", new RadarPositionImpl(new Position2DImpl(13500.0, -12000.0)));
 
-        this.airportList.add(new AirportImpl("MI", "LIMC Maplensa Milano", Set.of(vor08R08L, vor26R26L, vorARI),
+        this.airportList.add(new AirportImpl("MI", "LIMC Maplensa Milano", Set.of(vor08R08L, vor26R26L, vorARI, vorTOP, vorRES, vorSGS),
                 List.of(r08L26R, r08R26L), new RadarPositionImpl(new Position2DImpl(0.0, -100.0))));
 
     }
