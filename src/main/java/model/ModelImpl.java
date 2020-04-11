@@ -74,7 +74,6 @@ public class ModelImpl implements Model {
     @Override
     public synchronized void removePlaneById(final int id) {
         Plane p = getPlaneById(id);
-        System.out.println(p.getAirplaneId() + "TROVATOOO");
         planes.remove(p);
     }
 

@@ -106,7 +106,9 @@ public class PlaneImpl extends AbstractCommandableElement implements Plane, Seri
      * @return true if it can move, false otherwise.
      */
     private boolean canMove() {
-        return this.planeAction.equals(Action.TAKEOFF) && !this.actionWasPerformed ? false : true;
+        return (this.planeAction.equals(Action.TAKEOFF) && !this.actionWasPerformed) 
+                || (this.planeAction.equals(Action.LAND) && this.actionWasPerformed)
+                ? false : true;
     }
 
     /**

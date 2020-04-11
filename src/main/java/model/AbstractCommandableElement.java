@@ -232,7 +232,6 @@ public abstract class AbstractCommandableElement extends AbstractDynamicElement 
             Direction newTargetDirection = this.getPosition().computeDirectionToTargetPosition(targetPosition);
             if (this.getDirection().compareTo(newTargetDirection) > MAX_DIFFERENCE) {
                 this.setOnlyTargetDirection(newTargetDirection);
-                System.out.println("Target" + this.targetDirection.toString());
             } else {
                 this.targetPosition = null;
             }
