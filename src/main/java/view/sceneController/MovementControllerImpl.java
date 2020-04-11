@@ -17,7 +17,6 @@ import javafx.scene.control.Slider;
 import model.Direction;
 import model.DirectionImpl;
 import model.Plane;
-import model.Plane.Action;
 import model.Speed;
 import model.SpeedImpl;
 import model.Vor;
@@ -74,15 +73,14 @@ public class MovementControllerImpl extends AbstractSceneController implements M
             public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
                     final Number newValue) {
                 speedLabel.textProperty().setValue(String.valueOf(newValue.intValue()));
-                setCurrentSpeed(new SpeedImpl((double) newValue.intValue()));
             }
         });
+
         this.altitudeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
                     final Number newValue) {
                 altitudeLabel.textProperty().setValue(String.valueOf(newValue.intValue()));
-                setCurrentAltitude((double) newValue.intValue());
             }
         });
 
@@ -158,13 +156,25 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * method that passes to controller the airplane's speed to be set.
+     * Method that calls the controller in order to set a new speed value
+     * for the current selected plane.
      * 
-     * @param targetSpeed
      */
-    private void setCurrentSpeed(final Speed targetSpeed) {
-        Objects.requireNonNull(targetSpeed);
+    @FXML
+    private void setSpeedValue() {
+        Speed targetSpeed = new SpeedImpl(this.speedSlider.getValue());
         this.getController().setPlaneSpeed(targetSpeed);
+    }
+
+    /**
+     * Method that calls the controller in order to set a new Altitude value for the
+     * current selected plane.
+     * 
+     */
+    @FXML
+    private void setAltitudeValue() {
+        double targetAltitude = this.altitudeSlider.getValue();
+        this.getController().setPlaneAltitude(targetAltitude);
     }
 
     /**
@@ -175,16 +185,6 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     private void setCurrentHeading(final Direction targetDirection) {
         Objects.requireNonNull(targetDirection);
         this.getController().setPlaneHeading(targetDirection);
-    }
-
-    /**
-     * method that passes to controller the airplane's altitude to be set.
-     * 
-     * @param targetAltitude
-     */
-    private void setCurrentAltitude(final double targetAltitude) {
-        Objects.requireNonNull(targetAltitude);
-        this.getController().setPlaneAltitude(targetAltitude);
     }
 
     /**
