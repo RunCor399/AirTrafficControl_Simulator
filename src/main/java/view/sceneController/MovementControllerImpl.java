@@ -24,7 +24,7 @@ import view.View;
 
 public class MovementControllerImpl extends AbstractSceneController implements MovementController {
     private static final int MAX_HEADING = 359;
-    private static final int MIN_HEADING = 0;
+    private static final int ZERO = 0;
     private static final int MIN_DELTA = 1;
     private static final int MAX_DELTA = 10;
 
@@ -116,6 +116,8 @@ public class MovementControllerImpl extends AbstractSceneController implements M
 
         this.altitudeLabel.setText(String.valueOf((int) plane.getAltitude()));
         this.altitudeSlider.setValue((int) plane.getAltitude());
+
+        this.vorChoiceBox.setValue("none");
     }
 
     /**
@@ -156,8 +158,8 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * Method that calls the controller in order to set a new speed value
-     * for the current selected plane.
+     * Method that calls the controller in order to set a new speed value for the
+     * current selected plane.
      * 
      */
     @FXML
@@ -222,14 +224,14 @@ public class MovementControllerImpl extends AbstractSceneController implements M
 
         if (this.turnCheckBox.isSelected()) {
             if ((currentHeading + MAX_DELTA) > MAX_HEADING) {
-                this.headingLabel.setText(
-                        String.valueOf(MIN_HEADING + (MAX_DELTA - (MAX_HEADING - currentHeading) - MIN_DELTA)));
+                this.headingLabel
+                        .setText(String.valueOf(ZERO + (MAX_DELTA - (MAX_HEADING - currentHeading) - MIN_DELTA)));
             } else {
                 this.headingLabel.setText(String.valueOf(currentHeading + MAX_DELTA));
             }
         } else {
             if (currentHeading == MAX_HEADING) {
-                this.headingLabel.setText(String.valueOf(MIN_HEADING));
+                this.headingLabel.setText(String.valueOf(ZERO));
             } else {
                 this.headingLabel.setText(String.valueOf(currentHeading + MIN_DELTA));
             }
@@ -246,13 +248,13 @@ public class MovementControllerImpl extends AbstractSceneController implements M
         Integer currentHeading = Integer.valueOf(this.headingLabel.getText());
 
         if (this.turnCheckBox.isSelected()) {
-            if ((currentHeading - MAX_DELTA) < MIN_HEADING) {
+            if ((currentHeading - MAX_DELTA) < ZERO) {
                 this.headingLabel.setText(String.valueOf(MAX_HEADING - (MAX_DELTA - currentHeading) + 1));
             } else {
                 this.headingLabel.setText(String.valueOf(currentHeading - MAX_DELTA));
             }
         } else {
-            if ((currentHeading == MIN_HEADING)) {
+            if ((currentHeading == ZERO)) {
                 this.headingLabel.setText(String.valueOf(MAX_HEADING));
             } else {
                 this.headingLabel.setText(String.valueOf(currentHeading - MIN_DELTA));
