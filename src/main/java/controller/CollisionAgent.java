@@ -6,7 +6,6 @@ import java.util.Iterator;
 import javafx.application.Platform;
 import model.Model;
 import model.Plane;
-import model.RadarPosition;
 import view.View;
 
 public class CollisionAgent extends AbstractAgent {
@@ -45,7 +44,7 @@ public class CollisionAgent extends AbstractAgent {
                            tmp = tmpPlanes.next();
                            if (tmp.getAirplaneId() != plane.getAirplaneId()) {
                                if (plane.getAltitude() == tmp.getAltitude()) {
-                                   double pointDistance = getPointDistance(plane.getPosition(), tmp.getPosition());
+                                   double pointDistance = plane.getPosition().distanceFrom(tmp.getPosition());
                                    if (pointDistance > 0 && pointDistance < WARNING_DISTANCE) {
                                        collisionDetected();
                                    }
@@ -58,19 +57,6 @@ public class CollisionAgent extends AbstractAgent {
 
             }
         }
-    }
-
-    /**
-     * Method that find the distance between two planes.
-     * @param p the position of the first plane.
-     * @param p2 the position of the second lane.
-     * @return pointDistance.
-     */
-    private double getPointDistance(final RadarPosition p, final RadarPosition p2) {
-        double x = Math.pow(p.getPosition().getX() - p2.getPosition().getX(), 2);
-        double y = Math.pow(p.getPosition().getY() - p2.getPosition().getY(), 2);
-        double pointDistance = Math.sqrt(x + y);
-        return pointDistance;
     }
 
     /**
