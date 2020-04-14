@@ -34,7 +34,7 @@ public class CollisionAgent extends AbstractAgent {
                         this.wait();
                     }
                 }
-
+                sleep(DELTA_TIME / this.getMultiplier());
                 this.planes = this.getModel().getAllPlanes().iterator();
                 Plane plane;
                 Plane tmp;
