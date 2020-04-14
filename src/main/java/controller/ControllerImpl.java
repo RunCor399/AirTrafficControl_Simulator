@@ -28,6 +28,7 @@ public class ControllerImpl implements Controller {
     private Plane currentSelectedPlane;
     private RandomizerAgent planeRandomizer;
     private MovementAgent movementAgent;
+    private CollisionAgent collisionAgent;
     private AirportSelection selector;
 
     public ControllerImpl(final View view) {
@@ -36,6 +37,7 @@ public class ControllerImpl implements Controller {
         this.currentSelectedPlane = null;
         this.planeRandomizer = new RandomizerAgent(this.model);
         this.movementAgent = new MovementAgent(this.model, this.view, this);
+        this.collisionAgent = new CollisionAgent(this.model, this.view, this);
         this.selector = new AirportSelectionImpl(this);
         this.selector.setAirportById("BO");
     }
@@ -182,6 +184,11 @@ public class ControllerImpl implements Controller {
             this.movementAgent.resumeThread();
         } else {
             this.movementAgent.start();
+        }
+        if (this.collisionAgent.isAlive()) {
+            this.collisionAgent.resumeThread();
+        } else {
+            this.collisionAgent.start();
         }
     }
 
