@@ -28,7 +28,6 @@ public class StripImpl extends StackPane {
 
     private int width;
     private int height;
-    private int id;
     private final Plane plane;
     private final Label speedLabel;
     private final Label altitudeLabel;
@@ -38,7 +37,6 @@ public class StripImpl extends StackPane {
     public StripImpl(final int width, final int height, final Plane p) {
         this.width = width;
         this.height = height;
-        this.id = p.getAirplaneId();
         Insets pad = new Insets(PADDING_SIZE);
         Font font1 = new Font("Impact", FONT_SIZE);
         Font font2 = new Font("Comic Sans MS", FONT_SIZE);
