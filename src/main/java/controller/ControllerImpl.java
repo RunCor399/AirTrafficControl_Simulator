@@ -72,8 +72,10 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void setPlaneSpeed(final Speed targetSpeed) {
-        Objects.requireNonNull(targetSpeed);
-        this.currentSelectedPlane.setTargetSpeed(targetSpeed);
+        if (this.currentSelectedPlane != null) {
+            Objects.requireNonNull(targetSpeed);
+            this.currentSelectedPlane.setTargetSpeed(targetSpeed);
+        }
     }
 
     /**
@@ -81,8 +83,10 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void setPlaneHeading(final Direction targetDirection) {
-        Objects.requireNonNull(targetDirection);
-        this.currentSelectedPlane.setTargetDirection(targetDirection);
+        if (this.currentSelectedPlane != null) {
+            Objects.requireNonNull(targetDirection);
+            this.currentSelectedPlane.setTargetDirection(targetDirection);
+        }
     }
 
     /**
@@ -90,8 +94,10 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void setPlaneAltitude(final double targetAltitude) {
-        Objects.requireNonNull(targetAltitude);
-        this.currentSelectedPlane.setTargetAltitude(targetAltitude);
+        if (this.currentSelectedPlane != null) {
+            Objects.requireNonNull(targetAltitude);
+            this.currentSelectedPlane.setTargetAltitude(targetAltitude);
+        }
     }
 
     /**
@@ -99,13 +105,14 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void goToVor(final String vorId) {
-        Objects.requireNonNull(vorId);
-        Optional<Vor> vor = this.getActualAirport().getVorById(vorId);
-        if (vor.isEmpty()) {
-            throw new IllegalStateException();
+        if (this.currentSelectedPlane != null) {
+            Objects.requireNonNull(vorId);
+            Optional<Vor> vor = this.getActualAirport().getVorById(vorId);
+            if (vor.isEmpty()) {
+                throw new IllegalStateException();
+            }
+            this.currentSelectedPlane.setTargetPosition(vor.get().getPosition());
         }
-
-        this.currentSelectedPlane.setTargetPosition(vor.get().getPosition());
     }
 
     /**
@@ -113,10 +120,12 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void takeOff() {
-        try {
-            this.currentSelectedPlane.takeOff(this.model.getAirport());
-        } catch (OperationNotAvailableException e) {
-            this.view.windowAlert("OPERATION NOT POSSIBLE", e.getMessage());
+        if (this.currentSelectedPlane != null) {
+            try {
+                this.currentSelectedPlane.takeOff(this.model.getAirport());
+            } catch (OperationNotAvailableException e) {
+                this.view.windowAlert("OPERATION NOT POSSIBLE", e.getMessage());
+            }
         }
     }
 
@@ -125,10 +134,12 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void land() {
-        try {
-            this.currentSelectedPlane.land(this.model.getAirport());
-        } catch (OperationNotAvailableException e) {
-            this.view.windowAlert("OPERATION NOT POSSIBLE", e.getMessage());
+        if (this.currentSelectedPlane != null) {
+            try {
+                this.currentSelectedPlane.land(this.model.getAirport());
+            } catch (OperationNotAvailableException e) {
+                this.view.windowAlert("OPERATION NOT POSSIBLE", e.getMessage());
+            }
         }
     }
 
