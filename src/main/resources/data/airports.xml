@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<airportList>
+	<airport id="PS" name="Pesaro">
+		<vorList>
+			<vor id="SOS">
+				<xPos>2000</xPos>
+				<yPos>-300</yPos>
+			</vor>
+			<vor id="PLS">
+				<xPos>4000</xPos>
+				<yPos>3300</yPos>
+			</vor>
+		</vorList>
+		<runwayList>
+			<runway>
+				<runwayEnd id="20">
+					<xPos>100</xPos>
+					<yPos>100</yPos>
+				</runwayEnd>
+				<runwayEnd id="02">
+					<xPos>-400.0</xPos>
+					<yPos>-400.0</yPos>
+				</runwayEnd>
+			</runway>
+		</runwayList>
+		<parkingSpot>
+			<xPos>-400</xPos>
+			<yPos>-400</yPos>
+		</parkingSpot>
+	</airport>
+	<airport id="UR" name="Urbino">
+		<vorList>
+			<vor id="ABS">
+				<xPos>2000</xPos>
+				<yPos>-300</yPos>
+			</vor>
+			<vor id="TCS">
+				<xPos>20000</xPos>
+				<yPos>20000</yPos>
+			</vor>
+		</vorList>
+		<runwayList>
+			<runway>
+				<runwayEnd id="19">
+					<xPos>100</xPos>
+					<yPos>100</yPos>
+				</runwayEnd>
+				<runwayEnd id="01">
+					<xPos>-400</xPos>
+					<yPos>-400</yPos>
+				</runwayEnd>
+			</runway>
+			<runway>
+				<runwayEnd id="25">
+					<xPos>500</xPos>
+					<yPos>-200</yPos>
+				</runwayEnd>
+				<runwayEnd id="08">
+					<xPos>400</xPos>
+					<yPos>400</yPos>
+				</runwayEnd>
+			</runway>
+		</runwayList>
+		<parkingSpot>
+			<xPos>-400</xPos>
+			<yPos>-400</yPos>
+		</parkingSpot>
+	</airport>
+</airportList>

@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -75,7 +73,7 @@ public class AirportSelectionImpl implements AirportSelection {
 
     public AirportSelectionImpl(final Controller controller) {
         this.controller = controller;
-        this.dataReader = new AirportXMLReader("data/test.xml");
+        this.dataReader = new AirportXMLReaderImpl("data/airports.xml");
         this.airportList = this.dataReader.getAirportListFromXML();
     }
 
