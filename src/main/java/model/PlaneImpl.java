@@ -14,13 +14,13 @@ import utilities.Pair;
  * {@link DynamicElement}.
  *
  */
-public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializable {
+public class PlaneImpl extends AbstractCommandableElement implements Plane, Serializable {
 
     private static final long serialVersionUID = 5423657003954572219L;
     /**
      * The maximum altitude that allows the plane to land.
      */
-    private static final double ALTITUDE_TO_LAND = 2000;
+    private static final double ALTITUDE_TO_LAND = 3000;
     /**
      * The maximum speed that allows the plane to land.
      */
@@ -81,7 +81,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      */
     @Override
     protected Direction getDirectionDelta() {
-        return DIRECTION_DELTA;
+        return this.canMove() ? DIRECTION_DELTA : new DirectionImpl(0);
     }
 
     /**
@@ -89,7 +89,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      */
     @Override
     protected Speed getSpeedDelta() {
-        return SPEED_DELTA;
+        return this.canMove() ? SPEED_DELTA : new SpeedImpl(0.0);
     }
 
     /**
@@ -97,7 +97,18 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
      */
     @Override
     protected double getAltitudeDelta() {
-        return ALTITUDE_DELTA;
+        return this.canMove() ? ALTITUDE_DELTA : 0;
+    }
+
+    /**
+     * This method determines whether the {@link Plane} can or cannot actually move.
+     * 
+     * @return true if it can move, false otherwise.
+     */
+    private boolean canMove() {
+        return (this.planeAction.equals(Action.TAKEOFF) && !this.actionWasPerformed) 
+                || (this.planeAction.equals(Action.LAND) && this.actionWasPerformed)
+                ? false : true;
     }
 
     /**
@@ -134,7 +145,7 @@ public class PlaneImpl extends AbstractDynamicElement implements Plane, Serializ
         this.checkIfTrueAndThrow(airport.getActiveRunways().isEmpty(), "No active runway found.");
         this.checkIfTrueAndThrow(!this.isLandingPossible(), "Speed or altitude of the plane are too high.");
         this.checkIfTrueAndThrow(this.getClosestRunway(airport).isEmpty(),
-                "No nearby active runway found.\nCheck if your direction is compatible with the active runways.");
+                "Check if your direction is compatible with the active runways.");
         //I stop the airplane
         this.resetAllTargets();
         this.setAltitude(0);

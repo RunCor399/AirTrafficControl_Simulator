@@ -4,22 +4,31 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import controller.Controller;
 import javafx.fxml.FXML;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Spinner;
 import model.Direction;
 import model.DirectionImpl;
+import model.Plane;
 import model.Speed;
 import model.SpeedImpl;
 import model.Vor;
+import view.View;
 
-public class MovementControllerImpl extends AbstractSceneController implements SceneController {
+public class MovementControllerImpl extends AbstractSceneController implements MovementController {
+    private static final int MAX_HEADING = 359;
+    private static final int ZERO = 0;
+    private static final int MIN_DELTA = 1;
+    private static final int MAX_DELTA = 10;
 
+    private StripControllerImpl stripController;
     @FXML
     private Slider speedSlider;
 
@@ -39,28 +48,31 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     private Label altitudeLabel;
 
     @FXML
-    private Spinner<Double> directionSpinner;
-
-    @FXML
     private ChoiceBox<String> vorChoiceBox;
 
     @FXML
-    public final void initialize() {
+    private Label headingLabel;
 
-        this.directionSpinner.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
-                    final Number newValue) {
-                setCurrentHeading(new DirectionImpl(newValue.doubleValue()));
-            }
-        });
+    @FXML
+    private Button increaseHeadingButton;
+
+    @FXML
+    private Button decreaseHeadingButton;
+
+    @FXML
+    private CheckBox turnCheckBox;
+
+    @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
+    public final void initialize() {
 
         this.speedSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
                     final Number newValue) {
                 speedLabel.textProperty().setValue(String.valueOf(newValue.intValue()));
-                setCurrentSpeed(new SpeedImpl((double) newValue.intValue()));
             }
         });
 
@@ -69,7 +81,6 @@ public class MovementControllerImpl extends AbstractSceneController implements S
             public void changed(final ObservableValue<? extends Number> obs, final Number oldValue,
                     final Number newValue) {
                 altitudeLabel.textProperty().setValue(String.valueOf(newValue.intValue()));
-                setCurrentAltitude((double) newValue.intValue());
             }
         });
 
@@ -82,10 +93,42 @@ public class MovementControllerImpl extends AbstractSceneController implements S
                 }
             }
         });
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateStrips(final Set<Plane> planes) {
+        this.stripController.updateStrip(planes);
+        this.scrollPane.setContent(this.stripController.getStrips());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateValues(final Plane plane) {
+        this.speedLabel.setText(String.valueOf(plane.getSpeed().getAsKnots().intValue()));
+        this.speedSlider.setValue(plane.getSpeed().getAsKnots().intValue());
+
+        this.headingLabel.setText(String.valueOf((int) plane.getDirection().getAsDegrees()));
+
+        this.altitudeLabel.setText(String.valueOf((int) plane.getAltitude()));
+        this.altitudeSlider.setValue((int) plane.getAltitude());
+
+        this.vorChoiceBox.setValue("none");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setParameters(final Controller controller, final View view) {
+        super.setParameters(controller, view);
         this.initializeVorList();
-        this.speedLabel.setText("210");
-        this.altitudeLabel.setText("7000");
+        this.stripController = new StripControllerImpl(this.scrollPane.getPrefWidth(), this);
+        this.stripController.setParameters(controller, view);
     }
 
     /**
@@ -115,13 +158,25 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     }
 
     /**
-     * method that passes to controller the airplane's speed to be set.
+     * Method that calls the controller in order to set a new speed value for the
+     * current selected plane.
      * 
-     * @param targetSpeed
      */
-    private void setCurrentSpeed(final Speed targetSpeed) {
-        Objects.requireNonNull(targetSpeed);
+    @FXML
+    private void setSpeedValue() {
+        Speed targetSpeed = new SpeedImpl(this.speedSlider.getValue());
         this.getController().setPlaneSpeed(targetSpeed);
+    }
+
+    /**
+     * Method that calls the controller in order to set a new Altitude value for the
+     * current selected plane.
+     * 
+     */
+    @FXML
+    private void setAltitudeValue() {
+        double targetAltitude = this.altitudeSlider.getValue();
+        this.getController().setPlaneAltitude(targetAltitude);
     }
 
     /**
@@ -132,16 +187,6 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     private void setCurrentHeading(final Direction targetDirection) {
         Objects.requireNonNull(targetDirection);
         this.getController().setPlaneHeading(targetDirection);
-    }
-
-    /**
-     * method that passes to controller the airplane's altitude to be set.
-     * 
-     * @param targetAltitude
-     */
-    private void setCurrentAltitude(final double targetAltitude) {
-        Objects.requireNonNull(targetAltitude);
-        this.getController().setPlaneAltitude(targetAltitude);
     }
 
     /**
@@ -168,5 +213,54 @@ public class MovementControllerImpl extends AbstractSceneController implements S
     @FXML
     public void landPressed() {
         this.getController().land();
+    }
+
+    /**
+     * method that increases heading label value.
+     */
+    @FXML
+    public void increaseHeading() {
+        Integer currentHeading = Integer.valueOf(this.headingLabel.getText());
+
+        if (this.turnCheckBox.isSelected()) {
+            if ((currentHeading + MAX_DELTA) > MAX_HEADING) {
+                this.headingLabel
+                        .setText(String.valueOf(ZERO + (MAX_DELTA - (MAX_HEADING - currentHeading) - MIN_DELTA)));
+            } else {
+                this.headingLabel.setText(String.valueOf(currentHeading + MAX_DELTA));
+            }
+        } else {
+            if (currentHeading == MAX_HEADING) {
+                this.headingLabel.setText(String.valueOf(ZERO));
+            } else {
+                this.headingLabel.setText(String.valueOf(currentHeading + MIN_DELTA));
+            }
+        }
+
+        this.setCurrentHeading(new DirectionImpl(Double.valueOf(this.headingLabel.getText())));
+    }
+
+    /**
+     * method that decreases heading label value.
+     */
+    @FXML
+    public void decreaseHeading() {
+        Integer currentHeading = Integer.valueOf(this.headingLabel.getText());
+
+        if (this.turnCheckBox.isSelected()) {
+            if ((currentHeading - MAX_DELTA) < ZERO) {
+                this.headingLabel.setText(String.valueOf(MAX_HEADING - (MAX_DELTA - currentHeading) + 1));
+            } else {
+                this.headingLabel.setText(String.valueOf(currentHeading - MAX_DELTA));
+            }
+        } else {
+            if ((currentHeading == ZERO)) {
+                this.headingLabel.setText(String.valueOf(MAX_HEADING));
+            } else {
+                this.headingLabel.setText(String.valueOf(currentHeading - MIN_DELTA));
+            }
+        }
+
+        this.setCurrentHeading(new DirectionImpl(Double.valueOf(this.headingLabel.getText())));
     }
 }

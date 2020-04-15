@@ -19,6 +19,14 @@ public interface SceneFactory {
     Pair<SceneController, Parent> loadMenu();
 
     /**
+     * Loads the fxml of airport selection scenery.
+     * 
+     * @return Parent of menu scenery
+     */
+
+    Pair<SceneController, Parent> loadAirportSelection();
+
+    /**
      * Loads the fxml of the game scenery.
      * 
      * @return Parent of game scenery. 
@@ -33,5 +41,4 @@ public interface SceneFactory {
      */
 
     Pair<SceneController, Parent> loadTutorial();
-
 }

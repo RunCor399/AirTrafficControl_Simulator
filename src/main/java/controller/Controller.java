@@ -8,12 +8,20 @@ import model.Runway;
 import model.Speed;
 import utilities.Pair;
 import model.Airport;
+
 /**
  * 
  * This interface models the main controller of the application.
  *
  */
 public interface Controller {
+
+    /**
+     * This method allows the switch to a specific{@link Airport}.
+     * 
+     * @param airport the airport we want to set.
+     */
+    void setActualAirport(Airport airport);
 
     /**
      * method that selects a plane as target.
@@ -95,6 +103,14 @@ public interface Controller {
     void startThreads();
 
     /**
+     * Method that returns the X and Y bounds of the radar. This method is useful to
+     * correctly represent the radar.
+     * 
+     * @return a {@link Pair} containing the X and Y bounds.
+     */
+    Pair<Double, Double> getRadarDimension();
+
+    /**
      * Method that returns the list of the runways.
      * 
      * @return List of runways
@@ -116,9 +132,19 @@ public interface Controller {
      */
     boolean getRunwayEndStatus(String runwayEnd);
 
+
     /**
      * Method that resets the game deleting all current planes and deactivating
      * every runway.
      */
     void resetGameContext();
+
+    /**
+     * Method that returns the {@link AirportSelectionImpl}, which is used to manage the actual {@link Airport}
+     * in the model.
+     * 
+     * @return the {@link AirportSelectionImpl} of the application.
+     */
+    AirportSelection getAirportSelector();
+
 }

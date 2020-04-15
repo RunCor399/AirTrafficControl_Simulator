@@ -34,7 +34,8 @@ public class ModelImpl implements Model {
      */
     @Override
     public synchronized Set<Plane> getAllPlanes() {
-        return this.planes;
+        //defensive copy
+        return Set.copyOf(this.planes);
     }
 
     /**
@@ -42,10 +43,9 @@ public class ModelImpl implements Model {
      */
     @Override
     public synchronized Plane getPlaneById(final int id) {
-        Plane p = null;
-        for (Plane tmp : this.planes) {
-            if (tmp.getAirplaneId() == id) {
-                 return p;
+        for (Plane plane: this.planes) {
+            if (plane.getAirplaneId() == id) {
+                 return plane;
             }
         }
         throw new  IllegalStateException();
@@ -91,7 +91,7 @@ public class ModelImpl implements Model {
      * {@inheritDoc}
      */
     @Override
-    public void removeAllPlanes() {
+    public synchronized void removeAllPlanes() {
         this.planes.clear();
     }
 

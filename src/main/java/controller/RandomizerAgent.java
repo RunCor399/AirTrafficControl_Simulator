@@ -14,11 +14,10 @@ import model.RadarPositionImpl;
  */
 public class RandomizerAgent extends AbstractAgent {
 
-    private static final long DELTA_TIME = 500;
     private static final int MILLIS_TO_SEC = 1000;
-    private static final int MAX_WAIT = 30;
-    private static final int MIN_WAIT = 16;
-    private static final double NO_VALUE = -1;
+    private static final int MAX_WAIT = 150;
+    private static final int MIN_WAIT = 90;
+    private static final double NO_VALUE = 0;
 
     private final Random random;
     private double actualWaitTime;
@@ -52,6 +51,7 @@ public class RandomizerAgent extends AbstractAgent {
                     this.computeNewWaitTime();
                     this.createNewPlane();
                 }
+
             } catch (InterruptedException e) {
             }
 
@@ -64,7 +64,7 @@ public class RandomizerAgent extends AbstractAgent {
      */
     private void computeNewWaitTime() {
         this.actualWaitTime = this.random.nextInt(MAX_WAIT - MIN_WAIT) + MIN_WAIT;
-        this.timeWaited = 0;
+        this.timeWaited = NO_VALUE;
     }
 
     /**

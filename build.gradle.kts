@@ -28,6 +28,8 @@ dependencies {
     // JUnit API and testing engine
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.2")
+    testCompile("junit:junit:4.12")
+    testRuntime("org.junit.vintage:junit-vintage-engine:5.3.1")
 }
 
 tasks.withType<Test> {
@@ -36,5 +38,5 @@ tasks.withType<Test> {
 }
 
 application {
-    mainClassName = "application.Launcher"
+    mainClassName = "view.Launcher"
 }

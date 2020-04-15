@@ -1,7 +1,9 @@
 package controller;
 
-import java.util.Iterator;
+//import java.util.Iterator;
+import java.util.Set;
 
+import javafx.application.Platform;
 import model.Model;
 import model.Plane;
 import view.View;
@@ -53,13 +55,20 @@ public class MovementAgent extends AbstractAgent {
      * 
      */
     private void updateUnderControlPlanes() {
-        Iterator<Plane> planeIt = this.getModel().getAllPlanes().iterator();
+        /*
+         * Iterator<Plane> planeIt = this.getModel().getAllPlanes().iterator();
+         * 
+         * while (planeIt.hasNext()) { Plane currentPlane = planeIt.next();
+         * this.removeOutboundPlanes(currentPlane);
+         * this.removeInboundPlanes(currentPlane);
+         * this.checkNotLandedPlanes(currentPlane); }
+         */
+        Set<Plane> planesSet = this.getModel().getAllPlanes();
 
-        while (planeIt.hasNext()) {
-            Plane currentPlane = planeIt.next();
-            this.removeOutboundPlanes(currentPlane);
-            this.removeInboundPlanes(currentPlane);
-            this.checkNotLandedPlanes(currentPlane);
+        for (Plane plane : planesSet) {
+            this.removeOutboundPlanes(plane);
+            this.removeInboundPlanes(plane);
+            this.checkNotLandedPlanes(plane);
         }
     }
 
@@ -90,15 +99,15 @@ public class MovementAgent extends AbstractAgent {
 
     /**
      * Methods that checks if a plane that has two land was sent outside of radar
-     * boundaries.
-     * In that case user loses and is redirected to Main Menu.
+     * boundaries. In that case user loses and is redirected to Main Menu.
      * 
      * @param plane
      */
     private void checkNotLandedPlanes(final Plane plane) {
         if ((plane.getPlaneAction().equals(Plane.Action.LAND)) && (!plane.getPosition().isWithinRadar())) {
             this.controller.resetGameContext();
-            this.view.resetGame("Un aereo che doveva atterrare è finito fuori dai limiti del radar");
+            this.view.windowAlert("Hai perso", "Un aereo che doveva atterrare è finito fuori dai limiti del radar");
+            Platform.runLater(() -> this.view.changeScene(this.view.getSceneFactory().loadMenu()));
         }
     }
 }

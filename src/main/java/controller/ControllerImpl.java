@@ -9,10 +9,12 @@ import model.Direction;
 import model.Model;
 import model.ModelImpl;
 import model.Plane;
+import model.RadarPositionImpl;
 import model.Runway;
 import model.Speed;
 import model.Vor;
 import model.exceptions.OperationNotAvailableException;
+import utilities.Pair;
 import view.View;
 
 /**
@@ -26,6 +28,7 @@ public class ControllerImpl implements Controller {
     private Plane currentSelectedPlane;
     private RandomizerAgent planeRandomizer;
     private MovementAgent movementAgent;
+    private AirportSelection selector;
 
     public ControllerImpl(final View view) {
         this.model = new ModelImpl();
@@ -33,6 +36,26 @@ public class ControllerImpl implements Controller {
         this.currentSelectedPlane = null;
         this.planeRandomizer = new RandomizerAgent(this.model);
         this.movementAgent = new MovementAgent(this.model, this.view, this);
+        this.selector = new AirportSelectionImpl(this);
+        this.selector.setAirportById("BO");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AirportSelection getAirportSelector() {
+        return this.selector;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setActualAirport(final Airport airport) {
+        Objects.requireNonNull(airport);
+        this.model.setAirport(airport);
+        this.resetGameContext();
     }
 
     /**
@@ -49,8 +72,10 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void setPlaneSpeed(final Speed targetSpeed) {
-        Objects.requireNonNull(targetSpeed);
-        this.currentSelectedPlane.setTargetSpeed(targetSpeed);
+        if (this.currentSelectedPlane != null) {
+            Objects.requireNonNull(targetSpeed);
+            this.currentSelectedPlane.setTargetSpeed(targetSpeed);
+        }
     }
 
     /**
@@ -58,8 +83,10 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void setPlaneHeading(final Direction targetDirection) {
-        Objects.requireNonNull(targetDirection);
-        this.currentSelectedPlane.setTargetDirection(targetDirection);
+        if (this.currentSelectedPlane != null) {
+            Objects.requireNonNull(targetDirection);
+            this.currentSelectedPlane.setTargetDirection(targetDirection);
+        }
     }
 
     /**
@@ -67,8 +94,10 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void setPlaneAltitude(final double targetAltitude) {
-        Objects.requireNonNull(targetAltitude);
-        this.currentSelectedPlane.setTargetAltitude(targetAltitude);
+        if (this.currentSelectedPlane != null) {
+            Objects.requireNonNull(targetAltitude);
+            this.currentSelectedPlane.setTargetAltitude(targetAltitude);
+        }
     }
 
     /**
@@ -76,13 +105,14 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void goToVor(final String vorId) {
-        Objects.requireNonNull(vorId);
-        Optional<Vor> vor = this.getActualAirport().getVorById(vorId);
-        if (vor.isEmpty()) {
-            throw new IllegalStateException();
+        if (this.currentSelectedPlane != null) {
+            Objects.requireNonNull(vorId);
+            Optional<Vor> vor = this.getActualAirport().getVorById(vorId);
+            if (vor.isEmpty()) {
+                throw new IllegalStateException();
+            }
+            this.currentSelectedPlane.setTargetPosition(vor.get().getPosition());
         }
-
-        this.currentSelectedPlane.setTargetPosition(vor.get().getPosition());
     }
 
     /**
@@ -90,11 +120,12 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void takeOff() {
-        try {
-            this.currentSelectedPlane.takeOff(this.model.getAirport());
-        } catch (OperationNotAvailableException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if (this.currentSelectedPlane != null) {
+            try {
+                this.currentSelectedPlane.takeOff(this.model.getAirport());
+            } catch (OperationNotAvailableException e) {
+                this.view.windowAlert("OPERATION NOT POSSIBLE", e.getMessage());
+            }
         }
     }
 
@@ -103,11 +134,12 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void land() {
-        try {
-            this.currentSelectedPlane.land(this.model.getAirport());
-        } catch (OperationNotAvailableException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if (this.currentSelectedPlane != null) {
+            try {
+                this.currentSelectedPlane.land(this.model.getAirport());
+            } catch (OperationNotAvailableException e) {
+                this.view.windowAlert("OPERATION NOT POSSIBLE", e.getMessage());
+            }
         }
     }
 
@@ -160,7 +192,7 @@ public class ControllerImpl implements Controller {
         if (this.movementAgent.isAlive()) {
             this.movementAgent.resumeThread();
         } else {
-            this.movementAgent.resumeThread();
+            this.movementAgent.start();
         }
     }
 
@@ -168,6 +200,13 @@ public class ControllerImpl implements Controller {
      * {@inheritDoc}
      */
     @Override
+    public Pair<Double, Double> getRadarDimension() {
+        return new Pair<>(RadarPositionImpl.X_BOUND, RadarPositionImpl.Y_BOUND);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public Optional<List<Runway>> getAirportRunways() {
         return this.model.getAirport().getRunways();
     }

@@ -35,9 +35,10 @@ public interface View {
     SceneFactory getSceneFactory();
 
     /**
-     * method that resets the game when a user loses.
+     * method that creates a window alert with the specified header and text.
      * 
-     * @param reason
+     * @param header
+     * @param text
      */
-    void resetGame(String reason);
+    void windowAlert(String header, String text);
 }

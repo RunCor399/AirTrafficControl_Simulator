@@ -1,12 +1,11 @@
 package view.sceneController;
 
-import java.awt.Label;
 import java.util.Objects;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.Runway;
 
@@ -30,26 +29,6 @@ public class RunwayController extends AbstractSceneController implements SceneCo
     @FXML
     private Pane statusRunway;
 
-    @FXML
-    public final void initialize() {
-
-        this.runwayEnd1.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(final ObservableValue<? extends Boolean> observable, final Boolean oldValue, 
-                    final Boolean newValue) {
-                changeRunwayEndStatus(runwayNum1.getText());
-            }
-        });
-
-        this.runwayEnd2.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(final ObservableValue<? extends Boolean> observable, final Boolean oldValue, 
-                    final Boolean newValue) {
-                changeRunwayEndStatus(runwayNum2.getText());
-            }
-        });
-    }
-
     /**
      * Method that initializes the current runway view.
      * 
@@ -66,23 +45,24 @@ public class RunwayController extends AbstractSceneController implements SceneCo
     /**
      * Method that changes the status of a runwayEnd.
      * 
-     * @param runwayEnd
+     * @param event
      */
-    public void changeRunwayEndStatus(final String runwayEnd) {
-        this.getController().changeRunwayEndStatus(runwayEnd);
+    @FXML
+    public void changeRunwayEndStatus(final ActionEvent event) {
+        this.getController().changeRunwayEndStatus(event.getSource().equals(this.runwayEnd1) ? this.runwayNum1.getText() : this.runwayNum2.getText());
         this.updateRunwayStatus();
     }
 
     /**
      * Method that updates the status of the runway after changed status.
      */
-    //TODO: use this method only when initializing
     private void updateRunwayStatus() {
         this.runwayEnd1.setSelected(this.getController().getRunwayEndStatus(this.runwayNum1.getText()));
         this.runwayEnd2.setSelected(this.getController().getRunwayEndStatus(this.runwayNum2.getText()));
         if (!this.runwayEnd1.isSelected() && !this.runwayEnd2.isSelected()) {
-            this.statusRunway.setStyle("-fx-background-color: #FF0000"); //RED
+            this.statusRunway.setStyle("-fx-background-color: #FF0000;"); //RED
+        } else {
+            this.statusRunway.setStyle("-fx-background-color: #2EFE2E;"); //GREEN
         }
-        this.statusRunway.setStyle("-fx-background-color: #2EFE2E"); //GREEN
     }
 }
