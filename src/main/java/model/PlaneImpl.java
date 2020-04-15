@@ -20,7 +20,7 @@ public class PlaneImpl extends AbstractCommandableElement implements Plane, Seri
     /**
      * The maximum altitude that allows the plane to land.
      */
-    private static final double ALTITUDE_TO_LAND = 2000;
+    private static final double ALTITUDE_TO_LAND = 3000;
     /**
      * The maximum speed that allows the plane to land.
      */
@@ -145,7 +145,7 @@ public class PlaneImpl extends AbstractCommandableElement implements Plane, Seri
         this.checkIfTrueAndThrow(airport.getActiveRunways().isEmpty(), "No active runway found.");
         this.checkIfTrueAndThrow(!this.isLandingPossible(), "Speed or altitude of the plane are too high.");
         this.checkIfTrueAndThrow(this.getClosestRunway(airport).isEmpty(),
-                "No nearby active runway found.\nCheck if your direction is compatible with the active runways.");
+                "Check if your direction is compatible with the active runways.");
         //I stop the airplane
         this.resetAllTargets();
         this.setAltitude(0);
