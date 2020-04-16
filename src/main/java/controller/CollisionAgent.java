@@ -1,6 +1,5 @@
 package controller;
 
-
 import javafx.application.Platform;
 import model.Model;
 import model.Plane;
@@ -8,7 +7,8 @@ import view.View;
 
 public class CollisionAgent extends AbstractAgent {
 
-    private static final int WARNING_DISTANCE = 500;
+    private static final int COLLISION_DISTANCE = 500;
+    private static final int WARNING_DISTANCE = 2500;
     private static final int WARNING_ALTITUDE = 100;
     private final View view;
     private final Controller controller;
@@ -32,10 +32,9 @@ public class CollisionAgent extends AbstractAgent {
                     }
                 }
                 sleep(DELTA_TIME / this.getMultiplier());
-                this.getModel().getAllPlanes().stream()
-                    .filter(plane -> !(plane.getPlaneAction().equals(Plane.Action.TAKEOFF) && !plane.isActionPerformed()))
-                    .filter(plane -> !(plane.getPlaneAction().equals(Plane.Action.LAND) && plane.isActionPerformed()))
-                    .forEach(x -> checkCollision(x));
+                this.getModel().getAllPlanes().stream().filter(plane -> plane.canMove())
+                        .peek(x -> x.setCollisionWarning(false)).forEach(x -> checkCollision(x));
+
             } catch (InterruptedException e) {
 
             }
@@ -44,15 +43,17 @@ public class CollisionAgent extends AbstractAgent {
 
     /**
      * Method that watches if a plane is colliding.
-     * @param p is the plane to check. 
+     * 
+     * @param p is the plane to check.
      */
-
     private void checkCollision(final Plane p) {
-         if (this.getModel().getAllPlanes().stream()
-            .filter(x -> Math.abs(x.getAltitude() - p.getAltitude()) <= WARNING_ALTITUDE)
-            .filter(x -> Math.abs(x.getPosition().distanceFrom(p.getPosition())) <= WARNING_DISTANCE)
-            .filter(x -> x.getAirplaneId() != p.getAirplaneId())
-            .count() != 0) {
+        if (this.getModel().getAllPlanes().stream().filter(plane -> plane.canMove())
+                .filter(plane -> plane.getAirplaneId() != p.getAirplaneId())
+                .filter(plane -> Math.abs(plane.getAltitude() - p.getAltitude()) <= WARNING_ALTITUDE)
+                .filter(plane -> Math.abs(plane.getPosition().distanceFrom(p.getPosition())) <= WARNING_DISTANCE)
+                .peek(plane -> plane.setCollisionWarning(true)).peek(plane -> p.setCollisionWarning(true))
+                .filter(plane -> Math.abs(plane.getPosition().distanceFrom(p.getPosition())) <= COLLISION_DISTANCE)
+                .count() != 0) {
 
             collisionDetected();
         }
@@ -68,5 +69,4 @@ public class CollisionAgent extends AbstractAgent {
         Platform.runLater(() -> this.view.changeScene(this.view.getSceneFactory().loadMenu()));
 
     }
-
 }

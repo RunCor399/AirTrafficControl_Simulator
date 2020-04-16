@@ -72,6 +72,11 @@ public class StripImpl extends StackPane {
         this.setInitialValues();
     }
 
+    /**
+     * Method that sets the speed label of the strip to the target speed of the
+     * plane.
+     * 
+     */
     private void setShownTargetSpeed() {
         Optional<Speed> optTargetSpeed = this.plane.getTargetSpeed();
         if (optTargetSpeed.isPresent()) {
@@ -79,6 +84,11 @@ public class StripImpl extends StackPane {
         }
     }
 
+    /**
+     * Method that sets the altitude label of the strip to the target altitude of
+     * the plane.
+     * 
+     */
     private void setShownTargetAltitude() {
         Double targetAltitude = this.plane.getTargetAltitude();
         if (targetAltitude != NO_VALUE) {
@@ -86,10 +96,31 @@ public class StripImpl extends StackPane {
         }
     }
 
+    /**
+     * Method that sets the direction label of the strip to the target direction of
+     * the plane.
+     * 
+     */
     private void setShownTargetDirection() {
         Optional<Direction> optTargetDirection = this.plane.getTargetDirection();
         if (optTargetDirection.isPresent()) {
             this.headingLabel.setText(String.valueOf(((int) optTargetDirection.get().getAsDegrees())) + "°");
+        }
+    }
+
+    /**
+     * Method that update the background color of the strip when in collision danger
+     * or not.
+     */
+    private void updateWarningVisualization() {
+        if (this.plane.isPlaneWarned()) {
+            this.setStyle("-fx-background-color: #ffff00;");
+        } else {
+            if (this.plane.getPlaneAction().equals(Action.LAND)) {
+                this.setStyle("-fx-background-color: #ffc24f;");
+            } else {
+                this.setStyle("-fx-background-color: #67fffb;");
+            }
         }
     }
 
@@ -117,6 +148,7 @@ public class StripImpl extends StackPane {
         this.setShownTargetAltitude();
         this.setShownTargetSpeed();
         this.setShownTargetDirection();
+        this.updateWarningVisualization();
     }
 
     public final Plane getPlane() {
