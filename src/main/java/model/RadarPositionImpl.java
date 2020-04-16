@@ -38,15 +38,17 @@ public class RadarPositionImpl implements RadarPosition {
 
     /**
      * {@inheritDoc}
-     *//* !!!!COULD BE REMOVED !!!!
-        * @Override public void setPosition(final Position2D position) {
-        * Objects.requireNonNull(position); if (!isWithinRadar(position)) { TODO modify
-        * exception throw new IllegalStateException(); }
-        * 
-        * this.elementPosition = position;
-        * 
-        * }
-        */
+     */
+    @Override
+    public void setPosition(final Position2D position) {
+        Objects.requireNonNull(position);
+        if (!this.isWithinRadar()) {
+            throw new IllegalStateException();
+        }
+
+        this.elementPosition = position;
+
+    }
 
     /**
      * {@inheritDoc}
