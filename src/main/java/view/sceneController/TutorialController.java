@@ -21,6 +21,6 @@ public class TutorialController extends AbstractSceneController implements Scene
      * Method that switches into menu Scenery.
      */
     public void switchToMenu() {
-        //TODO
+        this.getView().changeScene(this.getView().getSceneFactory().loadMenu());
     }
 }
