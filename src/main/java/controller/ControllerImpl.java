@@ -158,8 +158,10 @@ public class ControllerImpl implements Controller {
     public void stopThreads() {
         this.planeRandomizer.stopThread();
         this.movementAgent.stopThread();
+        this.collisionAgent.stopThread();
         this.planeRandomizer = new RandomizerAgent(this.model);
         this.movementAgent = new MovementAgent(this.model, this.view, this);
+        this.collisionAgent = new CollisionAgent(this.model, this.view, this);
     }
 
     /**
@@ -169,6 +171,7 @@ public class ControllerImpl implements Controller {
     public void pauseThreads() {
         this.planeRandomizer.pauseThread();
         this.movementAgent.pauseThread();
+        this.collisionAgent.pauseThread();
     }
 
     /**
@@ -178,6 +181,7 @@ public class ControllerImpl implements Controller {
     public void setSimulationRate(final int rate) {
         this.planeRandomizer.setMultiplier(rate);
         this.movementAgent.setMultiplier(rate);
+        this.collisionAgent.setMultiplier(rate);
     }
 
     /**

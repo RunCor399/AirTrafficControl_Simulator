@@ -83,8 +83,8 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
                 .filter(plane -> plane.getPlaneAction().equals(Plane.Action.LAND)
                         || (plane.getPlaneAction().equals(Plane.Action.TAKEOFF) && plane.isActionPerformed()))
                 .collect(Collectors.toSet());
+        this.drawer.cachedPlanes = drawablePlanes;
         Platform.runLater(() -> {
-            this.drawer.cachedPlanes = drawablePlanes;
             this.drawer.drawPlanes();
             this.movementGUIController.updateStrips(planes);
         });
