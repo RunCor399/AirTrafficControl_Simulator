@@ -12,11 +12,6 @@ public class TutorialController extends AbstractSceneController implements Scene
     @FXML
     private ImageView screenImage;
 
-    @FXML
-    public final void inizialize() {
-        //TODO
-    }
-
     /**
      * Method that switches into menu Scenery.
      */

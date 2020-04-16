@@ -98,6 +98,39 @@
                      </children>
                   </Pane>
                </content></Tab>
+            <Tab text="GESTORE DI MOVIMENTO">
+               <content>
+                  <Pane>
+                     <children>
+                        <Text layoutX="14.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3.Gestore di Movimento" wrappingWidth="407.13671875">
+                           <font>
+                              <Font name="Arial Black" size="28.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Il gestore del movimento in figura permette di modificare la direzione (in gradi),&#10;l'altitudine (in piedi), la velocità (in nodi) nonchè di indirizzare un preciso aeromobile verso un VOR.&#10;&#10;&#9;-Velocità: può essere modifcata tramite lo slider orizzontale in un range&#10;&#9;           compreso tra 120 e 330 nodi.&#10;&#9;&#10;&#9;-Altitudine: può essere modificata tramite lo slider verticale in un range compreso tra &#10;&#9;&#9;     2000 e 12000 piedi.&#10;&#10;&#9;-Direzione: può essere modificata tramite le apposite freccette in un range compreso tra&#10;&#9;&#9;    0 e 359 gradi, qualora si volesse variare la direzione più velocemente è&#10;&#9;            possibile spuntare l'apposita checkbox &quot;vira di 10°&quot;. &#10;&#10;&#9;Per far virare un aeromobile verso uno specifico VOR basterà selezionarlo dall'apposito menù&#10;&#9;a tendina e questo vi si dirigerà fino a che la direzione non sarà nuovamente modificata.&#10;&#10;Nel gestore del movimento sono presenti altri due tasti, Takeoff e Land, che permettono rispettivamente&#10;il decollo e l'atterraggio di un aereo qualora rispettasse le condizioni stabilite nel prossimo paragrafo.">
+                           <font>
+                              <Font name="Calibri Light" size="28.0" />
+                           </font>
+                        </Text>
+                        <ImageView fitHeight="264.0" fitWidth="461.0" layoutX="1319.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/Movimento.PNG" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="178.0" fitWidth="379.0" layoutX="582.0" layoutY="706.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/vor.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="210.0" fitWidth="422.0" layoutX="1194.0" layoutY="690.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/vorPlane.PNG" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
    </center>
