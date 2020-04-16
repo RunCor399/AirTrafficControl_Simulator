@@ -52,17 +52,17 @@
                         </Text>
                         <ImageView fx:id="screenImage" fitHeight="415.0" fitWidth="788.0" layoutX="1036.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/schermata.PNG" />
+                              <Image url="@../tutorial/schermata.PNG" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="121.0" fitWidth="305.0" layoutX="463.0" layoutY="761.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/Plane.PNG" />
+                              <Image url="@../tutorial/Plane.PNG" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="245.0" fitWidth="487.0" layoutX="1314.0" layoutY="620.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/RunwayVor.PNG" />
+                              <Image url="@../tutorial/RunwayVor.PNG" />
                            </image>
                         </ImageView>
                      </children>
@@ -85,15 +85,15 @@
                         </Text>
                         <ImageView fitHeight="105.0" fitWidth="346.0" layoutX="265.0" layoutY="661.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/strip1.PNG" />
+                              <Image url="@../tutorial/strip1.PNG" />
                            </image></ImageView>
                         <ImageView fitHeight="128.0" fitWidth="351.0" layoutX="967.0" layoutY="648.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/plane1.PNG" />
+                              <Image url="@../tutorial/plane1.PNG" />
                            </image></ImageView>
                         <ImageView fitHeight="317.0" fitWidth="322.0" layoutX="1451.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/strip.PNG" />
+                              <Image url="@../tutorial/strip.PNG" />
                            </image></ImageView>
                      </children>
                   </Pane>
@@ -114,17 +114,50 @@
                         </Text>
                         <ImageView fitHeight="264.0" fitWidth="461.0" layoutX="1319.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/Movimento.PNG" />
+                              <Image url="@../tutorial/Movimento.PNG" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="178.0" fitWidth="379.0" layoutX="582.0" layoutY="706.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/vor.png" />
+                              <Image url="@../tutorial/vor.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="210.0" fitWidth="422.0" layoutX="1194.0" layoutY="690.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../images/vorPlane.PNG" />
+                              <Image url="@../tutorial/vorPlane.PNG" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </content>
+            </Tab>
+            <Tab text="RUNWAY">
+               <content>
+                  <Pane>
+                     <children>
+                        <Text layoutX="14.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4.Gestore delle Runway">
+                           <font>
+                              <Font name="Arial Black" size="28.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Possiamo visualizzare e modificare lo stato delle piste dalla grafica sulla destra dove troviamo per &#10;ciascuna runway, le rispettive Runwayend che permettono il decollo o l'atterraggio degli aerei.&#10;&#10;Le runwayend sono identificate rispetto alla direzione in gradi a cui puntano e quindi rispetto alla&#10;direzione in cui possono essere utilizzate&#10;&#10;Le piste possono essere utilizzate in 2 direzioni, rispettivamente alla direzioni in gradi in cui si &#10;vuole utilizzare la pista.&#10;Possiamo attivare le rispettive runwayend dalle checkbox, le quali non possono essere attivate entrambe&#10;nella stessa pista in quanto non è possibile utilizzare la stessa pista dai 2 lati contemporaneamente.&#10;&#10;Possiamo cambiare lo stato della pista in non attiva semplicemnte disattivando entrambe le checkbox &#10;e la sua barra di stato diventerà rossa.">
+                           <font>
+                              <Font name="Calibri Light" size="28.0" />
+                           </font>
+                        </Text>
+                        <ImageView fitHeight="484.0" fitWidth="241.0" layoutX="1476.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/Runway.PNG" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="229.0" fitWidth="402.0" layoutX="365.0" layoutY="568.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/directionRunwayend.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="324.0" fitWidth="307.0" layoutX="1025.0" layoutY="521.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/runwayStatus.PNG" />
                            </image>
                         </ImageView>
                      </children>
