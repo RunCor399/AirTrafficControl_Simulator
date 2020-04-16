@@ -4,7 +4,7 @@ package model;
  * An interface that models a VOR.
  */
 
-public interface Vor {
+public interface Vor extends RadarElement {
     /**
      * this method returns the id of a VOR.
      * 
