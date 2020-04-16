@@ -20,7 +20,7 @@ import model.Speed;
 
 public class StripImpl extends StackPane {
     private static final int FONT_SIZE = 18;
-    private static final double PADDING_SIZE = 15;
+    private static final double PADDING_SIZE = 14;
     private static final double TOP_BORDER = 1.5;
     private static final double LEFT_BORDER = 3;
     private static final int ZERO = 0;
@@ -33,6 +33,7 @@ public class StripImpl extends StackPane {
     private final Label altitudeLabel;
     private final Label headingLabel;
     private final Label idLabel;
+    private final Label warningTxt;
 
     public StripImpl(final int width, final int height, final Plane p) {
         this.width = width;
@@ -53,13 +54,19 @@ public class StripImpl extends StackPane {
         this.headingLabel = new Label();
         headingLabel.setPadding(pad);
         headingLabel.setFont(font2);
-
+        this.warningTxt = new Label("Warning");
+        this.warningTxt.setPadding(pad);
+        this.warningTxt.setStyle("-fx-background-color: #ffff00;");
+        this.warningTxt.setFont(font1);
+        this.warningTxt.setTranslateY(-1);
+        this.warningTxt.setVisible(false);
         StackPane.setAlignment(idLabel, Pos.TOP_LEFT);
+        StackPane.setAlignment(warningTxt, Pos.BOTTOM_LEFT);
         StackPane.setAlignment(speedLabel, Pos.TOP_CENTER);
         StackPane.setAlignment(altitudeLabel, Pos.TOP_RIGHT);
         StackPane.setAlignment(headingLabel, Pos.BOTTOM_RIGHT);
 
-        this.getChildren().addAll(idLabel, speedLabel, altitudeLabel, headingLabel);
+        this.getChildren().addAll(idLabel, warningTxt, speedLabel, altitudeLabel, headingLabel);
         this.setPrefWidth(this.width);
         this.setMinHeight(this.height);
         if (p.getPlaneAction().equals(Action.LAND)) {
@@ -114,12 +121,12 @@ public class StripImpl extends StackPane {
      */
     private void updateWarningVisualization() {
         if (this.plane.isPlaneWarned()) {
-            this.setStyle("-fx-background-color: #ffff00;");
+            this.warningTxt.setVisible(true);
         } else {
             if (this.plane.getPlaneAction().equals(Action.LAND)) {
-                this.setStyle("-fx-background-color: #ffc24f;");
+                this.warningTxt.setVisible(false);
             } else {
-                this.setStyle("-fx-background-color: #67fffb;");
+                this.warningTxt.setVisible(false);
             }
         }
     }
