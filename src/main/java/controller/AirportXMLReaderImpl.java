@@ -76,9 +76,8 @@ public class AirportXMLReaderImpl implements AirportXMLReader {
         for (int i = 0; i < vors.getLength(); i++) {
             Element vor = (Element) vors.item(i);
             String vorId = vor.getAttribute("id");
-            double xPos = Double.parseDouble(vor.getElementsByTagName("xPos").item(0).getTextContent());
-            double yPos = Double.parseDouble(vor.getElementsByTagName("yPos").item(0).getTextContent());
-            System.out.println(xPos);
+            double xPos = Double.parseDouble(vor.getAttribute("xPos"));
+            double yPos = Double.parseDouble(vor.getAttribute("yPos"));
             vorSet.add(new VorImpl(vorId, new RadarPositionImpl(new Position2DImpl(xPos, yPos))));
         }
         return vorSet;
@@ -98,13 +97,13 @@ public class AirportXMLReaderImpl implements AirportXMLReader {
             NodeList ends = runway.getElementsByTagName("runwayEnd");
             Element end1 = (Element) ends.item(0);
             String endId1 = end1.getAttribute("id");
-            double xPos1 = Double.parseDouble(end1.getElementsByTagName("xPos").item(0).getTextContent());
-            double yPos1 = Double.parseDouble(end1.getElementsByTagName("yPos").item(0).getTextContent());
+            double xPos1 = Double.parseDouble(end1.getAttribute("xPos"));
+            double yPos1 = Double.parseDouble(end1.getAttribute("yPos"));
             RunwayEnd rEnd1 = new RunwayEndImpl(endId1, new RadarPositionImpl(new Position2DImpl(xPos1, yPos1)));
             Element end2 = (Element) ends.item(1);
             String endId2 = end2.getAttribute("id");
-            double xPos2 = Double.parseDouble(end2.getElementsByTagName("xPos").item(0).getTextContent());
-            double yPos2 = Double.parseDouble(end2.getElementsByTagName("yPos").item(0).getTextContent());
+            double xPos2 = Double.parseDouble(end2.getAttribute("xPos"));
+            double yPos2 = Double.parseDouble(end2.getAttribute("yPos"));
             RunwayEnd rEnd2 = new RunwayEndImpl(endId2, new RadarPositionImpl(new Position2DImpl(xPos2, yPos2)));
             runwayList.add(new RunwayImpl(rEnd1, rEnd2));
         }
@@ -119,8 +118,8 @@ public class AirportXMLReaderImpl implements AirportXMLReader {
      */
     private RadarPosition getParkingSpotFromAirport(final Element airport) {
         Element pSpot = (Element) airport.getElementsByTagName("parkingSpot").item(0);
-        double xPosP = Double.parseDouble(pSpot.getElementsByTagName("xPos").item(0).getTextContent());
-        double yPosP = Double.parseDouble(pSpot.getElementsByTagName("yPos").item(0).getTextContent());
+        double xPosP = Double.parseDouble(pSpot.getAttribute("xPos"));
+        double yPosP = Double.parseDouble(pSpot.getAttribute("yPos"));
         return new RadarPositionImpl(new Position2DImpl(xPosP, yPosP));
     }
 }
