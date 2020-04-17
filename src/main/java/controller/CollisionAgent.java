@@ -23,22 +23,9 @@ public class CollisionAgent extends AbstractAgent {
      * {@inheritDoc}
      */
     @Override
-    public void run() {
-        while (!this.isStopped()) {
-            try {
-                synchronized (this) {
-                    if (this.isPaused()) {
-                        this.wait();
-                    }
-                }
-                sleep(DELTA_TIME / this.getMultiplier());
-                this.getModel().getAllPlanes().stream().filter(plane -> plane.canMove())
-                        .peek(x -> x.setCollisionWarning(false)).forEach(x -> checkCollision(x));
-
-            } catch (InterruptedException e) {
-
-            }
-        }
+    protected void executeAgentAction() {
+        this.getModel().getAllPlanes().stream().filter(plane -> plane.canMove()).peek(x -> x.setCollisionWarning(false))
+                .forEach(x -> checkCollision(x));
     }
 
     /**

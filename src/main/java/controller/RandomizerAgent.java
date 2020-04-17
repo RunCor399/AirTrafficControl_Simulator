@@ -33,28 +33,16 @@ public class RandomizerAgent extends AbstractAgent {
         this.setDaemon(true);
     }
 
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public void run() {
-        while (!this.isStopped()) {
-            try {
-                synchronized (this) {
-                    if (this.isPaused()) {
-                        this.wait();
-                    }
-                }
-                sleep(DELTA_TIME / this.getMultiplier());
-                this.timeWaited = this.timeWaited + ((double) DELTA_TIME / MILLIS_TO_SEC);
-                if (this.timeWaited >= this.actualWaitTime) {
-                    this.computeNewWaitTime();
-                    this.createNewPlane();
-                }
-
-            } catch (InterruptedException e) {
-            }
-
+    protected void executeAgentAction() {
+        this.timeWaited = this.timeWaited + ((double) DELTA_TIME / MILLIS_TO_SEC);
+        if (this.timeWaited >= this.actualWaitTime) {
+            this.computeNewWaitTime();
+            this.createNewPlane();
         }
     }
 

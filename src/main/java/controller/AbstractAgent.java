@@ -23,6 +23,30 @@ public abstract class AbstractAgent extends Thread {
     }
 
     /**
+     * 
+     */
+    @Override
+    public void run() {
+        while (!this.isStopped()) {
+            try {
+                synchronized (this) {
+                    if (this.isPaused()) {
+                        this.wait();
+                    }
+                }
+                sleep(DELTA_TIME / this.getMultiplier());
+                this.executeAgentAction();
+            } catch (InterruptedException e) {
+            }
+        }
+    }
+
+    /**
+     * 
+     */
+    protected abstract void executeAgentAction();
+
+    /**
      * method that return the model instance.
      * 
      * @return model to which apply operations
