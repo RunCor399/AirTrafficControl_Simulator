@@ -48,7 +48,7 @@ public class ViewImpl extends Application implements View {
         ChangeListener<? super Number> resizeListener = (obs, oldVal, newVal) -> this.computeUnmaximizedScreen();
         this.primaryStage.widthProperty().addListener(resizeListener);
 
-        this.primaryStage.setOnCloseRequest((event) -> this.controller.stopThreads());
+        this.primaryStage.setOnCloseRequest((event) -> this.controller.getAgentManager().stopThreads());
         this.primaryStage.show();
     }
 

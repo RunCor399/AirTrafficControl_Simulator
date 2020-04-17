@@ -54,7 +54,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
             int oldIntValue = oldValue.intValue();
             int newIntValue = newValue.intValue();
             if (oldIntValue != newIntValue) {
-                getController().setSimulationRate(newIntValue);
+                getController().getAgentManager().setSimulationRate(newIntValue);
             }
         });
         ChangeListener<? super Number> resizeListener = (obs, oldVal, newVal) -> this.drawer.loadRadar();
@@ -92,8 +92,8 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
 
     @FXML
     protected final void goToMenu(final ActionEvent e) {
-        this.getController().setSimulationRate(1);
-        this.getController().pauseThreads();
+        this.getController().getAgentManager().setSimulationRate(1);
+        this.getController().getAgentManager().pauseThreads();
         this.getView().changeScene(this.getView().getSceneFactory().loadMenu());
     }
 
@@ -101,14 +101,14 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
     protected final void pauseTimeWarp(final ActionEvent e) {
         this.btnResume.setDisable(false);
         this.btnPause.setDisable(true);
-        this.getController().pauseThreads();
+        this.getController().getAgentManager().pauseThreads();
     }
 
     @FXML
     protected final void resumeTimeWarp(final ActionEvent e) {
         this.btnResume.setDisable(true);
         this.btnPause.setDisable(false);
-        this.getController().startThreads();
+        this.getController().getAgentManager().startThreads();
     }
 
     /**

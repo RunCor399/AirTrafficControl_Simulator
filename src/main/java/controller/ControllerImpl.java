@@ -23,22 +23,18 @@ import view.View;
  *
  */
 public class ControllerImpl implements Controller {
-    private Model model;
-    private View view;
+    private final Model model;
+    private final View view;
     private Plane currentSelectedPlane;
-    private RandomizerAgent planeRandomizer;
-    private MovementAgent movementAgent;
-    private CollisionAgent collisionAgent;
-    private AirportSelection selector;
+    private final AirportSelection selector;
+    private final AgentManager agentMgr;
 
     public ControllerImpl(final View view) {
         this.model = new ModelImpl();
         this.view = view;
         this.currentSelectedPlane = null;
-        this.planeRandomizer = new RandomizerAgent(this.model);
-        this.movementAgent = new MovementAgent(this.model, this.view, this);
-        this.collisionAgent = new CollisionAgent(this.model, this.view, this);
         this.selector = new AirportSelectionImpl(this);
+        this.agentMgr = new AgentManagerImpl(this.model, this.view, this);
         this.selector.setAirportById("BO");
     }
 
@@ -58,6 +54,14 @@ public class ControllerImpl implements Controller {
         Objects.requireNonNull(airport);
         this.model.setAirport(airport);
         this.resetGameContext();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AgentManager getAgentManager() {
+        return this.agentMgr;
     }
 
     /**
@@ -152,60 +156,7 @@ public class ControllerImpl implements Controller {
         return this.model.getAirport();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public void stopThreads() {
-        this.planeRandomizer.stopThread();
-        this.movementAgent.stopThread();
-        this.collisionAgent.stopThread();
-        this.planeRandomizer = new RandomizerAgent(this.model);
-        this.movementAgent = new MovementAgent(this.model, this.view, this);
-        this.collisionAgent = new CollisionAgent(this.model, this.view, this);
-    }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void pauseThreads() {
-        this.planeRandomizer.pauseThread();
-        this.movementAgent.pauseThread();
-        this.collisionAgent.pauseThread();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setSimulationRate(final int rate) {
-        this.planeRandomizer.setMultiplier(rate);
-        this.movementAgent.setMultiplier(rate);
-        this.collisionAgent.setMultiplier(rate);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void startThreads() {
-        if (this.planeRandomizer.isAlive()) {
-            this.planeRandomizer.resumeThread();
-        } else {
-            this.planeRandomizer.start();
-        }
-
-        if (this.movementAgent.isAlive()) {
-            this.movementAgent.resumeThread();
-        } else {
-            this.movementAgent.start();
-        }
-        if (this.collisionAgent.isAlive()) {
-            this.collisionAgent.resumeThread();
-        } else {
-            this.collisionAgent.start();
-        }
-    }
 
     /**
      * {@inheritDoc}
@@ -249,7 +200,7 @@ public class ControllerImpl implements Controller {
     @Override
     public void resetGameContext() {
         //maybe pause
-        this.stopThreads();
+        this.agentMgr.stopThreads();
         this.model.removeAllPlanes();
         this.getActualAirport().deactivateAllRunways();
     }

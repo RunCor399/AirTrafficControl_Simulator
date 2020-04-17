@@ -19,7 +19,7 @@ public class MenuControllerImpl extends AbstractSceneController implements Scene
      */
     public void switchToGameScenery() {
         this.getView().changeScene(this.getView().getSceneFactory().loadGame());
-        this.getController().startThreads();
+        this.getController().getAgentManager().startThreads();
     }
 
     /**
@@ -27,7 +27,6 @@ public class MenuControllerImpl extends AbstractSceneController implements Scene
      */
     public void switchToAirportSelection() {
         this.getView().changeScene(this.getView().getSceneFactory().loadAirportSelection());
-        this.getController().startThreads();
     }
 
     /**

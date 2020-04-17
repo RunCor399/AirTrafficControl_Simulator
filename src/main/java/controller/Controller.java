@@ -78,31 +78,6 @@ public interface Controller {
     Airport getActualAirport();
 
     /**
-     * Method that stops all the threads of the application.
-     * It also initializes them in order to be able to start threads again.
-     */
-    void stopThreads();
-
-    /**
-     * Method that pauses all the threads of the application.
-     */
-    void pauseThreads();
-
-    /**
-     * Method that sets the simulation rate of all the threads of the application.
-     * 
-     * @param rate the integer value that represents the rate of update of the
-     *             threads.
-     */
-    void setSimulationRate(int rate);
-
-    /**
-     * Method that resumes all the threads of the application. If a thread hasn't
-     * started yet, it will start.
-     */
-    void startThreads();
-
-    /**
      * Method that returns the X and Y bounds of the radar. This method is useful to
      * correctly represent the radar.
      * 
@@ -146,5 +121,12 @@ public interface Controller {
      * @return the {@link AirportSelectionImpl} of the application.
      */
     AirportSelection getAirportSelector();
+
+    /**
+     * Method that returns the {@link AgentManager}, which is used to manage all the agents of the application.
+     * 
+     * @return the {@link AgentManager} of the application.
+     */
+    AgentManager getAgentManager();
 
 }
