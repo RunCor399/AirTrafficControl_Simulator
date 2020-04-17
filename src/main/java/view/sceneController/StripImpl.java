@@ -18,7 +18,7 @@ import model.Plane;
 import model.Plane.Action;
 import model.Speed;
 
-public class StripImpl extends StackPane {
+public class StripImpl extends StackPane implements Strip {
     private static final int FONT_SIZE = 18;
     private static final double PADDING_SIZE = 14;
     private static final double TOP_BORDER = 1.5;
@@ -116,7 +116,7 @@ public class StripImpl extends StackPane {
     }
 
     /**
-     * Method that update the background color of the strip when in collision danger
+     * Method that updates the background color of the strip when in collision danger
      * or not.
      */
     private void updateWarningVisualization() {
@@ -132,25 +132,25 @@ public class StripImpl extends StackPane {
     }
 
     /**
-     * 
-     * Sets the background color of the label.
+     * {@inheritDoc}
      */
+    @Override
     public void setSelected() {
         this.idLabel.setStyle("-fx-background-color: #FF0000;");
     }
 
     /**
-     * Resets the background color of the label.
-     * 
+     * {@inheritDoc}
      */
+    @Override
     public void setNotSelected() {
         this.idLabel.setStyle("-fx-background-color: none;");
     }
 
     /**
-     * 
-     * Update speed, altitude and direction values.
+     * {@inheritDoc}
      */
+    @Override
     public void updateShownTargets() {
         this.setShownTargetAltitude();
         this.setShownTargetSpeed();
@@ -158,14 +158,27 @@ public class StripImpl extends StackPane {
         this.updateWarningVisualization();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final Plane getPlane() {
         return this.plane;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final int getPlaneId() {
         return this.getPlane().getAirplaneId();
     }
 
+    /**
+     * Method that sets the initial values of speed and altitude sliders and of
+     * direction label.
+     * 
+     */
     private void setInitialValues() {
         this.headingLabel.setText(String.valueOf(((int) this.plane.getDirection().getAsDegrees())) + "°");
         this.speedLabel.setText(String.valueOf(this.plane.getSpeed().getAsKnots().intValue()) + " kt");
