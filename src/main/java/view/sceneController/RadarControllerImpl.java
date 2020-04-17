@@ -272,7 +272,9 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
             this.clearRadar();
             radarContext.setFill(Color.WHITESMOKE);
             for (Plane plane : this.cachedPlanes) {
-                radarContext.setStroke(plane.getPlaneAction().equals(Plane.Action.TAKEOFF) ? Color.CYAN : Color.ORANGE);
+                Color planeColor = plane.isPlaneWarned() ? Color.YELLOW
+                        : plane.getPlaneAction().equals(Plane.Action.TAKEOFF) ? Color.CYAN : Color.ORANGE;
+                radarContext.setStroke(planeColor);
                 Position2D planePosition = plane.getPosition().getPosition();
                 double xPosition = this.computeX(planePosition.getX());
                 double yPosition = this.computeY(planePosition.getY());

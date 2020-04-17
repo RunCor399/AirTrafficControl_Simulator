@@ -192,17 +192,18 @@ public class PlaneImpl extends AbstractCommandableElement implements Plane, Seri
      * @return the closest runway end.
      */
     private Optional<RunwayEnd> getClosestRunway(final Airport airport) {
-        return airport.getActiveRunways().get().stream().filter(runway -> runway.getRunwayStatus().get().getPosition()
-                .distanceFrom(this.getPosition()) <= MAXIMUM_DISTANCE).filter(runway -> {
+        return airport.getActiveRunways().get().stream()
+                .filter(runway -> runway.getRunwayStatus().get().getPosition().distanceFrom(this.getPosition()) <= MAXIMUM_DISTANCE)
+                .filter(runway -> {
                     RunwayEnd active = runway.getRunwayStatus().get();
-                    RunwayEnd inactive = runway.getRunwayEnds().getX().getStatus() ? runway.getRunwayEnds().getY()
-                            : runway.getRunwayEnds().getX();
+                    RunwayEnd inactive = runway.getRunwayEnds().getX().getStatus() 
+                            ? runway.getRunwayEnds().getY() : runway.getRunwayEnds().getX();
                     return active.getPosition().computeDirectionToTargetPosition(inactive.getPosition())
                             .compareTo(this.getDirection()) <= MAXIMUM_DIRECTION_DIFF;
                 })
-                .filter(runway -> this
-                        .directionDiffToRunwayEnd(runway.getRunwayStatus().get()) <= MAXIMUM_DIRECTION_DIFF)
-                .map(runway -> runway.getRunwayStatus().get()).sorted(this.sortByDistance).findFirst();
+                .filter(runway -> this.directionDiffToRunwayEnd(runway.getRunwayStatus().get()) <= MAXIMUM_DIRECTION_DIFF)
+                .map(runway -> runway.getRunwayStatus().get())
+                .sorted(this.sortByDistance).findFirst();
     }
 
     /**
