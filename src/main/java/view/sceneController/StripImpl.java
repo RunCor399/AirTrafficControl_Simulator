@@ -20,7 +20,7 @@ import model.Speed;
 
 public class StripImpl extends StackPane {
     private static final int FONT_SIZE = 18;
-    private static final double PADDING_SIZE = 15;
+    private static final double PADDING_SIZE = 14;
     private static final double TOP_BORDER = 1.5;
     private static final double LEFT_BORDER = 3;
     private static final int ZERO = 0;
@@ -33,6 +33,7 @@ public class StripImpl extends StackPane {
     private final Label altitudeLabel;
     private final Label headingLabel;
     private final Label idLabel;
+    private final Label warningTxt;
 
     public StripImpl(final int width, final int height, final Plane p) {
         this.width = width;
@@ -53,13 +54,19 @@ public class StripImpl extends StackPane {
         this.headingLabel = new Label();
         headingLabel.setPadding(pad);
         headingLabel.setFont(font2);
-
+        this.warningTxt = new Label("Warning");
+        this.warningTxt.setPadding(pad);
+        this.warningTxt.setStyle("-fx-background-color: #ffff00;");
+        this.warningTxt.setFont(font1);
+        this.warningTxt.setTranslateY(-1);
+        this.warningTxt.setVisible(false);
         StackPane.setAlignment(idLabel, Pos.TOP_LEFT);
+        StackPane.setAlignment(warningTxt, Pos.BOTTOM_LEFT);
         StackPane.setAlignment(speedLabel, Pos.TOP_CENTER);
         StackPane.setAlignment(altitudeLabel, Pos.TOP_RIGHT);
         StackPane.setAlignment(headingLabel, Pos.BOTTOM_RIGHT);
 
-        this.getChildren().addAll(idLabel, speedLabel, altitudeLabel, headingLabel);
+        this.getChildren().addAll(idLabel, warningTxt, speedLabel, altitudeLabel, headingLabel);
         this.setPrefWidth(this.width);
         this.setMinHeight(this.height);
         if (p.getPlaneAction().equals(Action.LAND)) {
@@ -72,6 +79,11 @@ public class StripImpl extends StackPane {
         this.setInitialValues();
     }
 
+    /**
+     * Method that sets the speed label of the strip to the target speed of the
+     * plane.
+     * 
+     */
     private void setShownTargetSpeed() {
         Optional<Speed> optTargetSpeed = this.plane.getTargetSpeed();
         if (optTargetSpeed.isPresent()) {
@@ -79,6 +91,11 @@ public class StripImpl extends StackPane {
         }
     }
 
+    /**
+     * Method that sets the altitude label of the strip to the target altitude of
+     * the plane.
+     * 
+     */
     private void setShownTargetAltitude() {
         Double targetAltitude = this.plane.getTargetAltitude();
         if (targetAltitude != NO_VALUE) {
@@ -86,10 +103,31 @@ public class StripImpl extends StackPane {
         }
     }
 
+    /**
+     * Method that sets the direction label of the strip to the target direction of
+     * the plane.
+     * 
+     */
     private void setShownTargetDirection() {
         Optional<Direction> optTargetDirection = this.plane.getTargetDirection();
         if (optTargetDirection.isPresent()) {
             this.headingLabel.setText(String.valueOf(((int) optTargetDirection.get().getAsDegrees())) + "°");
+        }
+    }
+
+    /**
+     * Method that update the background color of the strip when in collision danger
+     * or not.
+     */
+    private void updateWarningVisualization() {
+        if (this.plane.isPlaneWarned()) {
+            this.warningTxt.setVisible(true);
+        } else {
+            if (this.plane.getPlaneAction().equals(Action.LAND)) {
+                this.warningTxt.setVisible(false);
+            } else {
+                this.warningTxt.setVisible(false);
+            }
         }
     }
 
@@ -117,6 +155,7 @@ public class StripImpl extends StackPane {
         this.setShownTargetAltitude();
         this.setShownTargetSpeed();
         this.setShownTargetDirection();
+        this.updateWarningVisualization();
     }
 
     public final Plane getPlane() {

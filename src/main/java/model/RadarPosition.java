@@ -17,7 +17,7 @@ public interface RadarPosition {
      * 
      * @param position
      */
-  //  void setPosition(Position2D position);
+    // void setPosition(Position2D position);
 
     /**
      * Updates the position of an object inside the radar.
@@ -54,4 +54,11 @@ public interface RadarPosition {
      * @return the distance between the two points.
      */
     double distanceFrom(RadarPosition position);
+
+    /**
+     * Method that sets the {@link Position2D} of an object.
+     * 
+     * @param position
+     */
+    void setPosition(Position2D position);
 }

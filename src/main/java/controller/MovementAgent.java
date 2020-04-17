@@ -22,20 +22,9 @@ public class MovementAgent extends AbstractAgent {
      * {@inheritDoc}
      */
     @Override
-    public void run() {
-        while (!this.isStopped()) {
-            try {
-                synchronized (this) {
-                    if (this.isPaused()) {
-                        this.wait();
-                    }
-                }
-                sleep(DELTA_TIME / this.getMultiplier());
-                this.updatePlanesPositionAndView();
-                this.updateUnderControlPlanes();
-            } catch (InterruptedException exception) {
-            }
-        }
+    protected void executeAgentAction() {
+        this.updatePlanesPositionAndView();
+        this.updateUnderControlPlanes();
     }
 
     /**

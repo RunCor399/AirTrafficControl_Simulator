@@ -54,6 +54,7 @@ public class PlaneImpl extends AbstractCommandableElement implements Plane, Seri
     private final String companyName;
     private final Action planeAction;
     private boolean actionWasPerformed;
+    private boolean collisionWarning;
     private final Comparator<? super RunwayEnd> sortByDistance = (run1, run2) -> {
         double diff = run1.getPosition().distanceFrom(this.getPosition())
                 - run2.getPosition().distanceFrom(this.getPosition());
@@ -74,6 +75,7 @@ public class PlaneImpl extends AbstractCommandableElement implements Plane, Seri
         this.companyName = companyName;
         this.planeAction = planeAction;
         this.actionWasPerformed = false;
+        this.collisionWarning = false;
     }
 
     /**
@@ -101,14 +103,28 @@ public class PlaneImpl extends AbstractCommandableElement implements Plane, Seri
     }
 
     /**
-     * This method determines whether the {@link Plane} can or cannot actually move.
-     * 
-     * @return true if it can move, false otherwise.
+     * {@inheritDoc}
      */
-    private boolean canMove() {
-        return (this.planeAction.equals(Action.TAKEOFF) && !this.actionWasPerformed) 
-                || (this.planeAction.equals(Action.LAND) && this.actionWasPerformed)
-                ? false : true;
+    @Override
+    public boolean canMove() {
+        return (this.planeAction.equals(Action.TAKEOFF) && !this.actionWasPerformed)
+                || (this.planeAction.equals(Action.LAND) && this.actionWasPerformed) ? false : true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setCollisionWarning(final boolean warning) {
+        this.collisionWarning = warning;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isPlaneWarned() {
+        return this.collisionWarning;
     }
 
     /**
@@ -146,7 +162,7 @@ public class PlaneImpl extends AbstractCommandableElement implements Plane, Seri
         this.checkIfTrueAndThrow(!this.isLandingPossible(), "Speed or altitude of the plane are too high.");
         this.checkIfTrueAndThrow(this.getClosestRunway(airport).isEmpty(),
                 "Check if your direction is compatible with the active runways.");
-        //I stop the airplane
+        // I stop the airplane
         this.resetAllTargets();
         this.setAltitude(0);
         this.setSpeed(new SpeedImpl(0.0));
@@ -180,8 +196,8 @@ public class PlaneImpl extends AbstractCommandableElement implements Plane, Seri
                 .filter(runway -> runway.getRunwayStatus().get().getPosition().distanceFrom(this.getPosition()) <= MAXIMUM_DISTANCE)
                 .filter(runway -> {
                     RunwayEnd active = runway.getRunwayStatus().get();
-                    RunwayEnd inactive = runway.getRunwayEnds().getX().getStatus() ? runway.getRunwayEnds().getY()
-                            : runway.getRunwayEnds().getX();
+                    RunwayEnd inactive = runway.getRunwayEnds().getX().getStatus() 
+                            ? runway.getRunwayEnds().getY() : runway.getRunwayEnds().getX();
                     return active.getPosition().computeDirectionToTargetPosition(inactive.getPosition())
                             .compareTo(this.getDirection()) <= MAXIMUM_DIRECTION_DIFF;
                 })
@@ -207,12 +223,12 @@ public class PlaneImpl extends AbstractCommandableElement implements Plane, Seri
      */
     @Override
     public void takeOff(final Airport airport) throws OperationNotAvailableException {
-        //I check if there are any runways available.
+        // I check if there are any runways available.
         Objects.requireNonNull(airport);
         this.checkIfTrueAndThrow(this.actionWasPerformed, "The plane has already performed the action.");
         this.checkIfTrueAndThrow(!this.planeAction.equals(Action.TAKEOFF), "The plane is not supposed to take off.");
         this.checkIfTrueAndThrow(airport.getActiveRunways().isEmpty(), "No active runway found.");
-        //I set up the plane in order to let it take off.
+        // I set up the plane in order to let it take off.
         Runway activeRunway = airport.getActiveRunways().get().get(0);
         Pair<RunwayEnd, RunwayEnd> ends = activeRunway.getRunwayEnds();
         RunwayEnd startRunwayEnd = activeRunway.getRunwayStatus().get();

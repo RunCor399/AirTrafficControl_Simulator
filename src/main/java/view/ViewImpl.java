@@ -92,11 +92,10 @@ public class ViewImpl extends Application implements View {
      * 
      */
     private void computeUnmaximizedScreen() {
-        if (this.primaryStage.isMaximized()) {
-        } else if (!this.isResized) {
+        if (!(this.primaryStage.isMaximized()) && (!this.isResized)) {
             this.isResized = true;
             this.primaryStage.setHeight(this.primaryStage.getHeight() / HEIGHT_FACTOR);
-        }
+        } 
     }
 
     /**
