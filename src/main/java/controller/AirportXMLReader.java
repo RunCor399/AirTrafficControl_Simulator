@@ -12,7 +12,7 @@ import model.Airport;
 public interface AirportXMLReader {
 
     /**
-     * This method reads from the given xml file all the {@link Airport} contained in it.
+     * This method reads from the given XML file all the {@link Airport} contained in it.
      * Then, it returns the {@link List} of the found airports.
      * 
      * @return the {@link List} of the found {@link Airport} objects.

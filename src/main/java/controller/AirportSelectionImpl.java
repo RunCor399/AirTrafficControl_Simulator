@@ -15,7 +15,7 @@ public class AirportSelectionImpl implements AirportSelection {
 
     /**
      * The constructor of the {@link AirportSelectionImpl} class.
-     * This constructor initializes the list of {@link Airport} read from the specific file.
+     * This constructor initializes the list of {@link Airport}, reading it from a specific file.
      * 
      * @param controller the main controller, owner of the AirportManager.
      */
@@ -34,8 +34,17 @@ public class AirportSelectionImpl implements AirportSelection {
                 .collect(Collectors.toMap(airport -> airport.getId(), airport -> airport.getName()));
     }
 
+    /**
+     * Method that searches for a specific {@link Airport} in the list of airports of the game.
+     * The search key is the airport id.
+     * 
+     * @param id the id of the airport we want to find.
+     * @return an {@link Optional} containing either null or the found airport.
+     */
     private Optional<Airport> getAirportById(final String id) {
-        return this.airportList.stream().filter(airport -> airport.getId().equals(id)).findFirst();
+        return this.airportList.stream()
+                .filter(airport -> airport.getId().equals(id))
+                .findFirst();
     }
 
     /**

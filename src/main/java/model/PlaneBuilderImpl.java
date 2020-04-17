@@ -21,6 +21,13 @@ public class PlaneBuilderImpl implements PlaneBuilder {
     private Optional<Direction> direction;
     private boolean built;
 
+    /**
+     * Constructor of a {@link PlaneBuilder}. This constructor requires both the id and company name of the
+     * {@link Plane} we want to create; that's because they are the main parameters of a plane.
+     * 
+     * @param planeId
+     * @param companyName
+     */
     public PlaneBuilderImpl(final int planeId, final String companyName) {
         Objects.requireNonNull(companyName);
         this.planeId = planeId;

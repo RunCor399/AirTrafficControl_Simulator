@@ -31,15 +31,18 @@ import model.VorImpl;
 public class AirportXMLReaderImpl implements AirportXMLReader {
     private final String filePath;
 
+    /**
+     * Constructor of the class {@link AirportXMLReaderImpl}, which is an implementation of the interface {@link AirportXMLReader}.
+     * This constructor requires the path and name of the XML file in which the {@link Airport} elements of the game are stored.
+     * 
+     * @param filePath the path and name of the XML file to read.
+     */
     public AirportXMLReaderImpl(final String filePath) {
         this.filePath = filePath;
     }
 
     /**
-     * This method reads from the given xml file all the {@link Airport} contained in it.
-     * Then, it returns the {@link List} of the found airports.
-     * 
-     * @return the {@link List} of the found {@link Airport} objects.
+     * {@inheritDoc}
      */
     @Override
     public List<Airport> getAirportListFromXML() {

@@ -15,6 +15,15 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     private double altitude;
     private Direction direction;
 
+    /**
+     * Constructor of {@link AbstractDynamicElement}, which is a basic implementation of the {@link DynamicElement} interface.
+     * It requires the {@link RadarPosition}, {@link Speed}, {@link Direction} and altitude of the element.
+     * 
+     * @param position the position of the element.
+     * @param speed the speed of the element.
+     * @param altitude the altitude of the element.
+     * @param direction the direction of the element.
+     */
     public AbstractDynamicElement(final RadarPosition position, final Speed speed, final double altitude,
             final Direction direction) {
         super(position);
@@ -62,36 +71,27 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     }
 
     /**
-     * 
-     * Protected method to set the altitude internally.
-     * This method intent is to allow the subclasses to directly work with the element parameters.
-     * 
-     * @param altitude the altitude to set.
+     * {@inheritDoc}
      */
-    protected void setAltitude(final double altitude) {
+    @Override
+    public void setAltitude(final double altitude) {
         this.altitude = altitude;
     }
 
     /**
-     * 
-     * Protected method to set the internally.
-     * This method intent is to allow the subclasses to directly work with the element parameters.
-     * 
-     * @param speed the speed to set.
+     * {@inheritDoc}
      */
-    protected void setSpeed(final Speed speed) {
+    @Override
+    public void setSpeed(final Speed speed) {
         Objects.requireNonNull(speed);
         this.speed = speed;
     }
 
     /**
-     * 
-     * Protected method to set the direction internally.
-     * This method intent is to allow the subclasses to directly work with the element parameters.
-     * 
-     * @param direction the direction to set.
+     * {@inheritDoc}
      */
-    protected void setDirection(final Direction direction) {
+    @Override
+    public void setDirection(final Direction direction) {
         Objects.requireNonNull(direction);
         this.direction = direction;
     }
