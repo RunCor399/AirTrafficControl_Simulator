@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.sceneController.TutorialController">
+   <top>
+      <Pane BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="802.0" text="TUTORIAL" textAlignment="CENTER">
+               <font>
+                  <Font name="Arial" size="64.0" />
+               </font>
+            </Label>
+            <Button fx:id="menuButton" layoutX="1719.0" layoutY="12.0" mnemonicParsing="false" onAction="#switchToMenu" prefHeight="50.0" prefWidth="120.0" text="Menu">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </top>
+   <center>
+      <TabPane nodeOrientation="LEFT_TO_RIGHT" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="INTRODUZIONE">
+               <content>
+                  <Pane>
+                     <children>
+                        <Text layoutX="14.0" layoutY="544.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1. RADAR">
+                           <font>
+                              <Font name="Arial Black" size="28.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lo scopo del gioco si basa sul gestire il traffico aereo di un aereporto a scelta, evitando collisioni e facendo atterrare o decollare gli aerei nelle apposite condizioni &#10;prestabilite utilizzando le diverse parti della schermata per la gestione dell'aereporto e degli aerei.&#10;&#10;La schermata è suddivisa in diverse parti:&#10;1.  Radar&#10;2. Strip&#10;3. Gestore di movimento degli aerei&#10;4. Gestore delle runway&#10;5. Time warp&#10;&#10;Nel seguito verranno trattati tutte le parti della schermata&#10;e come interagiscono tra di loro.">
+                           <font>
+                              <Font name="Calibri Light" size="28.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="576.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nel radar abbiamo lo stato attuale dello spazio aereo dell'aereporto dove potremmo controllare &#10;lo stato degli aerei e le loro posizioni, descritte di fianco a ciascun aereo.&#10;Sono presenti le piste in verde con le rispettive runwayend indicate a inizio pista ed i VOR utilizzabili&#10;per dirigere il volo degli aerei (VOR e runwayend verranno spiegate dettagliatamente in seguito). ">
+                           <font>
+                              <Font name="Calibri Light" size="28.0" />
+                           </font>
+                        </Text>
+                        <ImageView fx:id="screenImage" fitHeight="415.0" fitWidth="788.0" layoutX="1036.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/schermata.PNG" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="121.0" fitWidth="305.0" layoutX="463.0" layoutY="761.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/Plane.PNG" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="245.0" fitWidth="487.0" layoutX="1314.0" layoutY="620.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/RunwayVor.PNG" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </content>
+            </Tab>
+          <Tab text="STRIP">
+               <content>
+                  <Pane>
+                     <children>
+                        <Text layoutX="14.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2.STRIP">
+                           <font>
+                              <Font name="Arial Black" size="28.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Le strip sono delle tabelle che contengono tutte le informazioni relative a ciascun aereo: come ID, altitudine&#10;Velocità e Direzione.&#10;Le informazioni che abbiamo sulla Strip sono quelle dettate dall'utente ma non necessariamente le condizioni&#10;attuali dell'aereo, il quale potrebbe virare o salire e scendere per raggiungere l'obbiettivo impostato tramite&#10;il gestore di movimento degli aerei.&#10;Possiamo selezionare gli aerei cliccando sulla strip, nella quale apparirà un rettangolo rosso attorno all'ID&#10;dell'aereo selezionato.&#10;gli aerei sono suddivisi in 2 colori:&#10;&#10;-ARANCIONI: sono aerei già in movimento che devono atterrare in una qualsiasi runway scelta dall'utente.&#10;&#10;-BLU: sono aerei che devono decollare e uscire da qualsiasi punto del radar.  &#10;&#10;-GIALLO: sono aerei in prossimità tra di loro a meno di 25000 metri e rischiano di entrare in collisone, &#10;&#9;il segnale di warning apparirà in basso nella Strip come mostrato in figura.">
+                           <font>
+                              <Font name="Calibri Light" size="28.0" />
+                           </font>
+                        </Text>
+                        <ImageView fitHeight="105.0" fitWidth="346.0" layoutX="265.0" layoutY="661.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/strip1.PNG" />
+                           </image></ImageView>
+                        <ImageView fitHeight="128.0" fitWidth="351.0" layoutX="823.0" layoutY="648.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/plane1.PNG" />
+                           </image></ImageView>
+                        <ImageView fitHeight="317.0" fitWidth="322.0" layoutX="1451.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/strip.PNG" />
+                           </image></ImageView>
+                        <ImageView fitHeight="141.0" fitWidth="282.0" layoutX="1471.0" layoutY="649.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/collision.PNG" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </content></Tab>
+            <Tab text="GESTORE DI MOVIMENTO">
+               <content>
+                  <Pane>
+                     <children>
+                        <Text layoutX="14.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3.Gestore di Movimento" wrappingWidth="407.13671875">
+                           <font>
+                              <Font name="Arial Black" size="28.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Il gestore del movimento in figura permette di modificare la direzione (in gradi),&#10;l'altitudine (in piedi), la velocità (in nodi) nonchè di indirizzare un preciso aeromobile verso un VOR.&#10;&#10;&#9;-Velocità: può essere modifcata tramite lo slider orizzontale in un range&#10;&#9;           compreso tra 120 e 330 nodi.&#10;&#9;&#10;&#9;-Altitudine: può essere modificata tramite lo slider verticale in un range compreso tra &#10;&#9;&#9;     2000 e 12000 piedi.&#10;&#10;&#9;-Direzione: può essere modificata tramite le apposite freccette in un range compreso tra&#10;&#9;&#9;    0 e 359 gradi, qualora si volesse variare la direzione più velocemente è&#10;&#9;            possibile spuntare l'apposita checkbox &quot;vira di 10°&quot;. &#10;&#10;&#9;Per far virare un aeromobile verso uno specifico VOR basterà selezionarlo dall'apposito menù&#10;&#9;a tendina e questo vi si dirigerà fino a che la direzione non sarà nuovamente modificata.&#10;&#10;Nel gestore del movimento sono presenti altri due tasti, Takeoff e Land, che permettono rispettivamente&#10;il decollo e l'atterraggio di un aereo qualora rispettasse le condizioni stabilite nel prossimo paragrafo.">
+                           <font>
+                              <Font name="Calibri Light" size="28.0" />
+                           </font>
+                        </Text>
+                        <ImageView fitHeight="264.0" fitWidth="461.0" layoutX="1319.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/Movimento.PNG" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="178.0" fitWidth="379.0" layoutX="582.0" layoutY="706.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/vor.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="210.0" fitWidth="422.0" layoutX="1194.0" layoutY="690.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/vorPlane.PNG" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </content>
+            </Tab>
+            <Tab text="RUNWAY">
+               <content>
+                  <Pane>
+                     <children>
+                        <Text layoutX="14.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4.Gestore delle Runway">
+                           <font>
+                              <Font name="Arial Black" size="28.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Possiamo visualizzare e modificare lo stato delle piste dalla grafica sulla destra dove troviamo per &#10;ciascuna runway, le rispettive Runwayend che permettono il decollo o l'atterraggio degli aerei.&#10;&#10;Le runwayend sono identificate rispetto alla direzione in gradi a cui puntano e quindi rispetto alla&#10;direzione in cui possono essere utilizzate&#10;&#10;Le piste possono essere utilizzate in 2 direzioni, rispettivamente alla direzioni in gradi in cui si &#10;vuole utilizzare la pista.&#10;Possiamo attivare le rispettive runwayend dalle checkbox, le quali non possono essere attivate entrambe&#10;nella stessa pista in quanto non è possibile utilizzare la stessa pista dai 2 lati contemporaneamente.&#10;&#10;Possiamo cambiare lo stato della pista in non attiva semplicemnte disattivando entrambe le checkbox &#10;e la sua barra di stato diventerà rossa.">
+                           <font>
+                              <Font name="Calibri Light" size="28.0" />
+                           </font>
+                        </Text>
+                        <ImageView fitHeight="484.0" fitWidth="241.0" layoutX="1476.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/Runway.PNG" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="229.0" fitWidth="402.0" layoutX="365.0" layoutY="568.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/directionRunwayend.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="324.0" fitWidth="307.0" layoutX="1025.0" layoutY="521.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/runwayStatus.PNG" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </content>
+            </Tab>
+            <Tab text="TIME WARP : LAND/TAKEOFF">
+               <content>
+                  <Pane>
+                     <children>
+                        <Text layoutX="14.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5.Time Warp">
+                           <font>
+                              <Font name="Arial Black" size="28.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Il time warp permette di modificare il tempo durante il gioco per poter velocizzarlo fino a 8x utilizzando&#10;l'apposito slider (presente in figura) oppure fermarlo e farlo ripartire con gli appositi pulsanti. ">
+                           <font>
+                              <Font name="Calibri Light" size="28.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="14.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Condzioni per Atterrare/Decollare">
+                           <font>
+                              <Font name="Arial Black" size="28.0" />
+                           </font>
+                        </Text>
+                        <Text layoutX="12.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Come già anticipato l'obbiettivo del gioco è far atterrare o decollare gli aerei rispetto ai loro&#10;stati inziali.&#10;Il tutto rispettando le seguenti condizioni:&#10;&#10;&#9;-Decollo:&#10;&#9;&#9;Per poter far decollare un aereo dall'aeroporto è necessario&#10;&#9;&#9;che almeno una pista sia attiva.&#10;&#9;&#9;Una volta decollato l'aereo raggiungerà una quota e una velocità standard&#10;&#9;&#9;modificabili insieme alla direzione in un qualsiasi momento.&#10;&#10;&#9;-Atterraggio:&#10;&#9;&#9;Per poter far atterrare un aereo in una data pista è necessario che:&#10;&#9;&#9;&#9;- La differenza tra la direzione dell'aereo e la direzione della pista sia&#10;&#9;&#9;&#9;  inferiore a 5°&#10;&#9;&#9;&#9;- L'altitudine dell'aereo sia inferiore o uguale a 3000 piedi&#10;&#9;&#9;&#9;- La velocità dell'aereo sia inferiore o uguale a 140 nodi">
+                           <font>
+                              <Font name="Calibri Light" size="28.0" />
+                           </font>
+                        </Text>
+                        <ImageView fitHeight="134.0" fitWidth="459.0" layoutX="1371.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/timewarp.PNG" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="226.0" fitWidth="426.0" layoutX="1282.0" layoutY="335.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/takeoff.PNG" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="232.0" fitWidth="378.0" layoutX="1282.0" layoutY="633.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../tutorial/land.PNG" />
+                           </image>
+                        </ImageView>
+                     </children></Pane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
