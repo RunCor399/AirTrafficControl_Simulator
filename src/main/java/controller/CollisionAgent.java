@@ -9,7 +9,7 @@ public class CollisionAgent extends AbstractAgent {
 
     private static final int COLLISION_DISTANCE = 500;
     private static final int WARNING_DISTANCE = 2500;
-    private static final int WARNING_ALTITUDE = 100;
+    private static final int WARNING_ALTITUDE = 300;
     private final View view;
     private final Controller controller;
 
