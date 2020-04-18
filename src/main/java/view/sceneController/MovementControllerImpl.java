@@ -154,7 +154,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     @FXML
     public void setTargetAirplane(final int planeId) {
         Objects.requireNonNull(planeId);
-        this.getController().selectTargetPlane(planeId);
+        this.getController().getPlaneController().selectTargetPlane(planeId);
     }
 
     /**
@@ -165,7 +165,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     @FXML
     private void setSpeedValue() {
         Speed targetSpeed = new SpeedImpl(this.speedSlider.getValue());
-        this.getController().setPlaneSpeed(targetSpeed);
+        this.getController().getPlaneController().setPlaneSpeed(targetSpeed);
     }
 
     /**
@@ -176,7 +176,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     @FXML
     private void setAltitudeValue() {
         double targetAltitude = this.altitudeSlider.getValue();
-        this.getController().setPlaneAltitude(targetAltitude);
+        this.getController().getPlaneController().setPlaneAltitude(targetAltitude);
     }
 
     /**
@@ -186,7 +186,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
      */
     private void setCurrentHeading(final Direction targetDirection) {
         Objects.requireNonNull(targetDirection);
-        this.getController().setPlaneHeading(targetDirection);
+        this.getController().getPlaneController().setPlaneHeading(targetDirection);
     }
 
     /**
@@ -196,7 +196,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
      */
     private void headToVor(final String vorId) {
         Objects.requireNonNull(vorId);
-        this.getController().goToVor(vorId);
+        this.getController().getPlaneController().goToVor(vorId);
     }
 
     /**
@@ -204,7 +204,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
      */
     @FXML
     public void takeoffPressed() {
-        this.getController().takeOff();
+        this.getController().getPlaneController().takeOff();
     }
 
     /**
@@ -212,7 +212,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
      */
     @FXML
     public void landPressed() {
-        this.getController().land();
+        this.getController().getPlaneController().land();
     }
 
     /**

@@ -31,7 +31,7 @@ public class StripControllerImpl extends AbstractSceneController {
         strip.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(final MouseEvent event) {
-                getController().selectTargetPlane(plane.getAirplaneId());
+                getController().getPlaneController().selectTargetPlane(plane.getAirplaneId());
                 disableAllStrips();
                 strip.setSelected();
                 getMovementController().updateValues(plane);
