@@ -49,7 +49,7 @@ public class RunwayController extends AbstractSceneController implements SceneCo
      */
     @FXML
     public void changeRunwayEndStatus(final ActionEvent event) {
-        this.getController().changeRunwayEndStatus(event.getSource().equals(this.runwayEnd1) ? this.runwayNum1.getText() : this.runwayNum2.getText());
+        this.getController().getAirportController().changeRunwayEndStatus(event.getSource().equals(this.runwayEnd1) ? this.runwayNum1.getText() : this.runwayNum2.getText());
         this.updateRunwayStatus();
     }
 
@@ -57,8 +57,8 @@ public class RunwayController extends AbstractSceneController implements SceneCo
      * Method that updates the status of the runway after changed status.
      */
     private void updateRunwayStatus() {
-        this.runwayEnd1.setSelected(this.getController().getRunwayEndStatus(this.runwayNum1.getText()));
-        this.runwayEnd2.setSelected(this.getController().getRunwayEndStatus(this.runwayNum2.getText()));
+        this.runwayEnd1.setSelected(this.getController().getAirportController().getRunwayEndStatus(this.runwayNum1.getText()));
+        this.runwayEnd2.setSelected(this.getController().getAirportController().getRunwayEndStatus(this.runwayNum2.getText()));
         if (!this.runwayEnd1.isSelected() && !this.runwayEnd2.isSelected()) {
             this.statusRunway.setStyle("-fx-background-color: #FF0000;"); //RED
         } else {

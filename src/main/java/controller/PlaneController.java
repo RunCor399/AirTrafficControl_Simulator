@@ -3,6 +3,12 @@ package controller;
 import model.Direction;
 import model.Speed;
 
+/**
+ * 
+ * An interface that models a {@link PlaneControllerImpl}. 
+ * 
+ *
+ */
 public interface PlaneController {
 
     /**

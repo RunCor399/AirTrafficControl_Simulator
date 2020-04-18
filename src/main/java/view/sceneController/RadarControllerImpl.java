@@ -184,7 +184,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
          * radar with the actual dimension.
          */
         private void loadRadar() {
-            this.actualAirport = getController().getActualAirport();
+            this.actualAirport = getController().getAirportController().getActualAirport();
             double parentWidth = radarPane.getWidth();
             double parentHeight = radarPane.getHeight();
             radarCanvas.setWidth(parentWidth);

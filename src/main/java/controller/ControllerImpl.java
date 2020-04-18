@@ -1,14 +1,8 @@
 package controller;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
-import model.Airport;
 import model.Model;
 import model.ModelImpl;
 import model.RadarPositionImpl;
-import model.Runway;
 import utilities.Pair;
 import view.View;
 
@@ -24,6 +18,7 @@ public class ControllerImpl implements Controller {
     private final AirportSelection selector;
     private final AgentManager agentMgr;
     private final PlaneController planeController;
+    private final AirportController airportController;
 
     public ControllerImpl(final View view) {
         this.model = new ModelImpl();
@@ -31,6 +26,7 @@ public class ControllerImpl implements Controller {
         this.selector = new AirportSelectionImpl(this);
         this.agentMgr = new AgentManagerImpl(this.model, this.view, this);
         this.planeController = new PlaneControllerImpl(this.model, this.view);
+        this.airportController = new AirportControllerImpl(this.model, this);
         this.selector.setAirportById("BO");
     }
 
@@ -40,16 +36,6 @@ public class ControllerImpl implements Controller {
     @Override
     public AirportSelection getAirportSelector() {
         return this.selector;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setActualAirport(final Airport airport) {
-        Objects.requireNonNull(airport);
-        this.model.setAirport(airport);
-        this.resetGameContext();
     }
 
     /**
@@ -71,8 +57,9 @@ public class ControllerImpl implements Controller {
     /**
      * {@inheritDoc}
      */
-    public Airport getActualAirport() {
-        return this.model.getAirport();
+    @Override
+    public AirportController getAirportController() {
+        return this.airportController;
     }
 
     /**
@@ -86,42 +73,12 @@ public class ControllerImpl implements Controller {
     /**
      * {@inheritDoc}
      */
-    public Optional<List<Runway>> getAirportRunways() {
-        return this.model.getAirport().getRunways();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void changeRunwayEndStatus(final String runwayEnd) {
-        this.model.getAirport().setActiveRunways(runwayEnd);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean getRunwayEndStatus(final String runwayEnd) {
-        for (Runway r : this.model.getAirport().getRunways().get()) {
-            if (r.checkRunwayEnd(runwayEnd)) {
-                return r.getRunwayEnds().getX().getNumRunwayEnd().equals(runwayEnd)
-                        ? r.getRunwayEnds().getX().getStatus()
-                        : r.getRunwayEnds().getY().getStatus();
-            }
-        }
-        throw new IllegalArgumentException();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void resetGameContext() {
         // maybe pause
         this.agentMgr.stopThreads();
         this.model.removeAllPlanes();
-        this.getActualAirport().deactivateAllRunways();
+        this.getAirportController().getActualAirport().deactivateAllRunways();
     }
 
 }

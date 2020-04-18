@@ -1,11 +1,6 @@
 package controller;
 
-import java.util.List;
-import java.util.Optional;
-
-import model.Runway;
 import utilities.Pair;
-import model.Airport;
 
 /**
  * 
@@ -15,48 +10,12 @@ import model.Airport;
 public interface Controller {
 
     /**
-     * This method allows the switch to a specific{@link Airport}.
-     * 
-     * @param airport the airport we want to set.
-     */
-    void setActualAirport(Airport airport);
-
-    /**
-     * method that returns current airport.
-     * 
-     * @return current airport
-     */
-    Airport getActualAirport();
-
-    /**
      * Method that returns the X and Y bounds of the radar. This method is useful to
      * correctly represent the radar.
      * 
      * @return a {@link Pair} containing the X and Y bounds.
      */
     Pair<Double, Double> getRadarDimension();
-
-    /**
-     * Method that returns the list of the runways.
-     * 
-     * @return List of runways
-     */
-    Optional<List<Runway>> getAirportRunways();
-
-    /**
-     * Method that changes the status of a ruwnayEnd.
-     * 
-     * @param runwayEnd
-     */
-    void changeRunwayEndStatus(String runwayEnd);
-
-    /**
-     * Method that returns the status of a runwayEnd.
-     * 
-     * @param runwayEnd
-     * @return Boolean status of runwayEnd
-     */
-    boolean getRunwayEndStatus(String runwayEnd);
 
     /**
      * Method that resets the game deleting all current planes and deactivating
@@ -87,5 +46,13 @@ public interface Controller {
      * @return {@link PlaneControllerImpl} of the application.
      */
     PlaneController getPlaneController();
+
+    /**
+     * Method that returns a {@link AirportController}, which is used to modify the
+     * status of an {@link Airport}.
+     * 
+     * @return {@link AirportControllerImpl} of the application.
+     */
+    AirportController getAirportController();
 
 }

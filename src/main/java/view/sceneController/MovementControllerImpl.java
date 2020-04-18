@@ -135,7 +135,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
      * method that initializes vor's choice box with all the vor's of an airport.
      */
     private void initializeVorList() {
-        Optional<Set<Vor>> vorSetOpt = getController().getActualAirport().getVorList();
+        Optional<Set<Vor>> vorSetOpt = getController().getAirportController().getActualAirport().getVorList();
 
         this.vorChoiceBox.getItems().add("none");
 

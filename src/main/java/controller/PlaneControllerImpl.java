@@ -11,6 +11,11 @@ import model.Vor;
 import model.exceptions.OperationNotAvailableException;
 import view.View;
 
+/**
+*
+* An implementation of {@link PlaneController}.
+*
+*/
 public class PlaneControllerImpl implements PlaneController {
     private final Model model;
     private final View view;

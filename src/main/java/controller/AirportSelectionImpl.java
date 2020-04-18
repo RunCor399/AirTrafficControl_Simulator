@@ -55,7 +55,7 @@ public class AirportSelectionImpl implements AirportSelection {
         Objects.requireNonNull(id);
         Optional<Airport> found = this.getAirportById(id);
         if (found.isPresent()) {
-            this.controller.setActualAirport(found.get());
+            this.controller.getAirportController().setActualAirport(found.get());
         }
     }
 }

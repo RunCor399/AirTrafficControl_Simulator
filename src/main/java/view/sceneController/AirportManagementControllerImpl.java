@@ -27,7 +27,7 @@ public class AirportManagementControllerImpl extends AbstractSceneController imp
     public void setParameters(final Controller controller, final View view) {
         super.setParameters(controller, view);
         int i = 0;
-        for (Runway runway : this.getController().getAirportRunways().get()) {
+        for (Runway runway : this.getController().getAirportController().getAirportRunways().get()) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/layouts/RunwayGUI.fxml"));
                 RunwayController runwayController = new RunwayController();
