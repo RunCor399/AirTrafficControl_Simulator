@@ -28,7 +28,7 @@ import view.View;
 
 public class RadarControllerImpl extends AbstractSceneController implements RadarController {
 
-    private AirportDrawer drawer = new AirportDrawer();
+    private RadarRenderUnit drawer = new RadarRenderUnit();
 
     @FXML
     private Slider timeWarpSlider;
@@ -117,7 +117,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
      * and the planes in the radar.
      *
      */
-    private class AirportDrawer {
+    private class RadarRenderUnit {
 
         private static final int COORD_DIM = 15;
         private static final int AIRPORT_NAME_DIM = 22;

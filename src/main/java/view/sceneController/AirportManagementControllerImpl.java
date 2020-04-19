@@ -12,7 +12,7 @@ import javafx.scene.layout.GridPane;
 import model.Runway;
 import view.View;
 
-public class AirportManagementControllerImpl extends AbstractSceneController implements SceneController {
+public class AirportManagementControllerImpl extends AbstractSceneController {
 
     @FXML
     private GridPane gridPane;
@@ -30,7 +30,7 @@ public class AirportManagementControllerImpl extends AbstractSceneController imp
         for (Runway runway : this.getController().getAirportController().getAirportRunways().get()) {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/layouts/RunwayGUI.fxml"));
-                RunwayController runwayController = new RunwayController();
+                RunwayControllerImpl runwayController = new RunwayControllerImpl();
                 runwayController.setParameters(controller, view);
                 fxmlLoader.setController(runwayController);
                 Parent parent = fxmlLoader.load();
