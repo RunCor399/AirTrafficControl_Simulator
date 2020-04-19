@@ -1,12 +1,12 @@
 package controller;
 
+import java.util.List;
+
 import model.Model;
 import view.View;
 
 public class AgentManagerImpl implements AgentManager {
-    private RandomizerAgent planeRandomizer;
-    private MovementAgent movementAgent;
-    private CollisionAgent collisionAgent;
+    private List<AbstractAgent> agents;
     private final Model model;
     private final Controller controller;
     private final View mainView;
@@ -18,10 +18,14 @@ public class AgentManagerImpl implements AgentManager {
         this.setUpAgents();
     }
 
+    /**
+     * In this method we can find the creation of all the agents of the application.
+     */
     private void setUpAgents() {
-        this.planeRandomizer = new RandomizerAgent(this.model);
-        this.movementAgent = new MovementAgent(this.model, this.mainView, this.controller);
-        this.collisionAgent = new CollisionAgent(this.model, this.mainView, this.controller);
+        RandomizerAgent planeRandomizer = new RandomizerAgent(this.model);
+        MovementAgent movementAgent = new MovementAgent(this.model, this.mainView, this.controller);
+        CollisionAgent collisionAgent = new CollisionAgent(this.model, this.mainView, this.controller);
+        this.agents = List.of(planeRandomizer, movementAgent, collisionAgent);
     }
 
     /**
@@ -29,9 +33,7 @@ public class AgentManagerImpl implements AgentManager {
      */
     @Override
     public void stopThreads() {
-        this.planeRandomizer.stopThread();
-        this.movementAgent.stopThread();
-        this.collisionAgent.stopThread();
+        this.agents.stream().forEach(agent -> agent.stopThread());
         this.setUpAgents();
     }
 
@@ -40,9 +42,7 @@ public class AgentManagerImpl implements AgentManager {
      */
     @Override
     public void pauseThreads() {
-        this.planeRandomizer.pauseThread();
-        this.movementAgent.pauseThread();
-        this.collisionAgent.pauseThread();
+        this.agents.stream().forEach(agent -> agent.pauseThread());
     }
 
     /**
@@ -50,9 +50,7 @@ public class AgentManagerImpl implements AgentManager {
      */
     @Override
     public void setSimulationRate(final int rate) {
-        this.planeRandomizer.setMultiplier(rate);
-        this.movementAgent.setMultiplier(rate);
-        this.collisionAgent.setMultiplier(rate);
+        this.agents.stream().forEach(agent -> agent.setMultiplier(rate));
     }
 
     /**
@@ -60,21 +58,12 @@ public class AgentManagerImpl implements AgentManager {
      */
     @Override
     public void startThreads() {
-        if (this.planeRandomizer.isAlive()) {
-            this.planeRandomizer.resumeThread();
-        } else {
-            this.planeRandomizer.start();
-        }
-
-        if (this.movementAgent.isAlive()) {
-            this.movementAgent.resumeThread();
-        } else {
-            this.movementAgent.start();
-        }
-        if (this.collisionAgent.isAlive()) {
-            this.collisionAgent.resumeThread();
-        } else {
-            this.collisionAgent.start();
-        }
+        this.agents.stream().forEach(agent -> {
+            if (agent.isAlive()) {
+                agent.resumeThread();
+            } else {
+                agent.start();
+            }
+        });
     }
 }
