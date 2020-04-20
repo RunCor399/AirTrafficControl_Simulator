@@ -1,7 +1,6 @@
 package model;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -119,11 +118,8 @@ public class AirportImpl implements Airport {
     public void setActiveRunways(final String runwayEnd) {
         Objects.requireNonNull(runwayEnd);
 
-        for (Runway runway : this.runwayList) {
-            if (runway.checkRunwayEnd(runwayEnd)) {
-                runway.setActiveRunwayEnd(runwayEnd);
-            }
-        }
+        this.runwayList.stream().filter(runway -> runway.checkRunwayEnd(runwayEnd))
+                .forEach(runway -> runway.setActiveRunwayEnd(runwayEnd));
     }
 
     /**
@@ -142,11 +138,8 @@ public class AirportImpl implements Airport {
     private Optional<List<Runway>> computeActiveRunways() {
         List<Runway> activeRunwayList = new LinkedList<>();
 
-        for (final Runway runway : this.runwayList) {
-            if (runway.getRunwayStatus().isPresent()) {
-                activeRunwayList.add(runway);
-            }
-        }
+        this.runwayList.stream().filter(runway -> runway.getRunwayStatus().isPresent())
+                .forEach(runway -> activeRunwayList.add(runway));
 
         if (activeRunwayList.isEmpty()) {
             return Optional.empty();
@@ -171,10 +164,6 @@ public class AirportImpl implements Airport {
      */
     @Override
     public void deactivateAllRunways() {
-        Iterator<Runway> runwayIt = this.runwayList.iterator();
-
-        while (runwayIt.hasNext()) {
-            runwayIt.next().deactivateBothRunwayEnds();
-        }
+        this.runwayList.stream().forEach(runway -> runway.deactivateBothRunwayEnds());
     }
 }

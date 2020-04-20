@@ -17,7 +17,6 @@ import javafx.scene.control.Slider;
 import model.Direction;
 import model.DirectionImpl;
 import model.Plane;
-import model.Speed;
 import model.SpeedImpl;
 import model.Vor;
 import view.View;
@@ -135,23 +134,21 @@ public class MovementControllerImpl extends AbstractSceneController implements M
      * method that initializes vor's choice box with all the vor's of an airport.
      */
     private void initializeVorList() {
-        Optional<Set<Vor>> vorSetOpt = getController().getActualAirport().getVorList();
-
         this.vorChoiceBox.getItems().add("none");
 
+        Optional<Set<Vor>> vorSetOpt = getController().getActualAirport().getVorList();
+
         if (vorSetOpt.isPresent()) {
-            for (Vor elem : vorSetOpt.get()) {
-                this.vorChoiceBox.getItems().add(elem.getId());
-            }
+            vorSetOpt.get().stream().forEach(x -> {
+                this.vorChoiceBox.getItems().add(x.getId());
+            });
         }
     }
 
     /**
-     * method that passes planeId of the plane to be selected.
-     * 
-     * @param planeId
+     * {@inheritDoc}
      */
-    @FXML
+    @Override
     public void setTargetAirplane(final int planeId) {
         Objects.requireNonNull(planeId);
         this.getController().selectTargetPlane(planeId);
@@ -164,8 +161,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
      */
     @FXML
     private void setSpeedValue() {
-        Speed targetSpeed = new SpeedImpl(this.speedSlider.getValue());
-        this.getController().setPlaneSpeed(targetSpeed);
+        this.getController().setPlaneSpeed(new SpeedImpl(this.speedSlider.getValue()));
     }
 
     /**
@@ -175,8 +171,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
      */
     @FXML
     private void setAltitudeValue() {
-        double targetAltitude = this.altitudeSlider.getValue();
-        this.getController().setPlaneAltitude(targetAltitude);
+        this.getController().setPlaneAltitude(this.altitudeSlider.getValue());
     }
 
     /**
@@ -190,7 +185,8 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * method that passes to controller the vor to which the plane will be directed.
+     * method that passes to {@link Controller} the {@link Model.Vor} to which the
+     * plane will be directed.
      * 
      * @param vorId
      */
@@ -200,7 +196,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * method that makes a plane takeoff from the airport.
+     * method that makes a {@link Plane} takeoff from the {@link Airport}.
      */
     @FXML
     public void takeoffPressed() {
@@ -208,7 +204,8 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * method that makes a plane land in a specific runway of the airport.
+     * method that makes a {@link Plane} land in a specific {@link Model.Runway} of
+     * the {@link Airport}.
      */
     @FXML
     public void landPressed() {

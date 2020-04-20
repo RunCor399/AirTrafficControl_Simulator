@@ -212,7 +212,7 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public Pair<Double, Double> getRadarDimension() {
-        return new Pair<>(RadarPositionImpl.X_BOUND, RadarPositionImpl.Y_BOUND);
+        return RadarPositionImpl.getRadarBounds();
     }
 
     /**
@@ -248,7 +248,6 @@ public class ControllerImpl implements Controller {
      */
     @Override
     public void resetGameContext() {
-        //maybe pause
         this.stopThreads();
         this.model.removeAllPlanes();
         this.getActualAirport().deactivateAllRunways();

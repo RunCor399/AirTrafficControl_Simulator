@@ -29,7 +29,7 @@ public class RandomizerAgent extends AbstractAgent {
         this.random = new Random();
         this.actualWaitTime = NO_VALUE;
         this.timeWaited = NO_VALUE;
-        this.planeFactory = new RandomPlaneFactoryImpl(RadarPositionImpl.X_BOUND, RadarPositionImpl.Y_BOUND);
+        this.planeFactory = new RandomPlaneFactoryImpl(RadarPositionImpl.getRadarBounds().getX(), RadarPositionImpl.getRadarBounds().getY());
         this.setDaemon(true);
     }
 

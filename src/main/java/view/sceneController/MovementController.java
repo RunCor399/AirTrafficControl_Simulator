@@ -21,4 +21,11 @@ public interface MovementController extends SceneController {
      * @param plane
      */
     void updateValues(Plane plane);
+
+    /**
+     * method that passes planeId of the plane to be selected.
+     * 
+     * @param planeId
+     */
+    void setTargetAirplane(int planeId);
 }

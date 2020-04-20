@@ -3,69 +3,69 @@
 <airportList>
 	<airport id="BO" name="LIPE Guglielmo Marconi Bologna">
 		<vorList>
-			<vor id="ILS33"  xPos="-5542.1" yPos="3200.0"/>
-			<vor id="ILS15"  xPos="5542.3" yPos="-3200.0"/>
-			<vor id="UPR"  xPos="15000.0" yPos="13000.0"/>
-			<vor id="DWR"  xPos="-15000.0" yPos="-13000.0"/>
-			<vor id="LOL"  xPos="-21500.0" yPos="11000.0"/>
-			<vor id="ERI"  xPos="14500.0" yPos="-12000.0"/>
+			<vor id="ILS33" xPos="-5542.1" yPos="3200.0" />
+			<vor id="ILS15" xPos="5542.3" yPos="-3200.0" />
+			<vor id="UPR" xPos="15000.0" yPos="13000.0" />
+			<vor id="DWR" xPos="-15000.0" yPos="-13000.0" />
+			<vor id="LOL" xPos="-21500.0" yPos="11000.0" />
+			<vor id="ERI" xPos="14500.0" yPos="-12000.0" />
 		</vorList>
 		<runwayList>
 			<runway>
-				<runwayEnd id="33"  xPos="-1212.0" yPos="700"/>
-				<runwayEnd id="15" xPos="1212.0" yPos="-700"/>
+				<runwayEnd id="33" xPos="-1212.0" yPos="700" />
+				<runwayEnd id="15" xPos="1212.0" yPos="-700" />
 			</runway>
 		</runwayList>
-		<parkingSpot  xPos="0.0" yPos="-100.0"/>
+		<parkingSpot xPos="0.0" yPos="-100.0" />
 	</airport>
 	<airport id="RO" name="LIRF Fiumicino Roma">
 		<vorList>
-			<vor id="ILS20"  xPos="6248.9" yPos="2274.1"/>
-			<vor id="ILS02"  xPos="-6248.9" yPos="-2274.0"/>
-			<vor id="ILS11R"  xPos="3260.6" yPos="-4134.1"/>
-			<vor id="ILS29L"  xPos="-1493.5" yPos="8927.6"/>
-			<vor id="ILS11L"  xPos="826.5" yPos="-7095.1"/>
-			<vor id="ILS29R"  xPos="-3927.5" yPos="5966.5"/>
-			<vor id="UPR"  xPos="15000.0" yPos="13000.0"/>
-			<vor id="DWR"  xPos="-15000.0" yPos="-13000.0"/>
-			<vor id="CAS"  xPos="-21000.0" yPos="9000.0"/>
-			<vor id="LOS"  xPos="13500.0" yPos="-9500.0"/>
+			<vor id="ILS20" xPos="6248.9" yPos="2274.1" />
+			<vor id="ILS02" xPos="-6248.9" yPos="-2274.0" />
+			<vor id="ILS11R" xPos="3260.6" yPos="-4134.1" />
+			<vor id="ILS29L" xPos="-1493.5" yPos="8927.6" />
+			<vor id="ILS11L" xPos="826.5" yPos="-7095.1" />
+			<vor id="ILS29R" xPos="-3927.5" yPos="5966.5" />
+			<vor id="UPR" xPos="15000.0" yPos="13000.0" />
+			<vor id="DWR" xPos="-15000.0" yPos="-13000.0" />
+			<vor id="CAS" xPos="-21000.0" yPos="9000.0" />
+			<vor id="LOS" xPos="13500.0" yPos="-9500.0" />
 		</vorList>
 		<runwayList>
 			<runway>
-				<runwayEnd id="20"  xPos="1550.5" yPos="564.3"/>
-				<runwayEnd id="02" xPos="-1550.5" yPos="-564.3"/>
+				<runwayEnd id="20" xPos="1550.5" yPos="564.3" />
+				<runwayEnd id="02" xPos="-1550.5" yPos="-564.3" />
 			</runway>
 			<runway>
-				<runwayEnd id="11R"  xPos="1550.5" yPos="564.3"/>
-				<runwayEnd id="29L" xPos="216.6" yPos="4229.1"/>
+				<runwayEnd id="11R" xPos="1550.5" yPos="564.3" />
+				<runwayEnd id="29L" xPos="216.6" yPos="4229.1" />
 			</runway>
 			<runway>
-				<runwayEnd id="11L"  xPos="-883.6" yPos="-2396.7"/>
-				<runwayEnd id="29R" xPos="-2217.4" yPos="1268.1"/>
+				<runwayEnd id="11L" xPos="-883.6" yPos="-2396.7" />
+				<runwayEnd id="29R" xPos="-2217.4" yPos="1268.1" />
 			</runway>
 		</runwayList>
-		<parkingSpot  xPos="0.0" yPos="-100.0"/>
+		<parkingSpot xPos="0.0" yPos="-100.0" />
 	</airport>
 	<airport id="MI" name="LIMC Maplensa Milano">
 		<vorList>
-			<vor id="ILS08"  xPos="-1562.8" yPos="-8863.3"/>
-			<vor id="ILS26"  xPos="1562.8" yPos="8863.3"/>
-			<vor id="ARI"  xPos="-16000.0" yPos="-12500.0"/>
-			<vor id="TOP"  xPos="15000.0" yPos="13000.0"/>
-			<vor id="RES"  xPos="-14000.0" yPos="6000.0"/>
-			<vor id="SGS"  xPos="13500.0" yPos="-12000.0"/>
+			<vor id="ILS08" xPos="-1562.8" yPos="-8863.3" />
+			<vor id="ILS26" xPos="1562.8" yPos="8863.3" />
+			<vor id="ARI" xPos="-16000.0" yPos="-12500.0" />
+			<vor id="TOP" xPos="15000.0" yPos="13000.0" />
+			<vor id="RES" xPos="-14000.0" yPos="6000.0" />
+			<vor id="SGS" xPos="13500.0" yPos="-12000.0" />
 		</vorList>
 		<runwayList>
 			<runway>
-				<runwayEnd id="26L"  xPos="936.6" yPos="2320.4"/>
-				<runwayEnd id="08R" xPos="261.4" yPos="-1520.4"/>
+				<runwayEnd id="26L" xPos="936.6" yPos="2320.4" />
+				<runwayEnd id="08R" xPos="261.4" yPos="-1520.4" />
 			</runway>
 			<runway>
-				<runwayEnd id="26R"  xPos="338.6" yPos="1920.4"/>
-				<runwayEnd id="08L" xPos="-338.6" yPos="-1920.4"/>
+				<runwayEnd id="26R" xPos="338.6" yPos="1920.4" />
+				<runwayEnd id="08L" xPos="-338.6" yPos="-1920.4" />
 			</runway>
 		</runwayList>
-		<parkingSpot  xPos="-500.0" yPos="0.0"/>
+		<parkingSpot xPos="-500.0" yPos="0.0" />
 	</airport>
 </airportList>
