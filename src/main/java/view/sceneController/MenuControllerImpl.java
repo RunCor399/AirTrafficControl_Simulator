@@ -3,7 +3,7 @@ package view.sceneController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
-public class MenuControllerImpl extends AbstractSceneController implements SceneController {
+public class MenuControllerImpl extends AbstractSceneController implements MenuController {
 
     @FXML
     private Button gameButton;
@@ -15,31 +15,35 @@ public class MenuControllerImpl extends AbstractSceneController implements Scene
     private Button quitButton;
 
     /**
-     * Method that switches into game Scenery.
+     * {@inheritDoc}
      */
+    @Override
     public void switchToGameScenery() {
         this.getView().changeScene(this.getView().getSceneFactory().loadGame());
         this.getController().startThreads();
     }
 
     /**
-     * Method that switches into game Scenery.
+     * {@inheritDoc}
      */
+    @Override
     public void switchToAirportSelection() {
         this.getView().changeScene(this.getView().getSceneFactory().loadAirportSelection());
         this.getController().startThreads();
     }
 
     /**
-     * Method that switches into tutorial Scenery.
+     * {@inheritDoc}
      */
+    @Override
     public void switchToTutorialScenery() {
         this.getView().changeScene(this.getView().getSceneFactory().loadTutorial());
     }
 
     /**
-     * Method that leaves the game.
+     * {@inheritDoc}
      */
+    @Override
     public void quitGame() {
         System.exit(0);
     }
