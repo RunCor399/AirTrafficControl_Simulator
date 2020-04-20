@@ -136,22 +136,19 @@ public class MovementControllerImpl extends AbstractSceneController implements M
      */
     private void initializeVorList() {
         Optional<Set<Vor>> vorSetOpt = getController().getAirportController().getActualAirport().getVorList();
-
         this.vorChoiceBox.getItems().add("none");
 
         if (vorSetOpt.isPresent()) {
-            for (Vor elem : vorSetOpt.get()) {
-                this.vorChoiceBox.getItems().add(elem.getId());
-            }
+            vorSetOpt.get().stream().forEach(x -> {
+                this.vorChoiceBox.getItems().add(x.getId());
+            });
         }
     }
 
     /**
-     * method that passes planeId of the plane to be selected.
-     * 
-     * @param planeId
+     * {@inheritDoc}
      */
-    @FXML
+    @Override
     public void setTargetAirplane(final int planeId) {
         Objects.requireNonNull(planeId);
         this.getController().getPlaneController().selectTargetPlane(planeId);
@@ -190,7 +187,8 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * method that passes to controller the vor to which the plane will be directed.
+     * method that passes to {@link Controller} the {@link Model.Vor} to which the
+     * plane will be directed.
      * 
      * @param vorId
      */
@@ -200,7 +198,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * method that makes a plane takeoff from the airport.
+     * method that makes a {@link Plane} takeoff from the {@link Airport}.
      */
     @FXML
     public void takeoffPressed() {
@@ -208,7 +206,8 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * method that makes a plane land in a specific runway of the airport.
+     * method that makes a {@link Plane} land in a specific {@link Model.Runway} of
+     * the {@link Airport}.
      */
     @FXML
     public void landPressed() {

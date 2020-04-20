@@ -1,26 +1,20 @@
 package model;
 
+
 /**
  * An interface that defines the position of an element in the radar.
  */
 public interface RadarPosition {
 
     /**
-     * Gets the position of an object inside the radar.
+     * Method that gets the {@link Position2D} of an object inside the radar.
      * 
-     * @return the position of the object inside the radar
+     * @return the {@link Position2D} of the object inside the radar
      */
     Position2D getPosition();
 
     /**
-     * Sets the position of an object inside the radar.
-     * 
-     * @param position
-     */
-    // void setPosition(Position2D position);
-
-    /**
-     * Updates the position of an object inside the radar.
+     * Updates the of an object inside the radar.
      * 
      * @param positionOffset
      * @return the new {@link RadarPosition}
@@ -28,9 +22,9 @@ public interface RadarPosition {
     RadarPosition sumPosition(Position2D positionOffset);
 
     /**
-     * Controls if a plane is inside the radar bounds.
+     * Controls if a {@link Plane} is inside the radar bounds.
      * 
-     * @return true if a plane is inside the radar bounds.
+     * @return true if a {@link Plane} is inside the radar bounds.
      */
     boolean isWithinRadar();
 

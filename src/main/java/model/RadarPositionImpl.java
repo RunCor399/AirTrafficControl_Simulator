@@ -1,25 +1,20 @@
 package model;
 
 import java.util.Objects;
+import utilities.Pair;
 
 /**
  * An implementation of {@link RadarPosition}.
  * 
  */
 public class RadarPositionImpl implements RadarPosition {
-    /**
-     * The X coordinate bound.
-     */
-    public static final Double X_BOUND = 30000.0;
-    /**
-     * The Y coordinate bound.
-     */
-    public static final Double Y_BOUND = 20000.0;
+    private static final Double X_BOUND = 30000.0;
+    private static final Double Y_BOUND = 20000.0;
     private Position2D elementPosition;
 
     /**
      * 
-     * Constructor of the initial position of an element.
+     * Constructor of the initial {@link Position2D} of an element.
      * 
      * @param initialPosition
      */
@@ -29,11 +24,20 @@ public class RadarPositionImpl implements RadarPosition {
     }
 
     /**
+     * Method that returns a pair containing radar bounds.
+     * 
+     * @return pair of double containing radar bounds
+     */
+    public static final Pair<Double, Double> getRadarBounds() {
+        return new Pair<Double, Double>(X_BOUND, Y_BOUND);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     public Position2D getPosition() {
-        return new Position2DImpl(elementPosition.getX(), elementPosition.getY());
+        return new Position2DImpl(this.elementPosition.getX(), this.elementPosition.getY());
     }
 
     /**
@@ -47,7 +51,6 @@ public class RadarPositionImpl implements RadarPosition {
         }
 
         this.elementPosition = position;
-
     }
 
     /**
@@ -92,5 +95,4 @@ public class RadarPositionImpl implements RadarPosition {
         return Math.sqrt(Math.pow(targetPosition.getX() - this.elementPosition.getX(), 2)
                 + Math.pow(targetPosition.getY() - this.elementPosition.getY(), 2));
     }
-
 }
