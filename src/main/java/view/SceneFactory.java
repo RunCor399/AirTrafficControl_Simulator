@@ -13,7 +13,7 @@ public interface SceneFactory {
     /**
      * Loads the fxml of menu scenery.
      * 
-     * @return Parent of menu scenery
+     * @return a {@link Pair} containing {@link Parent} and relative {@link SceneController} of menu scenery
      */
 
     Pair<SceneController, Parent> loadMenu();
@@ -21,7 +21,7 @@ public interface SceneFactory {
     /**
      * Loads the fxml of airport selection scenery.
      * 
-     * @return Parent of menu scenery
+     * @return a {@link Pair} containing {@link Parent} and relative {@link SceneController} of menu scenery.
      */
 
     Pair<SceneController, Parent> loadAirportSelection();
@@ -29,7 +29,7 @@ public interface SceneFactory {
     /**
      * Loads the fxml of the game scenery.
      * 
-     * @return Parent of game scenery. 
+     * @return a {@link Pair} containing {@link Parent} and relative {@link SceneController} of game scenery. 
      */
 
     Pair<SceneController, Parent> loadGame();
@@ -37,7 +37,7 @@ public interface SceneFactory {
     /**
      * Loads the fxml of tutorial scenery.
      * 
-     * @return Parent of tutorial scenery.
+     * @return a {@link Pair} containing {@link Parent} and relative {@link SceneController} of tutorial scenery.
      */
 
     Pair<SceneController, Parent> loadTutorial();
