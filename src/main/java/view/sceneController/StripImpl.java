@@ -25,6 +25,7 @@ public class StripImpl extends StackPane implements Strip {
     private static final double LEFT_BORDER = 3;
     private static final int ZERO = 0;
     private static final int NO_VALUE = -1;
+    private static final String DEGREES_SYMBOL = "\u00B0";
 
     private int width;
     private int height;
@@ -111,7 +112,7 @@ public class StripImpl extends StackPane implements Strip {
     private void setShownTargetDirection() {
         Optional<Direction> optTargetDirection = this.plane.getTargetDirection();
         if (optTargetDirection.isPresent()) {
-            this.headingLabel.setText(String.valueOf(((int) optTargetDirection.get().getAsDegrees())) + "°");
+            this.headingLabel.setText(String.valueOf(((int) optTargetDirection.get().getAsDegrees())) + DEGREES_SYMBOL);
         }
     }
 
@@ -180,8 +181,8 @@ public class StripImpl extends StackPane implements Strip {
      * 
      */
     private void setInitialValues() {
-        this.headingLabel.setText(String.valueOf(((int) this.plane.getDirection().getAsDegrees())) + "°");
         this.speedLabel.setText(String.valueOf(this.plane.getSpeed().getAsKnots().intValue()) + " kt");
+        this.headingLabel.setText(String.valueOf(((int) this.plane.getDirection().getAsDegrees())) + DEGREES_SYMBOL);
 
         if (this.plane.getPlaneAction().equals(Action.TAKEOFF)) {
             this.altitudeLabel.setText(String.valueOf(ZERO) + " ft");
