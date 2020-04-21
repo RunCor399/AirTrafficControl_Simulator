@@ -18,13 +18,25 @@ public class StripControllerImpl extends AbstractSceneController {
     private VBox strips = new VBox();
     private double width;
     private final MovementController movementController;
-
+    
+    /**
+     * Is the constructor of the StripControllerImpl that need the width, chosen in perspective of the monitor,
+     * and the MovementController.
+     * @param width of the strips.
+     * @param movementController.
+     */
     public StripControllerImpl(final double width, final MovementController movementController) {
         this.width = width;
         this.movementController = movementController;
         this.strips.setPrefSize(this.width, STRIP_HEIGHT);
         this.strips.setPickOnBounds(false);
     }
+
+    /**
+     * Method that creates a strip for the received plane.
+     * 
+     * @param plane the plane that need a strip.
+     */
 
     public final void createStrip(final Plane plane) {
         final StripImpl strip = new StripImpl(100, 100, plane);
@@ -40,6 +52,9 @@ public class StripControllerImpl extends AbstractSceneController {
         this.strips.getChildren().add(strip);
     }
 
+    /**
+     * Method that disables the strips.
+     */
     private void disableAllStrips() {
         for (Node node : this.strips.getChildren()) {
             if (node instanceof StripImpl) {
@@ -48,6 +63,10 @@ public class StripControllerImpl extends AbstractSceneController {
         }
     }
 
+    /**
+     * Method that updates all the strips.
+     * @param planes is the Set with updated planes. 
+     */
     public final void updateStrip(final Set<Plane> planes) {
         Iterator<Node> stripIterator = this.strips.getChildren().stream().filter(node -> node instanceof StripImpl)
                 .iterator();
@@ -64,6 +83,10 @@ public class StripControllerImpl extends AbstractSceneController {
         this.addMissingStrips(planes);
     }
 
+    /**
+     * Method that adds all the new strips in the VBox.
+     * @param planes that we want to add.
+     */
     private void addMissingStrips(final Set<Plane> planes) {
         Set<Plane> containedPlanes = this.strips.getChildren().stream().filter(node -> node instanceof StripImpl)
                 .map(strip -> ((StripImpl) strip).getPlane()).collect(Collectors.toSet());
@@ -74,13 +97,17 @@ public class StripControllerImpl extends AbstractSceneController {
         }
     }
 
+    /**
+     * Method that returns the VBox that contain all the strips.
+     * @return strips.
+     */
     public final VBox getStrips() {
         return this.strips;
     }
 
     /**
-     * 
-     * @return movementController
+     * Method that returns the movement controller.
+     * @return movementController.
      */
     public MovementController getMovementController() {
         return this.movementController;

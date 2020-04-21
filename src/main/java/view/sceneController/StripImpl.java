@@ -36,6 +36,14 @@ public class StripImpl extends StackPane implements Strip {
     private final Label idLabel;
     private final Label warningTxt;
 
+    /**
+     * Constructor of a {@link Strip}, This constructor requires the dimension in width and height,
+     * and need the plane for take all his informations.
+     * @param width of the strip.
+     * @param height of the strip.
+     * @param p is the plane that we need to creates the strip.
+     */
+
     public StripImpl(final int width, final int height, final Plane p) {
         this.width = width;
         this.height = height;
