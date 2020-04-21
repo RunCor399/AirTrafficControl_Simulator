@@ -18,12 +18,12 @@ public class StripControllerImpl extends AbstractSceneController {
     private VBox strips = new VBox();
     private double width;
     private final MovementController movementController;
-    
+
     /**
      * Is the constructor of the StripControllerImpl that need the width, chosen in perspective of the monitor,
      * and the MovementController.
      * @param width of the strips.
-     * @param movementController.
+     * @param movementController that need to update parameters.
      */
     public StripControllerImpl(final double width, final MovementController movementController) {
         this.width = width;
