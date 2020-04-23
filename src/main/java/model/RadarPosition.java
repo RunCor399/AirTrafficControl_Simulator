@@ -30,8 +30,8 @@ public interface RadarPosition {
 
     /**
      * 
-     * Method that returns the direction to follow in order to go towards the target
-     * position.
+     * Method that returns the {@link Direction} to follow in order to go towards the target
+     * {@link RadarPosition}.
      * 
      * @param targetPosition the target position.
      * 

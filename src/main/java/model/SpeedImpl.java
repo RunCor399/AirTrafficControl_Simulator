@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Implementation of {@link Speed} that defines the speed of a {@link Plane}. 
+ *
+ */
 public class SpeedImpl implements Speed {
     private static final Double CONVERSION_FACTOR = 1.852;
     private Double knotsSpeed;

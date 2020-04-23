@@ -132,7 +132,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * method that initializes vor's choice box with all the vor's of an airport.
+     * method that initializes {@link Model.Vor} choice box with all the vor's of an airport.
      */
     private void initializeVorList() {
         Optional<Set<Vor>> vorSetOpt = getController().getAirportController().getActualAirport().getVorList();
@@ -155,8 +155,8 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * Method that calls the controller in order to set a new speed value for the
-     * current selected plane.
+     * Method that calls the {@link Controller} in order to set a new {@link Speed} value for the
+     * current selected {@link Plane}.
      * 
      */
     @FXML
@@ -166,8 +166,8 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * Method that calls the controller in order to set a new Altitude value for the
-     * current selected plane.
+     * Method that calls the {@link Controller} in order to set a new Altitude value for the
+     * current selected {@link Plane}.
      * 
      */
     @FXML
@@ -177,7 +177,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * method that passes to controller the airplane's direction to be set.
+     * method that passes to the {@link Controller} the airplane's direction to be set.
      * 
      * @param targetDirection
      */
