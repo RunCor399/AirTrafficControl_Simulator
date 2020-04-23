@@ -2,6 +2,10 @@ package controller;
 
 import model.Model;
 
+/**
+ * Implementation of the AbstractAgent.
+ *
+ */
 public abstract class AbstractAgent extends Thread {
 
     /**
@@ -15,6 +19,11 @@ public abstract class AbstractAgent extends Thread {
     private volatile boolean pause;
     private volatile int multiplier;
 
+    /**
+     * Constructor of the AbstractAgent.
+     * 
+     * @param model
+     */
     public AbstractAgent(final Model model) {
         this.model = model;
         this.stop = false;
@@ -47,7 +56,7 @@ public abstract class AbstractAgent extends Thread {
     protected abstract void executeAgentAction();
 
     /**
-     * method that return the model instance.
+     * method that return the {@link Model} instance.
      * 
      * @return model to which apply operations
      */

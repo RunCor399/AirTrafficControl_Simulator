@@ -8,7 +8,6 @@ import java.util.Objects;
  */
 
 public class VorImpl extends AbstractRadarElement implements Vor {
-    // need to modify
     private static final long serialVersionUID = 1234;
     private final String vorId;
 
