@@ -8,7 +8,6 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     /**
      * This value represents the time considered when updating the actual parameters.
      */
-    public static final double TIME_QUANTUM = 0.25;
     private static final long serialVersionUID = 5949982404790725460L;
     private static final double KMH_TO_MS = 3.6;
     private Speed speed;
@@ -100,8 +99,8 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
      * {@inheritDoc}
      */
     @Override
-    public void computeNewPosition() {
-        this.setPosition(this.getPosition().sumPosition(this.getPositionDelta()));
+    public void computeNewPosition(final double timeDelta) {
+        this.setPosition(this.getPosition().sumPosition(this.getPositionDelta(timeDelta)));
         /* DEBUG code. Remove the comment to print the element information on the console */
 //        System.out.println(this);
 //        System.out.println("Position -> x: " + this.getPosition().getPosition().getX());
@@ -115,11 +114,11 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
      * 
      * @return the position delta in the specified time quantum.
      */
-    private Position2D getPositionDelta() {
+    private Position2D getPositionDelta(final double timeDelta) {
         final double actualSpeed = this.speed.getAsKMH() / KMH_TO_MS;
         final double actualDirection = this.direction.getAsRadians();
-        double xMovement = TIME_QUANTUM * actualSpeed * Math.cos(actualDirection);
-        double yMovement = TIME_QUANTUM * actualSpeed * Math.sin(actualDirection);
+        double xMovement = timeDelta * actualSpeed * Math.cos(actualDirection);
+        double yMovement = timeDelta * actualSpeed * Math.sin(actualDirection);
         return new Position2DImpl(xMovement, yMovement);
     }
 

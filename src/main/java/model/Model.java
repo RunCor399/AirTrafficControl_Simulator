@@ -70,8 +70,10 @@ public interface Model {
 
     /**
      * Compute position of all planes.
+     * 
+     * @param timeDelta the time (in seconds) used to compute the new position of the planes.
      */
-    void computeAllPlanePositions();
+    void computeAllPlanePositions(double timeDelta);
 
     /**
      * 

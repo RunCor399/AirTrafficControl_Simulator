@@ -45,7 +45,7 @@ public class MovementAgent extends AbstractAgent {
      * 
      */
     private void updatePlanesPositionAndView() {
-        this.getModel().computeAllPlanePositions();
+        this.getModel().computeAllPlanePositions((double) DELTA_TIME / 1000);
         this.view.radarUpdate(this.getModel().getAllPlanes());
     }
 

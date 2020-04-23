@@ -131,9 +131,9 @@ public abstract class AbstractCommandableElement extends AbstractDynamicElement 
      * This private method computes the actual altitude based on the target altitude
      * and the altitude delta.
      */
-    private void computeActualAltitude() {
+    private void computeActualAltitude(final double timeDelta) {
         if (this.targetAltitude != NO_VALUE) {
-            double altitudeDelta = this.getAltitudeDelta() * TIME_QUANTUM;
+            double altitudeDelta = this.getAltitudeDelta() * timeDelta;
             if (this.goUp) {
                 if (this.getAltitude() + altitudeDelta >= this.targetAltitude) {
                     this.setAltitude(this.targetAltitude);
@@ -156,9 +156,9 @@ public abstract class AbstractCommandableElement extends AbstractDynamicElement 
      * This private method computes the actual direction based on the target
      * direction and the direction delta.
      */
-    private void computeActualDirection() {
+    private void computeActualDirection(final double timeDelta) {
         if (this.targetDirection != null) {
-            Direction directionDelta = new DirectionImpl(this.getDirectionDelta().getAsDegrees() * TIME_QUANTUM);
+            Direction directionDelta = new DirectionImpl(this.getDirectionDelta().getAsDegrees() * timeDelta);
             if (this.goLeft) {
                 this.getDirection().sum(directionDelta);
             } else {
@@ -177,9 +177,9 @@ public abstract class AbstractCommandableElement extends AbstractDynamicElement 
      * This private method computes the actual speed based on the target speed and
      * the speed delta.
      */
-    private void computeActualSpeed() {
+    private void computeActualSpeed(final double timeDelta) {
         if (this.targetSpeed != null) {
-            double speedDelta = this.getSpeedDelta().getAsKnots() * TIME_QUANTUM;
+            double speedDelta = this.getSpeedDelta().getAsKnots() * timeDelta;
             if (this.accelerate) {
                 if (this.getSpeed().getAsKnots() + speedDelta >= this.targetSpeed.getAsKnots()) {
                     this.setSpeed(this.targetSpeed);
@@ -227,7 +227,7 @@ public abstract class AbstractCommandableElement extends AbstractDynamicElement 
      * {@inheritDoc}
      */
     @Override
-    public void computeNewPosition() {
+    public void computeNewPosition(final double timeDelta) {
         if (this.targetPosition != null) {
             Direction newTargetDirection = this.getPosition().computeDirectionToTargetPosition(targetPosition);
             if (this.getDirection().compareTo(newTargetDirection) > MAX_DIFFERENCE) {
@@ -236,10 +236,10 @@ public abstract class AbstractCommandableElement extends AbstractDynamicElement 
                 this.targetPosition = null;
             }
         }
-        this.computeActualSpeed();
-        this.computeActualDirection();
-        this.computeActualAltitude();
-        super.computeNewPosition();
+        this.computeActualSpeed(timeDelta);
+        this.computeActualDirection(timeDelta);
+        this.computeActualAltitude(timeDelta);
+        super.computeNewPosition(timeDelta);
     }
 
     /**
