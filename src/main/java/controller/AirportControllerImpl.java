@@ -17,6 +17,12 @@ public class AirportControllerImpl implements AirportController {
     private final Model model;
     private final Controller controller;
 
+    /**
+     * Constructor of AirportController.
+     * 
+     * @param model
+     * @param controller
+     */
     public AirportControllerImpl(final Model model, final Controller controller) {
         this.model = model;
         this.controller = controller;

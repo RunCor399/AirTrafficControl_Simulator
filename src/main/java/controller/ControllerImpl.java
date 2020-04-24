@@ -20,6 +20,11 @@ public class ControllerImpl implements Controller {
     private final PlaneController planeController;
     private final AirportController airportController;
 
+    /**
+     * Constructor of the main {@link Controller} of the Application.
+     * 
+     * @param view
+     */
     public ControllerImpl(final View view) {
         this.model = new ModelImpl();
         this.view = view;

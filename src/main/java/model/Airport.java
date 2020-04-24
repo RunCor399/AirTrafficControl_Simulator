@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * An interface that models an airport.
+ * An interface that models an {@link Airport}.
  */
 
 public interface Airport {
@@ -56,7 +56,7 @@ public interface Airport {
      * method that returns a list of all the {@link Model.Runway} of a specific {@link Airport} if any
      * exists.
      * 
-     * @return {@link Model.Runway} list of the specific airport
+     * @return {@link Model.Runway} list of the specific {@link Airport}
      */
     Optional<List<Runway>> getRunways();
 

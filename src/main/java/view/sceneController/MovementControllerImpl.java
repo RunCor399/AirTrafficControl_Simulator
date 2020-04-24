@@ -188,7 +188,7 @@ public class MovementControllerImpl extends AbstractSceneController implements M
 
     /**
      * method that passes to {@link Controller} the {@link Model.Vor} to which the
-     * plane will be directed.
+     * {@link Plane} will be directed.
      * 
      * @param vorId
      */

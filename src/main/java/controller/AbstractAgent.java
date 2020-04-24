@@ -56,7 +56,7 @@ public abstract class AbstractAgent extends Thread {
     protected abstract void executeAgentAction();
 
     /**
-     * method that return the {@link Model} instance.
+     * method that returns the {@link Model} instance.
      * 
      * @return model to which apply operations
      */

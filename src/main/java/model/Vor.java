@@ -6,16 +6,16 @@ package model;
 
 public interface Vor extends RadarElement {
     /**
-     * this method returns the id of a VOR.
+     * method that returns the id of a {@link Model.Vor}.
      * 
-     * @return id of a VOR
+     * @return id of a {@link Model.Vor}
      */
     String getId();
 
     /**
-     * this method returns the position of a VOR.
+     * this method returns the position of a {@link Model.Vor}.
      * 
-     * @return the position of a VOR
+     * @return the position of a {@link Model.Vor}
      */
     RadarPosition getPosition();
 

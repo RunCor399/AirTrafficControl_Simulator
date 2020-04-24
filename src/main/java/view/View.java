@@ -9,7 +9,7 @@ import view.sceneController.SceneController;
 
 /**
  * 
- * An interface that defines the View of the application.
+ * An interface that defines the {@link View} of the application.
  */
 public interface View {
 
@@ -21,14 +21,14 @@ public interface View {
     void changeScene(Pair<SceneController, Parent> sceneContext);
 
     /**
-     * method that updates position of all airplanes.
+     * method that updates position of all {@link Plane}.
      * 
      * @param planes
      */
     void radarUpdate(Set<Plane> planes);
 
     /**
-     * method that returns SceneFactory.
+     * method that returns the {@link SceneFactory}.
      * 
      * @return SceneFactory
      */

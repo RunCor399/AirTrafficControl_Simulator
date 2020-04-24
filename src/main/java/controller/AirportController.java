@@ -20,28 +20,28 @@ public interface AirportController {
     void setActualAirport(Airport airport);
 
     /**
-     * method that returns current airport.
+     * method that returns the current {@link Airport}.
      * 
-     * @return current airport
+     * @return current {@link Airport}
      */
     Airport getActualAirport();
 
     /**
-     * Method that returns the list of the runways.
+     * Method that returns the list of the {@link Model.Runway}.
      * 
-     * @return List of runways
+     * @return List of {@link Model.Runway}
      */
     Optional<List<Runway>> getAirportRunways();
 
     /**
-     * Method that changes the status of a ruwnayEnd.
+     * Method that changes the status of a {@link RunwayEnd}.
      * 
      * @param runwayEnd
      */
     void changeRunwayEndStatus(String runwayEnd);
 
     /**
-     * Method that returns the status of a runwayEnd.
+     * Method that returns the status of a {@link RunwayEnd}.
      * 
      * @param runwayEnd
      * @return Boolean status of runwayEnd
