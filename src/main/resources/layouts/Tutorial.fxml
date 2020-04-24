@@ -20,7 +20,7 @@
                   <Font name="Arial" size="64.0" />
                </font>
             </Label>
-            <Button fx:id="menuButton" layoutX="1719.0" layoutY="12.0" mnemonicParsing="false" onAction="#switchToMenu" prefHeight="50.0" prefWidth="120.0" text="Menu">
+            <Button fx:id="menuButton" layoutX="54.0" layoutY="12.0" mnemonicParsing="false" onAction="#switchToMenu" prefHeight="50.0" prefWidth="120.0" text="Menu">
                <font>
                   <Font size="18.0" />
                </font>
@@ -215,4 +215,3 @@
       </TabPane>
    </center>
 </BorderPane>
-
