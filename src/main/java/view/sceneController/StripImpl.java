@@ -18,13 +18,14 @@ import model.Plane;
 import model.Plane.Action;
 import model.Speed;
 
-public class StripImpl extends StackPane {
+public class StripImpl extends StackPane implements Strip {
     private static final int FONT_SIZE = 18;
-    private static final double PADDING_SIZE = 15;
+    private static final double PADDING_SIZE = 14;
     private static final double TOP_BORDER = 1.5;
     private static final double LEFT_BORDER = 3;
     private static final int ZERO = 0;
     private static final int NO_VALUE = -1;
+    private static final String DEGREES_SYMBOL = "\u00B0";
 
     private int width;
     private int height;
@@ -33,6 +34,15 @@ public class StripImpl extends StackPane {
     private final Label altitudeLabel;
     private final Label headingLabel;
     private final Label idLabel;
+    private final Label warningTxt;
+
+    /**
+     * Constructor of a {@link Strip}, This constructor requires the dimension in width and height,
+     * and need the plane for take all his informations.
+     * @param width of the strip.
+     * @param height of the strip.
+     * @param p is the plane that we need to creates the strip.
+     */
 
     public StripImpl(final int width, final int height, final Plane p) {
         this.width = width;
@@ -53,13 +63,19 @@ public class StripImpl extends StackPane {
         this.headingLabel = new Label();
         headingLabel.setPadding(pad);
         headingLabel.setFont(font2);
-
+        this.warningTxt = new Label("Warning");
+        this.warningTxt.setPadding(pad);
+        this.warningTxt.setStyle("-fx-background-color: #ffff00;");
+        this.warningTxt.setFont(font1);
+        this.warningTxt.setTranslateY(-1);
+        this.warningTxt.setVisible(false);
         StackPane.setAlignment(idLabel, Pos.TOP_LEFT);
+        StackPane.setAlignment(warningTxt, Pos.BOTTOM_LEFT);
         StackPane.setAlignment(speedLabel, Pos.TOP_CENTER);
         StackPane.setAlignment(altitudeLabel, Pos.TOP_RIGHT);
         StackPane.setAlignment(headingLabel, Pos.BOTTOM_RIGHT);
 
-        this.getChildren().addAll(idLabel, speedLabel, altitudeLabel, headingLabel);
+        this.getChildren().addAll(idLabel, warningTxt, speedLabel, altitudeLabel, headingLabel);
         this.setPrefWidth(this.width);
         this.setMinHeight(this.height);
         if (p.getPlaneAction().equals(Action.LAND)) {
@@ -72,6 +88,11 @@ public class StripImpl extends StackPane {
         this.setInitialValues();
     }
 
+    /**
+     * Method that sets the speed label of the strip to the target speed of the
+     * plane.
+     * 
+     */
     private void setShownTargetSpeed() {
         Optional<Speed> optTargetSpeed = this.plane.getTargetSpeed();
         if (optTargetSpeed.isPresent()) {
@@ -79,6 +100,11 @@ public class StripImpl extends StackPane {
         }
     }
 
+    /**
+     * Method that sets the altitude label of the strip to the target altitude of
+     * the plane.
+     * 
+     */
     private void setShownTargetAltitude() {
         Double targetAltitude = this.plane.getTargetAltitude();
         if (targetAltitude != NO_VALUE) {
@@ -86,50 +112,85 @@ public class StripImpl extends StackPane {
         }
     }
 
+    /**
+     * Method that sets the direction label of the strip to the target direction of
+     * the plane.
+     * 
+     */
     private void setShownTargetDirection() {
         Optional<Direction> optTargetDirection = this.plane.getTargetDirection();
         if (optTargetDirection.isPresent()) {
-            this.headingLabel.setText(String.valueOf(((int) optTargetDirection.get().getAsDegrees())) + "°");
+            this.headingLabel.setText(String.valueOf(((int) optTargetDirection.get().getAsDegrees())) + DEGREES_SYMBOL);
         }
     }
 
     /**
-     * 
-     * Sets the background color of the label.
+     * Method that updates the background color of the strip when in collision danger
+     * or not.
      */
+    private void updateWarningVisualization() {
+        if (this.plane.isPlaneWarned()) {
+            this.warningTxt.setVisible(true);
+        } else {
+            if (this.plane.getPlaneAction().equals(Action.LAND)) {
+                this.warningTxt.setVisible(false);
+            } else {
+                this.warningTxt.setVisible(false);
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void setSelected() {
         this.idLabel.setStyle("-fx-background-color: #FF0000;");
     }
 
     /**
-     * Resets the background color of the label.
-     * 
+     * {@inheritDoc}
      */
+    @Override
     public void setNotSelected() {
         this.idLabel.setStyle("-fx-background-color: none;");
     }
 
     /**
-     * 
-     * Update speed, altitude and direction values.
+     * {@inheritDoc}
      */
+    @Override
     public void updateShownTargets() {
         this.setShownTargetAltitude();
         this.setShownTargetSpeed();
         this.setShownTargetDirection();
+        this.updateWarningVisualization();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final Plane getPlane() {
         return this.plane;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public final int getPlaneId() {
         return this.getPlane().getAirplaneId();
     }
 
+    /**
+     * Method that sets the initial values of speed and altitude sliders and of
+     * direction label.
+     * 
+     */
     private void setInitialValues() {
-        this.headingLabel.setText(String.valueOf(((int) this.plane.getDirection().getAsDegrees())) + "°");
         this.speedLabel.setText(String.valueOf(this.plane.getSpeed().getAsKnots().intValue()) + " kt");
+        this.headingLabel.setText(String.valueOf(((int) this.plane.getDirection().getAsDegrees())) + DEGREES_SYMBOL);
 
         if (this.plane.getPlaneAction().equals(Action.TAKEOFF)) {
             this.altitudeLabel.setText(String.valueOf(ZERO) + " ft");

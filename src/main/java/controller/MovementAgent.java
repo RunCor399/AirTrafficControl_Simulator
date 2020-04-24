@@ -1,17 +1,28 @@
 package controller;
 
-//import java.util.Iterator;
-import java.util.Set;
-
 import javafx.application.Platform;
 import model.Model;
 import model.Plane;
 import view.View;
 
+/**
+ * An implementation of {@link MovementAgent}. 
+ *
+ */
+
 public class MovementAgent extends AbstractAgent {
     private final View view;
     private final Controller controller;
 
+    /**
+     * Constructor of the movement agent.
+     * 
+     * @param model
+     * 
+     * @param view
+     * 
+     * @param controller
+     */
     public MovementAgent(final Model model, final View view, final Controller controller) {
         super(model);
         this.view = view;
@@ -22,72 +33,49 @@ public class MovementAgent extends AbstractAgent {
      * {@inheritDoc}
      */
     @Override
-    public void run() {
-        while (!this.isStopped()) {
-            try {
-                synchronized (this) {
-                    if (this.isPaused()) {
-                        this.wait();
-                    }
-                }
-                sleep(DELTA_TIME / this.getMultiplier());
-                this.updatePlanesPositionAndView();
-                this.updateUnderControlPlanes();
-            } catch (InterruptedException exception) {
-            }
-        }
+    protected void executeAgentAction() {
+        this.updatePlanesPositionAndView();
+        this.updateUnderControlPlanes();
     }
 
     /**
-     * Method that computes an update position of every plane in the model and asks
-     * view to render all the planes in teir new position.
+     * Method that computes an update {@link RadarPosition} of every {@link Plane}
+     * in the {@link Model} and asks {@link View} to render all the planes in their
+     * new {@link RadarPosition}.
      * 
      */
     private void updatePlanesPositionAndView() {
-        this.getModel().computeAllPlanePositions();
+        this.getModel().computeAllPlanePositions((double) DELTA_TIME / 1000);
         this.view.radarUpdate(this.getModel().getAllPlanes());
     }
 
     /**
-     * Method that creates an iterator over all the planes and calls
-     * removeOutboundPlanes and removeInboundPlanes passing to each the current
-     * plane.
+     * Method that calls for each {@link Plane} methods to remove outbound and
+     * inbound planes.
      * 
      */
     private void updateUnderControlPlanes() {
-        /*
-         * Iterator<Plane> planeIt = this.getModel().getAllPlanes().iterator();
-         * 
-         * while (planeIt.hasNext()) { Plane currentPlane = planeIt.next();
-         * this.removeOutboundPlanes(currentPlane);
-         * this.removeInboundPlanes(currentPlane);
-         * this.checkNotLandedPlanes(currentPlane); }
-         */
-        Set<Plane> planesSet = this.getModel().getAllPlanes();
-
-        for (Plane plane : planesSet) {
-            this.removeOutboundPlanes(plane);
-            this.removeInboundPlanes(plane);
-            this.checkNotLandedPlanes(plane);
-        }
+        this.getModel().getAllPlanes().stream().peek(x -> this.removeOutboundPlanes(x))
+                .peek(x -> this.removeInboundPlanes(x)).forEach(x -> this.checkNotLandedPlanes(x));
     }
 
     /**
-     * Method that removes planes that have taken-off and are out of radar sight.
+     * Method that removes {@link Plane} that have taken-off and are out of radar
+     * sight.
      * 
      * @param plane
      */
     private void removeOutboundPlanes(final Plane plane) {
         if (plane.getPlaneAction().equals(Plane.Action.TAKEOFF)) {
             if ((!plane.getPosition().isWithinRadar()) && (plane.isActionPerformed())) {
-                // Removes plane that has taken-off and is out of radar
                 this.getModel().removePlaneById(plane.getAirplaneId());
             }
         }
     }
 
     /**
-     * Method that removes planes that have landed in the current airport.
+     * Method that removes {@link Plane} that have landed in the current
+     * {@link Airport}.
      * 
      * @param plane
      */
@@ -98,8 +86,8 @@ public class MovementAgent extends AbstractAgent {
     }
 
     /**
-     * Methods that checks if a plane that has two land was sent outside of radar
-     * boundaries. In that case user loses and is redirected to Main Menu.
+     * Methods that checks if a {@link Plane} that has to land was sent outside of
+     * radar boundaries. In that case user loses and is redirected to Main Menu.
      * 
      * @param plane
      */

@@ -28,7 +28,7 @@ import view.View;
 
 public class RadarControllerImpl extends AbstractSceneController implements RadarController {
 
-    private AirportDrawer drawer = new AirportDrawer();
+    private RadarRenderUnit drawer = new RadarRenderUnit();
 
     @FXML
     private Slider timeWarpSlider;
@@ -54,7 +54,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
             int oldIntValue = oldValue.intValue();
             int newIntValue = newValue.intValue();
             if (oldIntValue != newIntValue) {
-                getController().setSimulationRate(newIntValue);
+                getController().getAgentManager().setSimulationRate(newIntValue);
             }
         });
         ChangeListener<? super Number> resizeListener = (obs, oldVal, newVal) -> this.drawer.loadRadar();
@@ -83,8 +83,8 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
                 .filter(plane -> plane.getPlaneAction().equals(Plane.Action.LAND)
                         || (plane.getPlaneAction().equals(Plane.Action.TAKEOFF) && plane.isActionPerformed()))
                 .collect(Collectors.toSet());
+        this.drawer.cachedPlanes = drawablePlanes;
         Platform.runLater(() -> {
-            this.drawer.cachedPlanes = drawablePlanes;
             this.drawer.drawPlanes();
             this.movementGUIController.updateStrips(planes);
         });
@@ -92,8 +92,8 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
 
     @FXML
     protected final void goToMenu(final ActionEvent e) {
-        this.getController().setSimulationRate(1);
-        this.getController().pauseThreads();
+        this.getController().getAgentManager().setSimulationRate(1);
+        this.getController().getAgentManager().pauseThreads();
         this.getView().changeScene(this.getView().getSceneFactory().loadMenu());
     }
 
@@ -101,14 +101,14 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
     protected final void pauseTimeWarp(final ActionEvent e) {
         this.btnResume.setDisable(false);
         this.btnPause.setDisable(true);
-        this.getController().pauseThreads();
+        this.getController().getAgentManager().pauseThreads();
     }
 
     @FXML
     protected final void resumeTimeWarp(final ActionEvent e) {
         this.btnResume.setDisable(true);
         this.btnPause.setDisable(false);
-        this.getController().startThreads();
+        this.getController().getAgentManager().startThreads();
     }
 
     /**
@@ -117,7 +117,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
      * and the planes in the radar.
      *
      */
-    private class AirportDrawer {
+    private class RadarRenderUnit {
 
         private static final int COORD_DIM = 15;
         private static final int AIRPORT_NAME_DIM = 22;
@@ -184,7 +184,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
          * radar with the actual dimension.
          */
         private void loadRadar() {
-            this.actualAirport = getController().getActualAirport();
+            this.actualAirport = getController().getAirportController().getActualAirport();
             double parentWidth = radarPane.getWidth();
             double parentHeight = radarPane.getHeight();
             radarCanvas.setWidth(parentWidth);
@@ -272,14 +272,16 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
             this.clearRadar();
             radarContext.setFill(Color.WHITESMOKE);
             for (Plane plane : this.cachedPlanes) {
-                radarContext.setStroke(plane.getPlaneAction().equals(Plane.Action.TAKEOFF) ? Color.CYAN : Color.ORANGE);
+                Color planeColor = plane.isPlaneWarned() ? Color.YELLOW
+                        : plane.getPlaneAction().equals(Plane.Action.TAKEOFF) ? Color.CYAN : Color.ORANGE;
+                radarContext.setStroke(planeColor);
                 Position2D planePosition = plane.getPosition().getPosition();
                 double xPosition = this.computeX(planePosition.getX());
                 double yPosition = this.computeY(planePosition.getY());
                 radarContext.strokeRect(xPosition - (PLANE_DIM / 2), yPosition - (PLANE_DIM / 2), PLANE_DIM, PLANE_DIM);
                 this.drawGuideline(xPosition, yPosition, plane.getDirection());
                 radarContext.fillText(plane.getCompanyName() + " " + plane.getAirplaneId() + "  " 
-                        + (int) plane.getDirection().getAsDegrees()  + "°\n" + plane.getSpeed().getAsKnots().intValue()
+                        + (int) plane.getDirection().getAsDegrees()  + "\u00B0\n" + plane.getSpeed().getAsKnots().intValue()
                         + " kt " + (int) plane.getAltitude() + " ft", xPosition + LINE_LENGHT, yPosition + LINE_LENGHT);
             }
         }

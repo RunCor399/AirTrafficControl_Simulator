@@ -5,70 +5,70 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * An interface that models an airport.
+ * An interface that models an {@link Airport}.
  */
 
 public interface Airport {
     /**
-     * method that returns the id of an airport.
+     * method that returns the id of an {@link Airport}.
      * 
-     * @return id of an airport
+     * @return id of an {@link Airport}
      */
     String getId();
 
     /**
-     * method that gets the name of an airport.
+     * method that gets the name of an {@link Airport}.
      * 
-     * @return name of an airport
+     * @return name of an {@link Airport}
      */
     String getName();
 
     /**
-     * method that returns the parking position of an airport.
+     * method that returns the parking position of an {@link Airport}.
      * 
      * @return parking position
      */
     RadarPosition getParkingPosition();
 
     /**
-     * method that adds a new VOR if not already present.
+     * method that adds a new {@link Model.Vor} if not already present.
      * 
      * @param newVor
      */
     void addVor(Vor newVor);
 
     /**
-     * method that returns a list of all VOR's if any exists.
+     * method that returns a list of all {@link Model.Vor} if any exists.
      * 
-     * @return list of all VOR's
+     * @return list of all {@link Model.Vor}
      */
     Optional<Set<Vor>> getVorList();
 
     /**
-     * method that returns a VOR with id vorId if any exists.
+     * method that returns a {@link Model.Vor} with id vorId if any exists.
      * 
      * @param vorId
-     * @return VOR with id vorId
+     * @return {@link Model.Vor} with id vorId
      */
     Optional<Vor> getVorById(String vorId);
 
     /**
-     * method that returns a list of all the runways of a specific airport if any
+     * method that returns a list of all the {@link Model.Runway} of a specific {@link Airport} if any
      * exists.
      * 
-     * @return runways list of the specific airport
+     * @return {@link Model.Runway} list of the specific {@link Airport}
      */
     Optional<List<Runway>> getRunways();
 
     /**
-     * method that returns the active runways ends of an airport.
+     * method that returns the active {@link RunwayEnd} of an {@link Airport}.
      * 
-     * @return list of the active runways ends for the specific airport
+     * @return list of the active {@link RunwayEnd} for the specific {@link Airport}
      */
     Optional<List<Runway>> getActiveRunways();
 
     /**
-     * method that sets the given runwayEnd relative to his runway active if it is
+     * method that sets the given {@link RunwayEnd} relative to his {@link Model.Runway} active if it is
      * not already.
      * 
      * @param runwayEnd
@@ -76,14 +76,14 @@ public interface Airport {
     void setActiveRunways(String runwayEnd);
 
     /**
-     * method that adds to an airport a runway.
+     * method that adds to an {@link Airport} a {@link Model.Runway}.
      * 
      * @param newRunway to be added
      */
     void addRunway(Runway newRunway);
 
     /**
-     * method that deactivates all the runways of the airport.
+     * method that deactivates all the {@link Model.Runway} of the airport.
      * 
      */
     void deactivateAllRunways();

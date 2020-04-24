@@ -132,87 +132,86 @@ public class MovementControllerImpl extends AbstractSceneController implements M
     }
 
     /**
-     * method that initializes vor's choice box with all the vor's of an airport.
+     * method that initializes {@link Model.Vor} choice box with all the vor's of an airport.
      */
     private void initializeVorList() {
-        Optional<Set<Vor>> vorSetOpt = getController().getActualAirport().getVorList();
-
+        Optional<Set<Vor>> vorSetOpt = getController().getAirportController().getActualAirport().getVorList();
         this.vorChoiceBox.getItems().add("none");
 
         if (vorSetOpt.isPresent()) {
-            for (Vor elem : vorSetOpt.get()) {
-                this.vorChoiceBox.getItems().add(elem.getId());
-            }
+            vorSetOpt.get().stream().forEach(x -> {
+                this.vorChoiceBox.getItems().add(x.getId());
+            });
         }
     }
 
     /**
-     * method that passes planeId of the plane to be selected.
-     * 
-     * @param planeId
+     * {@inheritDoc}
      */
-    @FXML
+    @Override
     public void setTargetAirplane(final int planeId) {
         Objects.requireNonNull(planeId);
-        this.getController().selectTargetPlane(planeId);
+        this.getController().getPlaneController().selectTargetPlane(planeId);
     }
 
     /**
-     * Method that calls the controller in order to set a new speed value for the
-     * current selected plane.
+     * Method that calls the {@link Controller} in order to set a new {@link Speed} value for the
+     * current selected {@link Plane}.
      * 
      */
     @FXML
     private void setSpeedValue() {
         Speed targetSpeed = new SpeedImpl(this.speedSlider.getValue());
-        this.getController().setPlaneSpeed(targetSpeed);
+        this.getController().getPlaneController().setPlaneSpeed(targetSpeed);
     }
 
     /**
-     * Method that calls the controller in order to set a new Altitude value for the
-     * current selected plane.
+     * Method that calls the {@link Controller} in order to set a new Altitude value for the
+     * current selected {@link Plane}.
      * 
      */
     @FXML
     private void setAltitudeValue() {
         double targetAltitude = this.altitudeSlider.getValue();
-        this.getController().setPlaneAltitude(targetAltitude);
+        this.getController().getPlaneController().setPlaneAltitude(targetAltitude);
     }
 
     /**
-     * method that passes to controller the airplane's direction to be set.
+     * method that passes to the {@link Controller} the airplane's direction to be set.
      * 
      * @param targetDirection
      */
     private void setCurrentHeading(final Direction targetDirection) {
         Objects.requireNonNull(targetDirection);
-        this.getController().setPlaneHeading(targetDirection);
+        this.getController().getPlaneController().setPlaneHeading(targetDirection);
     }
 
     /**
-     * method that passes to controller the vor to which the plane will be directed.
+     * method that passes to {@link Controller} the {@link Model.Vor} to which the
+     * {@link Plane} will be directed.
      * 
      * @param vorId
      */
     private void headToVor(final String vorId) {
         Objects.requireNonNull(vorId);
-        this.getController().goToVor(vorId);
+        this.getController().getPlaneController().goToVor(vorId);
     }
 
     /**
-     * method that makes a plane takeoff from the airport.
+     * method that makes a {@link Plane} takeoff from the {@link Airport}.
      */
     @FXML
     public void takeoffPressed() {
-        this.getController().takeOff();
+        this.getController().getPlaneController().takeOff();
     }
 
     /**
-     * method that makes a plane land in a specific runway of the airport.
+     * method that makes a {@link Plane} land in a specific {@link Model.Runway} of
+     * the {@link Airport}.
      */
     @FXML
     public void landPressed() {
-        this.getController().land();
+        this.getController().getPlaneController().land();
     }
 
     /**

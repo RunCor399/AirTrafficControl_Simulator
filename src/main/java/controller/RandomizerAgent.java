@@ -16,7 +16,7 @@ public class RandomizerAgent extends AbstractAgent {
 
     private static final int MILLIS_TO_SEC = 1000;
     private static final int MAX_WAIT = 150;
-    private static final int MIN_WAIT = 90;
+    private static final int MIN_WAIT = 30;
     private static final double NO_VALUE = 0;
 
     private final Random random;
@@ -29,32 +29,20 @@ public class RandomizerAgent extends AbstractAgent {
         this.random = new Random();
         this.actualWaitTime = NO_VALUE;
         this.timeWaited = NO_VALUE;
-        this.planeFactory = new RandomPlaneFactoryImpl(RadarPositionImpl.X_BOUND, RadarPositionImpl.Y_BOUND);
+        this.planeFactory = new RandomPlaneFactoryImpl(RadarPositionImpl.getRadarBounds().getX(), RadarPositionImpl.getRadarBounds().getY());
         this.setDaemon(true);
     }
+
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void run() {
-        while (!this.isStopped()) {
-            try {
-                synchronized (this) {
-                    if (this.isPaused()) {
-                        this.wait();
-                    }
-                }
-                sleep(DELTA_TIME / this.getMultiplier());
-                this.timeWaited = this.timeWaited + ((double) DELTA_TIME / MILLIS_TO_SEC);
-                if (this.timeWaited >= this.actualWaitTime) {
-                    this.computeNewWaitTime();
-                    this.createNewPlane();
-                }
-
-            } catch (InterruptedException e) {
-            }
-
+    protected void executeAgentAction() {
+        this.timeWaited = this.timeWaited + ((double) DELTA_TIME / MILLIS_TO_SEC);
+        if (this.timeWaited >= this.actualWaitTime) {
+            this.computeNewWaitTime();
+            this.createNewPlane();
         }
     }
 

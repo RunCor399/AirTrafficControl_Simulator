@@ -8,13 +8,21 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     /**
      * This value represents the time considered when updating the actual parameters.
      */
-    public static final double TIME_QUANTUM = 0.25;
     private static final long serialVersionUID = 5949982404790725460L;
     private static final double KMH_TO_MS = 3.6;
     private Speed speed;
     private double altitude;
     private Direction direction;
 
+    /**
+     * Constructor of {@link AbstractDynamicElement}, which is a basic implementation of the {@link DynamicElement} interface.
+     * It requires the {@link RadarPosition}, {@link Speed}, {@link Direction} and altitude of the element.
+     * 
+     * @param position the position of the element.
+     * @param speed the speed of the element.
+     * @param altitude the altitude of the element.
+     * @param direction the direction of the element.
+     */
     public AbstractDynamicElement(final RadarPosition position, final Speed speed, final double altitude,
             final Direction direction) {
         super(position);
@@ -62,36 +70,27 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
     }
 
     /**
-     * 
-     * Protected method to set the altitude internally.
-     * This method intent is to allow the subclasses to directly work with the element parameters.
-     * 
-     * @param altitude the altitude to set.
+     * {@inheritDoc}
      */
-    protected void setAltitude(final double altitude) {
+    @Override
+    public void setAltitude(final double altitude) {
         this.altitude = altitude;
     }
 
     /**
-     * 
-     * Protected method to set the internally.
-     * This method intent is to allow the subclasses to directly work with the element parameters.
-     * 
-     * @param speed the speed to set.
+     * {@inheritDoc}
      */
-    protected void setSpeed(final Speed speed) {
+    @Override
+    public void setSpeed(final Speed speed) {
         Objects.requireNonNull(speed);
         this.speed = speed;
     }
 
     /**
-     * 
-     * Protected method to set the direction internally.
-     * This method intent is to allow the subclasses to directly work with the element parameters.
-     * 
-     * @param direction the direction to set.
+     * {@inheritDoc}
      */
-    protected void setDirection(final Direction direction) {
+    @Override
+    public void setDirection(final Direction direction) {
         Objects.requireNonNull(direction);
         this.direction = direction;
     }
@@ -100,8 +99,8 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
      * {@inheritDoc}
      */
     @Override
-    public void computeNewPosition() {
-        this.setPosition(this.getPosition().sumPosition(this.getPositionDelta()));
+    public void computeNewPosition(final double timeDelta) {
+        this.setPosition(this.getPosition().sumPosition(this.getPositionDelta(timeDelta)));
         /* DEBUG code. Remove the comment to print the element information on the console */
 //        System.out.println(this);
 //        System.out.println("Position -> x: " + this.getPosition().getPosition().getX());
@@ -115,11 +114,11 @@ public abstract class AbstractDynamicElement extends AbstractRadarElement implem
      * 
      * @return the position delta in the specified time quantum.
      */
-    private Position2D getPositionDelta() {
+    private Position2D getPositionDelta(final double timeDelta) {
         final double actualSpeed = this.speed.getAsKMH() / KMH_TO_MS;
         final double actualDirection = this.direction.getAsRadians();
-        double xMovement = TIME_QUANTUM * actualSpeed * Math.cos(actualDirection);
-        double yMovement = TIME_QUANTUM * actualSpeed * Math.sin(actualDirection);
+        double xMovement = timeDelta * actualSpeed * Math.cos(actualDirection);
+        double yMovement = timeDelta * actualSpeed * Math.sin(actualDirection);
         return new Position2DImpl(xMovement, yMovement);
     }
 
