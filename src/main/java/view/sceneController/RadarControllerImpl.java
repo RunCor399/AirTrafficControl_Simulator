@@ -281,7 +281,7 @@ public class RadarControllerImpl extends AbstractSceneController implements Rada
                 radarContext.strokeRect(xPosition - (PLANE_DIM / 2), yPosition - (PLANE_DIM / 2), PLANE_DIM, PLANE_DIM);
                 this.drawGuideline(xPosition, yPosition, plane.getDirection());
                 radarContext.fillText(plane.getCompanyName() + " " + plane.getAirplaneId() + "  " 
-                        + (int) plane.getDirection().getAsDegrees()  + "°\n" + plane.getSpeed().getAsKnots().intValue()
+                        + (int) plane.getDirection().getAsDegrees()  + "\u00B0\n" + plane.getSpeed().getAsKnots().intValue()
                         + " kt " + (int) plane.getAltitude() + " ft", xPosition + LINE_LENGHT, yPosition + LINE_LENGHT);
             }
         }

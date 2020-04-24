@@ -81,9 +81,9 @@ public class ModelImpl implements Model {
      * {@inheritDoc}
      */
     @Override
-    public synchronized void computeAllPlanePositions() {
+    public synchronized void computeAllPlanePositions(final double timeDelta) {
         for (Plane tmp : this.planes) {
-            tmp.computeNewPosition();
+            tmp.computeNewPosition(timeDelta);
         }
     }
 

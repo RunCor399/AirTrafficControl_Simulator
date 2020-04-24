@@ -1,9 +1,11 @@
 package utilities;
 
-/*
+/**
  * A standard generic Pair<X,Y>, with getters, hashCode, equals, and toString well implemented. 
+ * 
+ * @param <X> the type of the x object.
+ * @param <Y> the type of the y object.
  */
-
 public class Pair<X, Y> {
 
         private final X x;

@@ -55,7 +55,9 @@ public interface DynamicElement extends RadarElement {
     /**
      * This method computes the new position, speed, altitude and direction of the
      * element after a time quantum.
+     * 
+     * @param timeDelta the time quantum (in seconds) that is used to compute the new position of the element.
      */
-    void computeNewPosition();
+    void computeNewPosition(double timeDelta);
 
 }
