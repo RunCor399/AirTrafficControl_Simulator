@@ -18,6 +18,10 @@ import utilities.Pair;
 import view.sceneController.RadarController;
 import view.sceneController.SceneController;
 
+/*
+ * Implementation of the main View class
+ * 
+ */
 public class ViewImpl extends Application implements View {
     private static final double MINWIDTH_FACTOR = 1.15;
     private static final double HEIGHT_FACTOR = 1.1;

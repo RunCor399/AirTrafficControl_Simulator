@@ -7,7 +7,7 @@ import model.Plane;
 public interface MovementController extends SceneController {
 
     /**
-     * This method is used to update the strips based on the set of {@link Plane}
+     * This method is used to update the {@link Strip} based on the set of {@link Plane}
      * given as parameter.
      * 
      * @param planes the updated set of {@link Plane}
@@ -23,7 +23,7 @@ public interface MovementController extends SceneController {
     void updateValues(Plane plane);
 
     /**
-     * method that passes planeId of the plane to be selected.
+     * method that passes planeId of the {@link Plane} to be selected.
      * 
      * @param planeId
      */
