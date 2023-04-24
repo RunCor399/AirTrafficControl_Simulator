@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<FlowPane alignment="CENTER" columnHalignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #99ddff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.sceneController.MenuControllerImpl">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="120.0" prefWidth="750.0" text="Simple ATC Simulator" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+         <font>
+            <Font name="Cambria" size="64.0" />
+         </font>
+         <FlowPane.margin>
+            <Insets bottom="40.0" left="40.0" right="40.0" top="10.0" />
+         </FlowPane.margin>
+      </Label>
+      <Button fx:id="gameButton" mnemonicParsing="false" onAction="#switchToGameScenery" prefHeight="60.0" prefWidth="450.0" text="Play">
+         <font>
+            <Font name="Comic Sans MS Bold Italic" size="24.0" />
+         </font>
+         <FlowPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </FlowPane.margin>
+      </Button>
+      <Button fx:id="selectionButton" mnemonicParsing="false" onAction="#switchToAirportSelection" prefHeight="60.0" prefWidth="450.0" text="Airport Selection">
+         <font>
+            <Font name="Comic Sans MS Bold" size="24.0" />
+         </font>
+         <FlowPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </FlowPane.margin>
+      </Button>
+      <Button fx:id="tutorialButton" mnemonicParsing="false" onAction="#switchToTutorialScenery" prefHeight="60.0" prefWidth="450.0" text="Tutorial">
+         <font>
+            <Font name="Comic Sans MS Bold" size="24.0" />
+         </font>
+         <FlowPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </FlowPane.margin>
+      </Button>
+      <Button fx:id="quitButton" mnemonicParsing="false" onAction="#quitGame" prefHeight="60.0" prefWidth="450.0" text="Quit">
+         <font>
+            <Font name="Comic Sans MS Bold" size="24.0" />
+         </font>
+         <FlowPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </FlowPane.margin>
+      </Button>
+      <Label text="Colotti Manuel - Angelini Alessandro - Carletti William - Lisotta Marco">
+         <font>
+            <Font name="Calibri Italic" size="20.0" />
+         </font>
+         <FlowPane.margin>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </FlowPane.margin>
+      </Label>
+   </children>
+</FlowPane>
