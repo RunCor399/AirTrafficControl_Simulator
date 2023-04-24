@@ -10,6 +10,8 @@ Made using the following libraries:
 
 You can find an useful tutorial inside the application to understand how to play.
 
+A detailed report of the application design (Language: Italian) is also available in the root directory, namely *RelazioneSimpleATC.pdf*
+
 ## Start the application
 
 
